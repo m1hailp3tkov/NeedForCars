@@ -7,17 +7,19 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using NeedForCars.Models;
+
 namespace NeedForCars.Web.Areas.Identity.Pages.Account.Manage
 {
     public class ChangePasswordModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<NeedForCarsUser> _userManager;
+        private readonly SignInManager<NeedForCarsUser> _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
 
         public ChangePasswordModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<NeedForCarsUser> userManager,
+            SignInManager<NeedForCarsUser> signInManager,
             ILogger<ChangePasswordModel> logger)
         {
             _userManager = userManager;

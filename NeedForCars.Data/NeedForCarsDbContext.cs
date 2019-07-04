@@ -39,8 +39,8 @@ namespace NeedForCars.Data
             // Cars
             builder.Entity<NeedForCarsUser>()
                 .HasMany(x => x.Cars)
-                .WithOne(x => x.Owner);
-
+                .WithOne(x => x.Owner)
+                .HasForeignKey(x => x.OwnerId);
 
             // Messages
             builder.Entity<NeedForCarsUser>()

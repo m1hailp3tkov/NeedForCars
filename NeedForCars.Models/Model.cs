@@ -6,11 +6,11 @@ namespace NeedForCars.Models
 {
     public class Model : IIdentifiable
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
 
         [Required]
-        public int MakeId { get; set; }
+        public string MakeId { get; set; }
         public Make Make { get; set; }
 
         [Required]

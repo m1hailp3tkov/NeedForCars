@@ -53,8 +53,7 @@ namespace NeedForCars.Data.Migrations
                 name: "Engines",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     MaxHP = table.Column<int>(nullable: false),
                     FuelType = table.Column<int>(nullable: false),
@@ -70,8 +69,7 @@ namespace NeedForCars.Data.Migrations
                 name: "Makes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: false)
                 },
@@ -190,10 +188,8 @@ namespace NeedForCars.Data.Migrations
                 name: "Cars",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    OwnerId = table.Column<int>(nullable: false),
-                    OwnerId1 = table.Column<string>(nullable: true),
+                    Id = table.Column<string>(nullable: false),
+                    OwnerId = table.Column<string>(nullable: false),
                     Color = table.Column<string>(nullable: false),
                     ProductionDate = table.Column<DateTime>(nullable: false),
                     Mileage = table.Column<int>(nullable: false),
@@ -207,19 +203,18 @@ namespace NeedForCars.Data.Migrations
                 {
                     table.PrimaryKey("PK_Cars", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cars_AspNetUsers_OwnerId1",
-                        column: x => x.OwnerId1,
+                        name: "FK_Cars_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Messages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     SenderId = table.Column<string>(nullable: false),
                     ReceiverId = table.Column<string>(nullable: false),
                     Content = table.Column<string>(nullable: false),
@@ -247,9 +242,9 @@ namespace NeedForCars.Data.Migrations
                 name: "Models",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     MakeId = table.Column<int>(nullable: false),
+                    MakeId1 = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: false),
                     Seats = table.Column<int>(nullable: true)
                 },
@@ -257,19 +252,19 @@ namespace NeedForCars.Data.Migrations
                 {
                     table.PrimaryKey("PK_Models", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Models_Makes_MakeId",
-                        column: x => x.MakeId,
+                        name: "FK_Models_Makes_MakeId1",
+                        column: x => x.MakeId1,
                         principalTable: "Makes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ModelEngines",
                 columns: table => new
                 {
-                    ModelId = table.Column<int>(nullable: false),
-                    EngineId = table.Column<int>(nullable: false)
+                    ModelId = table.Column<string>(nullable: false),
+                    EngineId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -328,9 +323,9 @@ namespace NeedForCars.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cars_OwnerId1",
+                name: "IX_Cars_OwnerId",
                 table: "Cars",
-                column: "OwnerId1");
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_ReceiverId",
@@ -348,9 +343,9 @@ namespace NeedForCars.Data.Migrations
                 column: "ModelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Models_MakeId",
+                name: "IX_Models_MakeId1",
                 table: "Models",
-                column: "MakeId");
+                column: "MakeId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

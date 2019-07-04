@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NeedForCars.Data;
 
 namespace NeedForCars.Data.Migrations
 {
     [DbContext(typeof(NeedForCarsDbContext))]
-    partial class NeedForCarsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190704231421_CreatedEntitiesWithoutNullableProperties")]
+    partial class CreatedEntitiesWithoutNullableProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,9 +153,6 @@ namespace NeedForCars.Data.Migrations
 
                     b.Property<int>("Mileage");
 
-                    b.Property<string>("ModelId")
-                        .IsRequired();
-
                     b.Property<string>("OwnerId")
                         .IsRequired();
 
@@ -162,8 +161,6 @@ namespace NeedForCars.Data.Migrations
                     b.Property<DateTime>("ProductionDate");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ModelId");
 
                     b.HasIndex("OwnerId");
 
@@ -239,8 +236,9 @@ namespace NeedForCars.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("MakeId")
-                        .IsRequired();
+                    b.Property<int>("MakeId");
+
+                    b.Property<string>("MakeId1");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -249,7 +247,7 @@ namespace NeedForCars.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MakeId");
+                    b.HasIndex("MakeId1");
 
                     b.ToTable("Models");
                 });
@@ -371,11 +369,6 @@ namespace NeedForCars.Data.Migrations
 
             modelBuilder.Entity("NeedForCars.Models.Car", b =>
                 {
-                    b.HasOne("NeedForCars.Models.Model", "Model")
-                        .WithMany()
-                        .HasForeignKey("ModelId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("NeedForCars.Models.NeedForCarsUser", "Owner")
                         .WithMany("Cars")
                         .HasForeignKey("OwnerId")
@@ -399,8 +392,7 @@ namespace NeedForCars.Data.Migrations
                 {
                     b.HasOne("NeedForCars.Models.Make", "Make")
                         .WithMany("Models")
-                        .HasForeignKey("MakeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("MakeId1");
                 });
 
             modelBuilder.Entity("NeedForCars.Models.ModelEngines", b =>

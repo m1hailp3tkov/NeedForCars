@@ -15,11 +15,15 @@ namespace NeedForCars.Models
         }
         
 
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
-        public int OwnerId { get; set; }
+        public string OwnerId { get; set; }
         public NeedForCarsUser Owner { get; set; }
+
+        [Required]
+        public string ModelId { get; set; }
+        public Model Model { get; set; }
 
         [Required]
         public string Color { get; set; }

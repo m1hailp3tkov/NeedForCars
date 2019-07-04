@@ -6,7 +6,7 @@ namespace NeedForCars.Models
 {
     public class Message : IIdentifiable
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public Message()
         {

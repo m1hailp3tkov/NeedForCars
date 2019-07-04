@@ -10,8 +10,8 @@ using NeedForCars.Data;
 namespace NeedForCars.Data.Migrations
 {
     [DbContext(typeof(NeedForCarsDbContext))]
-    [Migration("20190703145927_EditedIdentityUser")]
-    partial class EditedIdentityUser
+    [Migration("20190704225126_CreatedEntitiesWithoutNullableProperties")]
+    partial class CreatedEntitiesWithoutNullableProperties
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -135,6 +135,140 @@ namespace NeedForCars.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("NeedForCars.Models.Car", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Color")
+                        .IsRequired();
+
+                    b.Property<int?>("Currency");
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("ForSale");
+
+                    b.Property<bool>("IsPublic");
+
+                    b.Property<int>("Mileage");
+
+                    b.Property<int>("OwnerId");
+
+                    b.Property<string>("OwnerId1");
+
+                    b.Property<int?>("Price");
+
+                    b.Property<DateTime>("ProductionDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId1");
+
+                    b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("NeedForCars.Models.Engine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("Displacement");
+
+                    b.Property<int>("FuelType");
+
+                    b.Property<int>("MaxHP");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Engines");
+                });
+
+            modelBuilder.Entity("NeedForCars.Models.Make", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Makes");
+                });
+
+            modelBuilder.Entity("NeedForCars.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<bool>("Read");
+
+                    b.Property<string>("ReceiverId")
+                        .IsRequired();
+
+                    b.Property<string>("SenderId")
+                        .IsRequired();
+
+                    b.Property<DateTime>("SentOn");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("NeedForCars.Models.Model", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("MakeId");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<int?>("Seats");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MakeId");
+
+                    b.ToTable("Models");
+                });
+
+            modelBuilder.Entity("NeedForCars.Models.ModelEngines", b =>
+                {
+                    b.Property<int>("EngineId");
+
+                    b.Property<int>("ModelId");
+
+                    b.HasKey("EngineId", "ModelId");
+
+                    b.HasIndex("ModelId");
+
+                    b.ToTable("ModelEngines");
+                });
+
             modelBuilder.Entity("NeedForCars.Models.NeedForCarsUser", b =>
                 {
                     b.Property<string>("Id")
@@ -235,6 +369,47 @@ namespace NeedForCars.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("NeedForCars.Models.Car", b =>
+                {
+                    b.HasOne("NeedForCars.Models.NeedForCarsUser", "Owner")
+                        .WithMany("Cars")
+                        .HasForeignKey("OwnerId1");
+                });
+
+            modelBuilder.Entity("NeedForCars.Models.Message", b =>
+                {
+                    b.HasOne("NeedForCars.Models.NeedForCarsUser", "Receiver")
+                        .WithMany("SentMessages")
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("NeedForCars.Models.NeedForCarsUser", "Sender")
+                        .WithMany("ReceivedMessages")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("NeedForCars.Models.Model", b =>
+                {
+                    b.HasOne("NeedForCars.Models.Make", "Make")
+                        .WithMany("Models")
+                        .HasForeignKey("MakeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("NeedForCars.Models.ModelEngines", b =>
+                {
+                    b.HasOne("NeedForCars.Models.Engine", "Engine")
+                        .WithMany("ModelEngines")
+                        .HasForeignKey("EngineId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("NeedForCars.Models.Model", "Model")
+                        .WithMany("ModelEngines")
+                        .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

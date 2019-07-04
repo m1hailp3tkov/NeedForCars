@@ -1,0 +1,35 @@
+﻿using NeedForCars.Models.Contracts;
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace NeedForCars.Models
+{
+    public class Message : IIdentifiable
+    {
+        public int Id { get; set; }
+
+        public Message()
+        {
+            this.Read = false;
+
+            this.SentOn = DateTime.UtcNow;
+        }
+
+
+        [Required]
+        public string SenderId { get; set; }
+        public NeedForCarsUser Sender { get; set; }
+
+        [Required]
+        public string ReceiverId { get; set; }
+        public NeedForCarsUser Receiver { get; set; }
+
+        [Required]
+        public string Content { get; set; }
+
+
+        public DateTime SentOn { get; set; }
+
+        public bool Read { get; set; }
+    }
+}

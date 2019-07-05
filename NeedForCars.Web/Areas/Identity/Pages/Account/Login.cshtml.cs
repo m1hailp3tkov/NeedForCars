@@ -75,44 +75,24 @@ namespace NeedForCars.Web.Areas.Identity.Pages.Account
 
             string modelErrorMessage = "";
 
-            bool isEmail = false;
-            bool isValidIdentifier = true;
+            bool isEmail = Input.Identifier.Contains('@');
 
-            // Check whether indetifier is a valid email or a valid username
-            if (Input.Identifier.Contains('@'))
+            if (!IsValidIdentifier(Input.Identifier))
             {
-                //email validation
-
-                string emailRegex = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
-                               + "@"
-                               + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))\z";
-                Regex regex = new Regex(emailRegex);
-
-                if (!regex.IsMatch(Input.Identifier))
+                if (isEmail)
                 {
-                    modelErrorMessage = "Email is not valid.";
-                    isValidIdentifier = false;
+                    modelErrorMessage = "Invalid email";
+                }
+                else
+                {
+                    modelErrorMessage = "Invalid username";
                 }
 
-                isEmail = true;
-            }
-            else
-            {
-                //username validation
-
-                string usernameRegex = "[A-Za-z0-9._]{3,20}";
-                Regex regex = new Regex(usernameRegex);
-
-                if (!regex.IsMatch(Input.Identifier))
-                {
-                    modelErrorMessage = "Username is not valid.";
-                    isValidIdentifier = false;
-                }
-
-                isEmail = false;
+                ModelState.AddModelError("Identifier", modelErrorMessage);
+                return Page();
             }
 
-            if (ModelState.IsValid && isValidIdentifier)
+            if (ModelState.IsValid)
             {
                 var identifier = Input.Identifier;
                 NeedForCarsUser user;
@@ -130,7 +110,7 @@ namespace NeedForCars.Web.Areas.Identity.Pages.Account
                         user == null ? "User with this username does not exist" : "";
                 }
 
-                if(user == null)
+                if (user == null)
                 {
                     ModelState.AddModelError("Identifier", modelErrorMessage);
                     return Page();
@@ -157,6 +137,26 @@ namespace NeedForCars.Web.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private bool IsValidIdentifier(string identifier)
+        {
+            //TODO regex strings in global constants?
+            string emailRegexString = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
+                               + "@"
+                               + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))\z";
+
+            string usernameRegexString = "[A-Za-z0-9._]{3,20}";
+
+            Regex emailRegex = new Regex(emailRegexString);
+            Regex usernameRegex = new Regex(usernameRegexString);
+
+            if (!emailRegex.IsMatch(identifier) && !usernameRegex.IsMatch(identifier))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

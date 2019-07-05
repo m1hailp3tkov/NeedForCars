@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using NeedForCars.Models;
+using System.Text.RegularExpressions;
 
 namespace NeedForCars.Web.Areas.Identity.Pages.Account
 {
@@ -17,11 +18,13 @@ namespace NeedForCars.Web.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<NeedForCarsUser> _signInManager;
+        private readonly UserManager<NeedForCarsUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<NeedForCarsUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<NeedForCarsUser> signInManager, UserManager<NeedForCarsUser> userManager, ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
             _logger = logger;
         }
 
@@ -70,20 +73,76 @@ namespace NeedForCars.Web.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
-            if (ModelState.IsValid)
-            {
-                //TODO : Add signing in with email OR username
+            string modelErrorMessage = "";
 
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Identifier, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+            bool isEmail = false;
+            bool isValidIdentifier = true;
+
+            // Check whether indetifier is a valid email or a valid username
+            if (Input.Identifier.Contains('@'))
+            {
+                //email validation
+
+                string emailRegex = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
+                               + "@"
+                               + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))\z";
+                Regex regex = new Regex(emailRegex);
+
+                if (!regex.IsMatch(Input.Identifier))
+                {
+                    modelErrorMessage = "Email is not valid.";
+                    isValidIdentifier = false;
+                }
+
+                isEmail = true;
+            }
+            else
+            {
+                //username validation
+
+                string usernameRegex = "[A-Za-z0-9._]{3,20}";
+                Regex regex = new Regex(usernameRegex);
+
+                if (!regex.IsMatch(Input.Identifier))
+                {
+                    modelErrorMessage = "Username is not valid.";
+                    isValidIdentifier = false;
+                }
+
+                isEmail = false;
+            }
+
+            if (ModelState.IsValid && isValidIdentifier)
+            {
+                var identifier = Input.Identifier;
+                NeedForCarsUser user;
+
+                if (isEmail)
+                {
+                    user = await _userManager.FindByEmailAsync(Input.Identifier);
+                    modelErrorMessage =
+                        user == null ? "User with this email does not exist" : "";
+                }
+                else
+                {
+                    user = await _userManager.FindByNameAsync(Input.Identifier);
+                    modelErrorMessage =
+                        user == null ? "User with this username does not exist" : "";
+                }
+
+                if(user == null)
+                {
+                    ModelState.AddModelError("Identifier", modelErrorMessage);
+                    return Page();
+                }
+
+                var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: true);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
-
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
@@ -91,7 +150,7 @@ namespace NeedForCars.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError("Password", "Wrong password");
                     return Page();
                 }
             }

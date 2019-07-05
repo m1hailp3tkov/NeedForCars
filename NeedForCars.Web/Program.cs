@@ -22,5 +22,3 @@ namespace NeedForCars.Web
                 .UseStartup<Startup>();
     }
 }
-
-//TODO: Implement login using both email OR username

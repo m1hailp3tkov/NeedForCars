@@ -42,6 +42,21 @@ namespace NeedForCars.Data
                 .WithOne(x => x.Owner)
                 .HasForeignKey(x => x.OwnerId);
 
+            builder.Entity<Car>()
+                .OwnsOne(x => x.ModifiedFuelConsumption);
+
+            builder.Entity<Car>()
+                .OwnsOne(x => x.ModifiedAcceleration);
+
+
+            // Models
+            builder.Entity<Model>()
+                .OwnsOne(x => x.FuelConsumption);
+
+            builder.Entity<Model>()
+                .OwnsOne(x => x.Acceleration);
+
+
             // Messages
             builder.Entity<NeedForCarsUser>()
                 .HasMany(x => x.SentMessages)

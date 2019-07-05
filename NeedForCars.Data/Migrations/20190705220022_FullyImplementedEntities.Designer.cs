@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NeedForCars.Data;
 
 namespace NeedForCars.Data.Migrations
 {
     [DbContext(typeof(NeedForCarsDbContext))]
-    partial class NeedForCarsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190705220022_FullyImplementedEntities")]
+    partial class FullyImplementedEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,8 +245,7 @@ namespace NeedForCars.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(1000);
+                        .IsRequired();
 
                     b.Property<bool>("Read");
 
@@ -299,6 +300,8 @@ namespace NeedForCars.Data.Migrations
                     b.Property<int?>("TopSpeed");
 
                     b.Property<int?>("Transmission");
+
+                    b.Property<string>("WheelRimsSize");
 
                     b.HasKey("Id");
 

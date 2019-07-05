@@ -1,6 +1,4 @@
-﻿@using NeedForCars.Models
-
-@inject SignInManager<NeedForCarsUser> SignInManager
+﻿@inject SignInManager<NeedForCarsUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

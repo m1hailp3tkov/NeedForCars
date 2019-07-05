@@ -18,10 +18,12 @@ namespace NeedForCars.Models
 
 
         [Required]
+        [PersonalData]
         [RegularExpression("[a-zA-Zа-яА-Я]{2,}")]
         public string FirstName { get; set; }
 
         [Required]
+        [PersonalData]
         [RegularExpression("[a-zA-Zа-яА-Я]{2,}|[a-zA-Zа-яА-Я]{1}.")]
         public string LastName { get; set; }
 

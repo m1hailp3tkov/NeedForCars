@@ -6,6 +6,12 @@ namespace NeedForCars.Models
 {
     public class Make : IIdentifiable
     {
+        public Make()
+        {
+            this.Models = new HashSet<Model>();
+        }
+
+
         public string Id { get; set; }
 
         [Required]
@@ -14,7 +20,6 @@ namespace NeedForCars.Models
         [Required]
         public string Description { get; set; }
 
-
-        public ICollection<Model> Models { get; set; }
+        public virtual ICollection<Model> Models { get; set; }
     }
 }

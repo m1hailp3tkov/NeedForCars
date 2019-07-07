@@ -19,7 +19,7 @@ namespace NeedForCars.Models
         public Engine Engine { get; set; }
 
         //Nullables
-        [RegularExpression(@"[A-Za-z0-9 ,\/-]+")] //TODO: extract modification name regex to globals
+        [RegularExpression("A-Za-z 0-9+")] //TODO : extract car name regex to global constants
         public string Name { get; set; }
 
         //Performance Data

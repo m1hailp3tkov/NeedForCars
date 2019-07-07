@@ -15,6 +15,7 @@ namespace NeedForCars.Models
         public string Id { get; set; }
 
         [Required]
+        [RegularExpression(@"\d.\d( ?[A-Za-z0-9 ]+)?")]  //TODO: extract engine name name regex to globals
         public string Name { get; set; }
 
         [Required]

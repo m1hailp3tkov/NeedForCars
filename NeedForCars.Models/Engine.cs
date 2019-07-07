@@ -9,9 +9,8 @@ namespace NeedForCars.Models
     {
         public Engine()
         {
-            this.ModelEngines = new HashSet<ModelEngines>();
+            this.Cars = new HashSet<Car>();
         }
-
 
         public string Id { get; set; }
 
@@ -19,13 +18,17 @@ namespace NeedForCars.Models
         public string Name { get; set; }
 
         [Required]
+        public FuelType FuelType { get; set; }
+
+        [Required]
+        [RegularExpression("[A-Za-z, ]+")]
+        public string Creator { get; set; }
+
+        [Required]
         [Range(1, int.MaxValue)]
         public int MaxHP { get; set; }
 
-        [Required]
-        public FuelType FuelType { get; set; }
-
-        public virtual ICollection<ModelEngines> ModelEngines { get; set; }
+        public virtual ICollection<Car> Cars { get; set; }
 
         //Nullables
         public string Description { get; set; }

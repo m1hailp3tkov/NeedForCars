@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using NeedForCars.Models.Contracts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace NeedForCars.Models
 {
-    public class NeedForCarsUser : IdentityUser
+    public class NeedForCarsUser : IdentityUser, IIdentifiable
     {
         public NeedForCarsUser()
         {
-            this.Cars = new HashSet<Car>();
+            this.UserCars = new HashSet<UserCar>();
 
             this.SentMessages = new HashSet<Message>();
 
@@ -28,7 +29,7 @@ namespace NeedForCars.Models
         public string LastName { get; set; }
 
 
-        public ICollection<Car> Cars { get; set; }
+        public ICollection<UserCar> UserCars { get; set; }
 
         public ICollection<Message> SentMessages { get; set; }
 

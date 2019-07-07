@@ -4,21 +4,24 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NeedForCars.Models
 {
-    public class Make : IIdentifiable
+    public class Generation : IIdentifiable
     {
-        public Make()
+        public Generation()
         {
-            this.Models = new HashSet<Model>();
+            this.Cars = new HashSet<Car>();
         }
 
         public string Id { get; set; }
 
         [Required]
+        public string ModelId { get; set; }
+        public Model Model { get; set; }
+
+        public virtual ICollection<Car> Cars { get; set; }
+
+        [StringLength(50)]
         public string Name { get; set; }
 
-        [Required]
         public string Description { get; set; }
-
-        public virtual ICollection<Model> Models { get; set; }
     }
 }

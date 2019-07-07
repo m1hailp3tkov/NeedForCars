@@ -8,65 +8,62 @@ namespace NeedForCars.Models
 {
     public class Car : IIdentifiable
     {
-        public Car()
-        {
-            this.IsPublic = false;
-
-            this.ForSale = false;
-
-            this.IsPerformanceModified = false;
-
-            this.IsVisuallyModified = false;
-        }
-        
-
         public string Id { get; set; }
 
         [Required]
-        public string OwnerId { get; set; }
-        public NeedForCarsUser Owner { get; set; }
+        public string GenerationId { get; set; }
+        public Generation Generation { get; set; }
 
         [Required]
-        public string ModelId { get; set; }
-        public Model Model { get; set; }
-
-        [Required]
-        public string Color { get; set; }
-
-        [Required]
-        public DateTime ProductionDate { get; set; }
-
-        [Required]
-        [Range(0, 10000000)]
-        public int Mileage { get; set; }
-
-        public bool IsPublic { get; set; }
-
-        public bool ForSale { get; set; }
-
-        public bool IsPerformanceModified { get; set; }
-
-        public bool IsVisuallyModified { get; set; }
+        public string EngineId { get; set; }
+        public Engine Engine { get; set; }
 
         //Nullables
-        public string Description { get; set; }
+        [RegularExpression(@"[A-Za-z0-9 ,\/-]+")] //TODO: extract modification name regex to globals
+        public string Name { get; set; }
 
-        public AlternativeFuel? AlternativeFuel { get; set; }
+        //Performance Data
+        [Range(1, 500)]
+        public int? TopSpeed { get; set; }
 
-        [Range(1, int.MaxValue)]
-        public int? Price { get; set; }
+        public FuelConsumption FuelConsumption { get; set; }
 
-        public Currency? Currency { get; set; }
+        public Acceleration Acceleration { get; set; }
 
-        // Modified Cars
-        // Performance
-        public FuelConsumption ModifiedFuelConsumption { get; set; }
+        public DriveWheel? DriveWheel { get; set; }
 
-        public Acceleration ModifiedAcceleration { get; set; }
+        public Transmission? Transmission { get; set; }
 
-        public string PerformanceModificationsDescription { get; set; }
+        [Range(1, 10)]
+        public int? NumberOfGears { get; set; }
 
-        // Visual
-        public string VisualModificationsDescription { get; set; }
+        //Production Data
+        //TODO Server Validation for production DateTimes in CarModel
+        public DateTime? BeginningOfProduction { get; set; }
+
+        public DateTime? EndOfProduction { get; set; }
+
+        //Body/physical data
+        public BodyType BodyType { get; set; }
+
+        [Range(1, 8)]
+        public int? Seats { get; set; }
+
+        // TODO: Server Validations for wheel sizes: 
+        /*
+         * 135-315
+         * 30-80
+         * 12-22
+        */
+        [RegularExpression(@"\d{3}\/\d{2} R\d{2}")]
+        public string TiresSize { get; set; }
+
+        //Safety data
+
+        public bool? HasABS { get; set; }
+
+        public bool? HasESP { get; set; }
+
+        public bool? HasTSC { get; set; }
     }
 }

@@ -9,17 +9,22 @@ namespace NeedForCars.Data
 {
     public class NeedForCarsDbContext : IdentityDbContext<NeedForCarsUser>
     {
-        public DbSet<NeedForCarsUser> Users { get; set; }
-
-        public DbSet<Make> Makes { get; set; }
-
-        public DbSet<Model> Models { get; set; }
+        public DbSet<Car> Cars { get; set; }
 
         public DbSet<Engine> Engines { get; set; }
 
-        public DbSet<Car> Cars { get; set; }
+        public DbSet<Generation> Generations { get; set; }
+
+        public DbSet<Make> Makes { get; set; }
 
         public DbSet<Message> Messages { get; set; }
+
+        public DbSet<Model> Models { get; set; }
+
+        public DbSet<NeedForCarsUser> Users { get; set; }
+
+        public DbSet<UserCar> UserCars { get; set; }
+
 
 
         public NeedForCarsDbContext(DbContextOptions<NeedForCarsDbContext> options)
@@ -36,28 +41,20 @@ namespace NeedForCars.Data
         {
             base.OnModelCreating(builder);
 
-            // Cars
+            // User
+            // --Cars
             builder.Entity<NeedForCarsUser>()
-                .HasMany(x => x.Cars)
+                .HasMany(x => x.UserCars)
                 .WithOne(x => x.Owner)
                 .HasForeignKey(x => x.OwnerId);
 
-            builder.Entity<Car>()
+            builder.Entity<UserCar>()
                 .OwnsOne(x => x.ModifiedFuelConsumption);
 
-            builder.Entity<Car>()
+            builder.Entity<UserCar>()
                 .OwnsOne(x => x.ModifiedAcceleration);
 
-
-            // Models
-            builder.Entity<Model>()
-                .OwnsOne(x => x.FuelConsumption);
-
-            builder.Entity<Model>()
-                .OwnsOne(x => x.Acceleration);
-
-
-            // Messages
+            // --Messages
             builder.Entity<NeedForCarsUser>()
                 .HasMany(x => x.SentMessages)
                 .WithOne(x => x.Receiver)
@@ -71,22 +68,12 @@ namespace NeedForCars.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
 
-            //ModelEngines
-            builder.Entity<ModelEngines>()
-                .HasKey(x => new { x.EngineId, x.ModelId });
+            // Cars
+            builder.Entity<Car>()
+                .OwnsOne(x => x.FuelConsumption);
 
-            builder.Entity<ModelEngines>()
-                .HasOne(x => x.Model)
-                .WithMany(x => x.ModelEngines)
-                .HasForeignKey(x => x.ModelId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<ModelEngines>()
-                .HasOne(x => x.Engine)
-                .WithMany(x => x.ModelEngines)
-                .HasForeignKey(x => x.EngineId)
-                .OnDelete(DeleteBehavior.Restrict);
-            
+            builder.Entity<Car>()
+                .OwnsOne(x => x.Acceleration);
         }
     }
 }

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeedForCars.Data", "NeedFor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeedForCars.Models", "NeedForCars.Models\NeedForCars.Models.csproj", "{4A8FB222-E4DF-4AA5-BE87-F67DFF03B300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeedForCars.Services", "NeedForCars.Services\NeedForCars.Services.csproj", "{772507AE-3963-41D9-9EB9-DB7FAC5C779A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeedForCars.Services", "NeedForCars.Services\NeedForCars.Services.csproj", "{772507AE-3963-41D9-9EB9-DB7FAC5C779A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

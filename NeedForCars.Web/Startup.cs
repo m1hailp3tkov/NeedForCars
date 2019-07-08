@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NeedForCars.Data;
 using NeedForCars.Models;
+using NeedForCars.Web.Middlewares;
 
 namespace NeedForCars.Web
 {
@@ -29,13 +30,19 @@ namespace NeedForCars.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<IdentityOptions>(options =>
+            services.AddIdentity<NeedForCarsUser, IdentityRole>(options =>
             {
                 options.Password.RequireLowercase = false;
                 options.Password.RequireDigit = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-            });
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 0;
+
+            })
+                .AddDefaultTokenProviders()
+                .AddDefaultUI(UIFramework.Bootstrap4)
+                .AddEntityFrameworkStores<NeedForCarsDbContext>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -48,11 +55,10 @@ namespace NeedForCars.Web
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<NeedForCarsUser>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<NeedForCarsDbContext>();
+                
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,11 +82,18 @@ namespace NeedForCars.Web
 
             app.UseAuthentication();
 
+            app.UseSeedDataMiddleware();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "areaRoute",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
             });
         }
     }

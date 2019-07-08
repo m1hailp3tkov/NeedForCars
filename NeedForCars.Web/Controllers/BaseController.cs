@@ -6,11 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace NeedForCars.Web.Controllers
 {
-    public class CarsController : BaseController
+    public abstract class BaseController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using NeedForCars.Models;
 using System.Text.RegularExpressions;
+using NeedForCars.Web.Common;
 
 namespace NeedForCars.Web.Areas.Identity.Pages.Account
 {
@@ -140,15 +141,8 @@ namespace NeedForCars.Web.Areas.Identity.Pages.Account
 
         private bool IsValidIdentifier(string identifier)
         {
-            //TODO regex strings in global constants?
-            string emailRegexString = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
-                               + "@"
-                               + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))\z";
-
-            string usernameRegexString = "[A-Za-z0-9._]{3,20}";
-
-            Regex emailRegex = new Regex(emailRegexString);
-            Regex usernameRegex = new Regex(usernameRegexString);
+            Regex emailRegex = new Regex(GlobalConstants.EMAIL_REGEX);
+            Regex usernameRegex = new Regex(GlobalConstants.USERNAME_REGEX);
 
             if (!emailRegex.IsMatch(identifier) && !usernameRegex.IsMatch(identifier))
             {

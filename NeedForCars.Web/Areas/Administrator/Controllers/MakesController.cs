@@ -55,20 +55,28 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             if(this.makesService.Exists(make))
             {
-                this.ModelState["Name"]
+                this.ModelState[nameof(model.Name)]
                     .Errors
                     .Add("Make already exists");
 
                 return this.Create();
             }
 
+            if(!this.imagesService.IsValidImage(model.Logo))
+            {
+                this.ModelState[nameof(model.Logo)]
+                    .Errors
+                    .Add("Image is not in valid format");
+
+                return this.Create();
+            }
+
             this.makesService.Add(make);
 
-            //TODO: Validation for image format (possibly in service?)
             var imagePath = string.Format(GlobalConstants.MAKE_PATH_TEMPLATE, model.Name);
             this.imagesService.UploadImage(model.Logo, imagePath);
 
-            return this.Index();
+            return this.Redirect("/Administrator/Makes");
         }
     }
 }

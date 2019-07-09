@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using NeedForCars.Models;
+using NeedForCars.Web.Common;
 
 namespace NeedForCars.Web.Areas.Identity.Pages.Account
 {
@@ -52,7 +53,7 @@ namespace NeedForCars.Web.Areas.Identity.Pages.Account
 
             [Required]
             [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
-            [RegularExpression("[A-Za-z0-9._]{3,20}", ErrorMessage = "Username can contain only latin characters, numbers, underscores and dots")]
+            [RegularExpression(GlobalConstants.USERNAME_REGEX, ErrorMessage = "Username can contain only latin characters, numbers, underscores and dots")]
             [Display(Name = "Username")]
             public string UserName { get; set; }
 

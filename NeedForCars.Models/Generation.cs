@@ -21,7 +21,6 @@ namespace NeedForCars.Models
 
         //Nullables
         [StringLength(50)]
-        [RegularExpression("@[A-Za-z 0-9(),]+")] //TODO: Extract generation name regex to globals
         public string Name { get; set; }
 
         public string Description { get; set; }

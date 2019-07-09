@@ -19,7 +19,6 @@ namespace NeedForCars.Models
         public Engine Engine { get; set; }
 
         //Nullables
-        [RegularExpression("A-Za-z 0-9+")] //TODO : extract car name regex to global constants
         public string Name { get; set; }
 
         //Performance Data
@@ -55,7 +54,6 @@ namespace NeedForCars.Models
          * 30-80
          * 12-22
         */
-        [RegularExpression(@"\d{3}\/\d{2} R\d{2}")]
         public string TiresSize { get; set; }
 
         //Safety data

@@ -11,5 +11,7 @@ namespace NeedForCars.Services.Contracts
         bool Exists(Make make);
 
         ICollection<Make> GetAll();
+
+        Make GetById(string id);
     }
 }

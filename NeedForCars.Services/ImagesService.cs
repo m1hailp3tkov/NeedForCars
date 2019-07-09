@@ -10,6 +10,8 @@ namespace NeedForCars.Services
     {
         public async void UploadImage(IFormFile formImage, string path)
         {
+            EnsureDirectoryExists(path);
+
             using (FileStream stream = File.Create(path))
             {
                 await formImage.CopyToAsync(stream);
@@ -24,6 +26,11 @@ namespace NeedForCars.Services
             }
 
             return true;
+        }
+
+        public void EnsureDirectoryExists(string fileName)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(fileName));
         }
     }
 }

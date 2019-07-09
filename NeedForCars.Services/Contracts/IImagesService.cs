@@ -8,5 +8,7 @@ namespace NeedForCars.Services.Contracts
         void UploadImage(IFormFile formImage, string filePath);
 
         bool IsValidImage(IFormFile formImage);
+
+        void EnsureDirectoryExists(string fileName);
     }
 }

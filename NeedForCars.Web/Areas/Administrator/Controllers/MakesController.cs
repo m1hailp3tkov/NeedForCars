@@ -37,11 +37,11 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         {
             return this.View();
         }
-        
+
         [HttpPost]
         public IActionResult Create(CreateMakeModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return this.Create();
             }
@@ -53,7 +53,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 Description = model.Description
             };
 
-            if(this.makesService.Exists(make))
+            if (this.makesService.Exists(make))
             {
                 this.ModelState[nameof(model.Name)]
                     .Errors
@@ -62,7 +62,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 return this.Create();
             }
 
-            if(!this.imagesService.IsValidImage(model.Logo))
+            if (!this.imagesService.IsValidImage(model.Logo))
             {
                 this.ModelState[nameof(model.Logo)]
                     .Errors
@@ -77,6 +77,21 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             this.imagesService.UploadImage(model.Logo, imagePath);
 
             return this.Redirect("/Administrator/Makes");
+        }
+
+        public IActionResult Edit(string id)
+        {
+            var make = makesService.GetById(id);
+            if (make == null)
+            {
+                ViewData["Error"] = $"A make with the id {id} does not exist";
+                return this.View();
+            }
+
+
+            
+
+            return this.Index();
         }
     }
 }

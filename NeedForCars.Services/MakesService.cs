@@ -34,5 +34,17 @@ namespace NeedForCars.Services
         {
             return this.context.Makes.ToList();
         }
+
+        public Make GetById(string id)
+        {
+            return this.context
+                .Makes
+                .FirstOrDefault(x => x.Id == id);
+        }
+
+        public void EditMakeById(Make make)
+        {
+            
+        }
     }
 }

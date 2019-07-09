@@ -24,10 +24,10 @@ namespace NeedForCars.Services
             this.context.SaveChanges();
         }
 
-        public bool Exists(Make make)
+        public bool Exists(string makeName)
         {
             return this.context.Makes
-                .Any(x => x.Name == make.Name);
+                .Any(x => x.Name == makeName);
         }
 
         public ICollection<Make> GetAll()
@@ -42,7 +42,7 @@ namespace NeedForCars.Services
                 .FirstOrDefault(x => x.Id == id);
         }
 
-        public void EditMakeById(Make make)
+        public void EditMake(Make make)
         {
             
         }

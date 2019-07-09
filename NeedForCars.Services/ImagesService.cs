@@ -10,8 +10,9 @@ namespace NeedForCars.Services
     {
         public async void UploadImage(IFormFile formImage, string path)
         {
-            EnsureDirectoryExists(path);
-
+            // Ensure directory exists
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            
             using (FileStream stream = File.Create(path))
             {
                 await formImage.CopyToAsync(stream);
@@ -20,17 +21,8 @@ namespace NeedForCars.Services
 
         public bool IsValidImage(IFormFile formImage)
         {
-            if(!(formImage.ContentType == "image/png" || formImage.ContentType == "image/jpeg"))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public void EnsureDirectoryExists(string fileName)
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+            return formImage.ContentType == "image/png" ||
+                    formImage.ContentType == "image/jpeg";
         }
     }
 }

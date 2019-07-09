@@ -8,7 +8,7 @@ namespace NeedForCars.Services.Contracts
     {
         void Add(Make make);
 
-        bool Exists(Make make);
+        bool Exists(string makeName);
 
         ICollection<Make> GetAll();
 

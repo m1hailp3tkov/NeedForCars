@@ -41,6 +41,16 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         [HttpPost]
         public IActionResult Create(CreateMakeModel model)
         {
+            if (this.makesService.Exists(model.Name))
+            {
+                this.ModelState.AddModelError(nameof(model.Name), "Make already exists");
+            }
+
+            if (!this.imagesService.IsValidImage(model.Logo))
+            {
+                this.ModelState.AddModelError(nameof(model.Logo), "Image is not in valid format");
+            }
+
             if (!ModelState.IsValid)
             {
                 return this.Create();
@@ -52,24 +62,6 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 Name = model.Name,
                 Description = model.Description
             };
-
-            if (this.makesService.Exists(make))
-            {
-                this.ModelState[nameof(model.Name)]
-                    .Errors
-                    .Add("Make already exists");
-
-                return this.Create();
-            }
-
-            if (!this.imagesService.IsValidImage(model.Logo))
-            {
-                this.ModelState[nameof(model.Logo)]
-                    .Errors
-                    .Add("Image is not in valid format");
-
-                return this.Create();
-            }
 
             this.makesService.Add(make);
 
@@ -89,7 +81,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
 
 
-            
+
 
             return this.Index();
         }

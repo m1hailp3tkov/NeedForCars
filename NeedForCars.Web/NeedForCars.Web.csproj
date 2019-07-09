@@ -16,11 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NeedForCars.Data\NeedForCars.Data.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="Areas\Administrator\ViewModels\" />
+    <ProjectReference Include="..\NeedForCars.Services\NeedForCars.Services.csproj" />
   </ItemGroup>
 
 </Project>

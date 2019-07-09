@@ -1,0 +1,13 @@
+﻿@model IEnumerable<DisplayMakeModel>
+@{
+    ViewData["Title"] = "All Makes";
+}
+
+@foreach(var make in Model)
+{
+   <h3>@make.Name</h3>
+   <h4>@make.Description</h4>
+   <br />
+   <img src="@make.ImagePath" />
+   <br/>
+}

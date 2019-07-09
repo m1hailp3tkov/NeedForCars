@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using NeedForCars.Data;
 using NeedForCars.Models;
 using NeedForCars.Web.Middlewares;
+using NeedForCars.Services.Contracts;
+using NeedForCars.Services;
 
 namespace NeedForCars.Web
 {
@@ -54,6 +56,10 @@ namespace NeedForCars.Web
             services.AddDbContext<NeedForCarsDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+
+            services.AddScoped<IMakesService, MakesService>();
+            services.AddScoped<IImagesService, ImagesService>();
 
                 
 

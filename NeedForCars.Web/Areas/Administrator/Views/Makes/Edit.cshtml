@@ -7,7 +7,9 @@
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <h2>@Model.Name</h2>
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 Current logo:
@@ -22,6 +24,7 @@
             <div class="form-group">
                 <label asp-for="NewLogo" class="control-label"></label>
                 <input asp-for="NewLogo" class="form-control" accept=".jpg,.png" />
+                <span asp-validation-for="NewLogo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Update" class="btn btn-primary" />

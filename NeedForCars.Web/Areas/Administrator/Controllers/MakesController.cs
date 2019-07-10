@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NeedForCars.Models;
 using NeedForCars.Services.Contracts;
 using NeedForCars.Web.Areas.Administrator.ViewModels.Makes;
 using NeedForCars.Web.Common;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace NeedForCars.Web.Areas.Administrator.Controllers
@@ -41,16 +39,16 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateMakeModel model)
+        public IActionResult Create(CreateMakeModel createMakeModel)
         {
-            if (this.makesService.Exists(model.Name))
+            if (this.makesService.Exists(createMakeModel.Name))
             {
-                this.ModelState.AddModelError(nameof(model.Name), "Make already exists");
+                this.ModelState.AddModelError(nameof(createMakeModel.Name), "Make already exists");
             }
 
-            if (!this.imagesService.IsValidImage(model.Logo))
+            if (!this.imagesService.IsValidImage(createMakeModel.Logo))
             {
-                this.ModelState.AddModelError(nameof(model.Logo), "Image is not in valid format");
+                this.ModelState.AddModelError(nameof(createMakeModel.Logo), "Image is not in valid format");
             }
 
             if (!ModelState.IsValid)
@@ -61,14 +59,14 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             //TODO: Use automapper
             var make = new Make
             {
-                Name = model.Name,
-                Description = model.Description
+                Name = createMakeModel.Name,
+                Description = createMakeModel.Description
             };
 
             this.makesService.Add(make);
 
             var imagePath = string.Format(GlobalConstants.MAKE_LOGO_PATH_TEMPLATE, make.Id);
-            this.imagesService.UploadImage(model.Logo, imagePath);
+            this.imagesService.UploadImage(createMakeModel.Logo, imagePath);
 
             return this.Redirect("/Administrator/Makes");
         }
@@ -82,20 +80,46 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
 
             //TODO : Automapper
-            var editMakeModel = new EditMakeModel
+            var model = new EditMakeModel
             {
                 Id = id,
                 Name = make.Name,
                 Description = make.Description,
             };
 
-            return this.View(editMakeModel);
+            return this.View(model);
         }
 
         [HttpPost]
-        public IActionResult Edit()
+        public IActionResult Edit(EditMakeModel editMakeModel)
         {
-            return this.Ok();
+            var id = (string)Url.ActionContext.RouteData.Values["id"];
+
+            if (!this.imagesService.IsValidImage(editMakeModel.NewLogo) && editMakeModel.NewLogo != null)
+            {
+                this.ModelState.AddModelError(nameof(editMakeModel.NewLogo), "Image is not in valid format");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return this.Edit(id);
+            }
+
+            var make = makesService
+                .GetById(id);
+
+            make.Name = editMakeModel.Name;
+            make.Description = editMakeModel.Description;
+
+            makesService.Update(make);
+
+            if (editMakeModel.NewLogo != null)
+            {
+                var imagePath = string.Format(GlobalConstants.MAKE_LOGO_PATH_TEMPLATE, id);
+                this.imagesService.UploadImage(editMakeModel.NewLogo, imagePath);
+            }
+
+            return this.Redirect("/Administrator/Makes");
         }
     }
 }

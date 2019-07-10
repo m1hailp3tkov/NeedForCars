@@ -1,4 +1,6 @@
-﻿namespace NeedForCars.Web.Areas.Administrator.ViewModels.Makes
+﻿using NeedForCars.Web.Common;
+
+namespace NeedForCars.Web.Areas.Administrator.ViewModels.Makes
 {
     public class DisplayMakeModel
     {
@@ -8,6 +10,6 @@
 
         public string Description { get; set; }
 
-        public string ImagePath { get => $"/images/makes/{Name}.png"; }
+        public string ImagePath { get => $"/images/makes/{Id}.png"; }
     }
 }

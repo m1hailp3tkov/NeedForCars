@@ -42,9 +42,12 @@ namespace NeedForCars.Services
                 .FirstOrDefault(x => x.Id == id);
         }
 
-        public void EditMake(Make make)
+        public void Update(Make make)
         {
-            
+            this.context.Makes
+                .Update(make);
+
+            this.context.SaveChanges();
         }
     }
 }

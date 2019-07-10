@@ -21,6 +21,8 @@ namespace NeedForCars.Services
 
         public bool IsValidImage(IFormFile formImage)
         {
+            if (formImage == null) return false;
+
             return formImage.ContentType == "image/png" ||
                     formImage.ContentType == "image/jpeg";
         }

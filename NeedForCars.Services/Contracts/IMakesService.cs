@@ -13,5 +13,7 @@ namespace NeedForCars.Services.Contracts
         ICollection<Make> GetAll();
 
         Make GetById(string id);
+
+        void Update(Make make);
     }
 }

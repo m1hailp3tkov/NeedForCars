@@ -16,7 +16,6 @@ namespace NeedForCars.Models
         [Required]
         public string Name { get; set; }
 
-        [Required]
         public string Description { get; set; }
 
         public virtual ICollection<Model> Models { get; set; }

@@ -3,7 +3,7 @@
     public class GlobalConstants
     {
         // File path templates
-        public const string MAKE_PATH_TEMPLATE = @"wwwroot\images\makes\{0}.png";
+        public const string MAKE_LOGO_PATH_TEMPLATE = @"wwwroot\images\makes\{0}.png";
 
 
 

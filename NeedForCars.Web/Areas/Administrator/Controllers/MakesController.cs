@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using NeedForCars.Models;
 using NeedForCars.Services.Contracts;
 using NeedForCars.Web.Areas.Administrator.ViewModels.Makes;
@@ -26,6 +27,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 .GetAll()
                 .Select(x => new DisplayMakeModel
                 {
+                    Id = x.Id,
                     Name = x.Name,
                     Description = x.Description
                 });
@@ -65,7 +67,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             this.makesService.Add(make);
 
-            var imagePath = string.Format(GlobalConstants.MAKE_PATH_TEMPLATE, model.Name);
+            var imagePath = string.Format(GlobalConstants.MAKE_LOGO_PATH_TEMPLATE, make.Id);
             this.imagesService.UploadImage(model.Logo, imagePath);
 
             return this.Redirect("/Administrator/Makes");
@@ -76,14 +78,24 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             var make = makesService.GetById(id);
             if (make == null)
             {
-                ViewData["Error"] = $"A make with the id {id} does not exist";
-                return this.View();
+                return BadRequest();
             }
 
+            //TODO : Automapper
+            var editMakeModel = new EditMakeModel
+            {
+                Id = id,
+                Name = make.Name,
+                Description = make.Description,
+            };
 
+            return this.View(editMakeModel);
+        }
 
-
-            return this.Index();
+        [HttpPost]
+        public IActionResult Edit()
+        {
+            return this.Ok();
         }
     }
 }

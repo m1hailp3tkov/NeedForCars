@@ -13,8 +13,6 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Makes
         [RegularExpression("[A-Za-z-. ]{2,}", ErrorMessage = "Make name can only contain Latin characters, spaces, dots or dashes")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Description is required")]
-        [StringLength(10000, ErrorMessage = "Description cannot be longer than {0} symbols.")]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "You must add a logo image")]

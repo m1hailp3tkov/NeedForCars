@@ -10,10 +10,11 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Makes
     public class EditMakeModel : DisplayMakeModel
     {
         [Required(ErrorMessage = "Name is required")]
-        [RegularExpression("[A-Za-z-. ]{2,}", ErrorMessage = "Make name can only contain Latin characters, spaces, dots or dashes")]
-        public string Name { get; set; }
+        [RegularExpression("[A-Za-z-. ]{2,}", ErrorMessage = "Make name can only contain Latin characters, spaces, dots and dashes")]
+        public new string Name { get; set; }
 
         [Display(Name = "New Logo")]
         public IFormFile NewLogo { get; set; }
+
     }
 }

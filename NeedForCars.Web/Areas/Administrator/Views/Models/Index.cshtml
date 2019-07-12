@@ -1,0 +1,16 @@
+﻿@model IEnumerable<DisplayModelModel>
+@inject IMakesService makesService
+@{ 
+    var makeId = this.Context.Request.Query["makeId"].ToString();
+    var makeName = makesService
+        .GetById(makeId)
+        .Name;
+}
+<h1>Models for @(makeName + " nigga")</h1>
+
+@foreach(var modelDto in Model)
+{
+    <h4>Name: @modelDto.Name</h4>
+    <h4>Description: @modelDto.Description</h4>
+    <br />
+}

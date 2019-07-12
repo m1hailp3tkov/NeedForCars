@@ -1,6 +1,4 @@
-﻿using NeedForCars.Web.Common;
-
-namespace NeedForCars.Web.Areas.Administrator.ViewModels.Makes
+﻿namespace NeedForCars.Web.Areas.Administrator.ViewModels.Makes
 {
     public class DisplayMakeModel
     {

@@ -84,7 +84,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 Id = id,
                 Name = make.Name,
-                Description = make.Description,
+                Description = make.Description
             };
 
             return this.View(model);
@@ -119,7 +119,9 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 this.imagesService.UploadImage(editMakeModel.NewLogo, imagePath);
             }
 
-            return this.Redirect("/Administrator/Makes");
+             return this.Redirect("/Administrator/Makes");
         }
     }
 }
+
+//TODO Async controllers

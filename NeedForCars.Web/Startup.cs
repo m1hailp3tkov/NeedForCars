@@ -60,6 +60,7 @@ namespace NeedForCars.Web
 
             services.AddScoped<IMakesService, MakesService>();
             services.AddScoped<IImagesService, ImagesService>();
+            services.AddScoped<IModelsService, ModelsService>();
 
                 
 

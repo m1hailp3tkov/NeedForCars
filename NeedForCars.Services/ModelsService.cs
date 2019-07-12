@@ -36,6 +36,14 @@ namespace NeedForCars.Services
                 .Any(x => x.Name == modelName);
         }
 
+        public Model GetById(string modelId)
+        {
+            return this.context
+                .Models
+                .Include(x => x.Make)
+                .FirstOrDefault(x => x.Id == modelId);
+        }
+
         public ICollection<Model> GetAllForMake(string makeId)
         {
             var models = this.context
@@ -45,6 +53,14 @@ namespace NeedForCars.Services
                 .Models;
 
             return models;
+        }
+
+        public void Update(Model model)
+        {
+            this.context.Models
+                .Update(model);
+
+            this.context.SaveChanges();
         }
     }
 }

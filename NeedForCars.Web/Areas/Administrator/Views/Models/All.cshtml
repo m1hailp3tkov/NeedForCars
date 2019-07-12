@@ -1,0 +1,10 @@
+﻿@model IEnumerable<DisplayModelModel>
+
+<h1>Models for @ViewBag.MakeName</h1>
+
+@foreach(var modelDto in Model)
+{
+    <h4>Name: @modelDto.Name</h4>
+    <h4>Description: @modelDto.Description</h4>
+    <br />
+}

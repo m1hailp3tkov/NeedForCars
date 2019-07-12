@@ -9,6 +9,10 @@ namespace NeedForCars.Services.Contracts
 
         bool Exists(string makeId, string modelName);
 
+        Model GetById(string modelId);
+
         ICollection<Model> GetAllForMake(string makeId);
+
+        void Update(Model model);
     }
 }

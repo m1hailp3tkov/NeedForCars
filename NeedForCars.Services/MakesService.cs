@@ -39,6 +39,7 @@ namespace NeedForCars.Services
         {
             return this.context
                 .Makes
+                .Include(x => x.Models)
                 .FirstOrDefault(x => x.Id == id);
         }
 

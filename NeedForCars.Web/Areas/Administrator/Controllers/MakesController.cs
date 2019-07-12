@@ -18,7 +18,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             this.imagesService = imagesService;
         }
 
-        public IActionResult Index()
+        public IActionResult All()
         {
             //TODO : Automapper
             var makes = makesService
@@ -68,7 +68,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             var imagePath = string.Format(GlobalConstants.MAKE_LOGO_PATH_TEMPLATE, make.Id);
             this.imagesService.UploadImage(createMakeModel.Logo, imagePath);
 
-            return this.Redirect("/Administrator/Makes");
+            return this.RedirectToAction(nameof(All));
         }
 
         public IActionResult Edit(string id)
@@ -80,20 +80,24 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
 
             //TODO : Automapper
-            var model = new EditMakeModel
+            var viewModel = new EditMakeModel
             {
                 Id = id,
                 Name = make.Name,
                 Description = make.Description
             };
 
-            return this.View(model);
+            return this.View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit(EditMakeModel editMakeModel)
+        public IActionResult Edit(EditMakeModel editMakeModel, string id)
         {
-            var id = (string)Url.ActionContext.RouteData.Values["id"];
+            var make = makesService.GetById(id);
+            if(make == null)
+            {
+                return this.BadRequest();
+            }
 
             if (!this.imagesService.IsValidImage(editMakeModel.NewLogo) && editMakeModel.NewLogo != null)
             {
@@ -104,10 +108,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.Edit(id);
             }
-
-            var make = makesService
-                .GetById(id);
-
+            
             make.Name = editMakeModel.Name;
             make.Description = editMakeModel.Description;
 
@@ -119,7 +120,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 this.imagesService.UploadImage(editMakeModel.NewLogo, imagePath);
             }
 
-             return this.Redirect("/Administrator/Makes");
+            return this.RedirectToAction(nameof(All));
         }
     }
 }

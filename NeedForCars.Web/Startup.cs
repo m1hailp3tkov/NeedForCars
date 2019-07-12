@@ -61,6 +61,7 @@ namespace NeedForCars.Web
             services.AddScoped<IMakesService, MakesService>();
             services.AddScoped<IImagesService, ImagesService>();
             services.AddScoped<IModelsService, ModelsService>();
+            services.AddScoped<IGenerationsService, GenerationsService>();
 
                 
 
@@ -114,3 +115,5 @@ namespace NeedForCars.Web
         }
     }
 }
+
+//TODO viewmodels' regexes in global constants

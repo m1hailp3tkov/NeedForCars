@@ -21,7 +21,6 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         {
             //id is MAKE ID
             var make = makesService.GetById(id);
-
             if(make == null)
             {
                 return this.BadRequest();
@@ -78,7 +77,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             modelsService.AddModelToMake(id, model);
 
             return this.RedirectToAction(nameof(All), new { id });
-            // TODO: fix redirects with proper routes?
+            // TODO? fix redirects with proper routes
         }
 
         public IActionResult Edit(string id)
@@ -121,5 +120,3 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
     }
 }
-
-//TODO: Refactor code repetition

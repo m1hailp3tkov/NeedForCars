@@ -45,12 +45,10 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 this.ModelState.AddModelError(nameof(createMakeModel.Name), "Make already exists");
             }
-
             if (!this.imagesService.IsValidImage(createMakeModel.Logo))
             {
                 this.ModelState.AddModelError(nameof(createMakeModel.Logo), "Image is not in valid format");
             }
-
             if (!ModelState.IsValid)
             {
                 return this.Create();
@@ -62,7 +60,6 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 Name = createMakeModel.Name,
                 Description = createMakeModel.Description
             };
-
             this.makesService.Add(make);
 
             var imagePath = string.Format(GlobalConstants.MAKE_LOGO_PATH_TEMPLATE, make.Id);
@@ -103,7 +100,6 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 this.ModelState.AddModelError(nameof(editMakeModel.NewLogo), "Image is not in valid format");
             }
-
             if (!ModelState.IsValid)
             {
                 return this.Edit(id);

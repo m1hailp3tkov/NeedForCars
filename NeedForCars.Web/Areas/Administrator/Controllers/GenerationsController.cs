@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using NeedForCars.Models;
 using NeedForCars.Services.Contracts;
 using NeedForCars.Web.Areas.Administrator.ViewModels.Generations;
@@ -24,6 +25,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.BadRequest();
             }
+
 
             var viewModel = model
                 .Generations
@@ -68,12 +70,8 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 return this.View(createGenerationModel);
             }
 
-            var generation = new Generation
-            {
-                Name = createGenerationModel.Name,
-                Description = createGenerationModel.Description,
-                ModelId = model.Id
-            };
+
+            var generation = Mapper.Map<Generation>(createGenerationModel);
 
             generationsService.AddGenerationToModel(id, generation);
 

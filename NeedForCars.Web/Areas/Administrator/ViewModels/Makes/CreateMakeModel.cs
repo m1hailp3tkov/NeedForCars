@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
+using NeedForCars.Models;
+using NeedForCars.Services.Mapping;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NeedForCars.Web.Areas.Administrator.ViewModels.Makes
 {
-    public class CreateMakeModel
+    public class CreateMakeModel : IMapTo<Make>
     {
         [Required(ErrorMessage = "Name is required")]
         [RegularExpression("[A-Za-z-. ]{2,}", ErrorMessage = "Make name can only contain Latin characters, spaces, dots and dashes")]

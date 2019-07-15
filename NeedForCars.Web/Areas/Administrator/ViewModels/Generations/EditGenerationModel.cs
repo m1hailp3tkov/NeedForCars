@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using NeedForCars.Models;
+using NeedForCars.Services.Mapping;
 
 namespace NeedForCars.Web.Areas.Administrator.ViewModels.Generations
 {
-    public class EditGenerationModel : CreateGenerationModel
+    public class EditGenerationModel : CreateGenerationModel, IMapFrom<Generation>
     {
     }
 }

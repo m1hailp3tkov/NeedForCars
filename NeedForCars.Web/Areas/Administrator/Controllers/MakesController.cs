@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using NeedForCars.Models;
 using NeedForCars.Services.Contracts;
 using NeedForCars.Web.Areas.Administrator.ViewModels.Makes;
 using NeedForCars.Web.Common;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NeedForCars.Web.Areas.Administrator.Controllers
@@ -20,15 +22,9 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
         public IActionResult All()
         {
-            //TODO : Automapper
-            var makes = makesService
-                .GetAll()
-                .Select(x => new DisplayMakeModel
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description
-                });
+            var allMakes = makesService.GetAll();
+
+            var makes = Mapper.Map<IEnumerable<DisplayMakeModel>>(allMakes);
 
             return this.View(makes);
         }

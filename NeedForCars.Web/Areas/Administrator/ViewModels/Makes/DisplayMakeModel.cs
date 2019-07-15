@@ -1,6 +1,9 @@
-﻿namespace NeedForCars.Web.Areas.Administrator.ViewModels.Makes
+﻿using NeedForCars.Models;
+using NeedForCars.Services.Mapping;
+
+namespace NeedForCars.Web.Areas.Administrator.ViewModels.Makes
 {
-    public class DisplayMakeModel
+    public class DisplayMakeModel : IMapFrom<Make>
     {
         public string Id { get; set; }
 

@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{08
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{04A6FBBE-BD15-45BC-B2D8-882D7B0ACA58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeedForCars.Services.Mapping", "NeedForCars.Services.Mapping\NeedForCars.Services.Mapping.csproj", "{CDBB4749-6031-4F17-84CB-35C9E018A34A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeedForCars.Services.Mapping", "NeedForCars.Services.Mapping\NeedForCars.Services.Mapping.csproj", "{CDBB4749-6031-4F17-84CB-35C9E018A34A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

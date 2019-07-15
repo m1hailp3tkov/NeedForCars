@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using NeedForCars.Models;
 using NeedForCars.Services.Contracts;
 using NeedForCars.Web.Areas.Administrator.ViewModels.Models;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NeedForCars.Web.Areas.Administrator.Controllers
@@ -26,14 +29,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 return this.BadRequest();
             }
 
-            var viewModel = make
-                .Models
-                .Select(x => new DisplayModelModel
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description
-                });
+            var viewModel = Mapper.Map<IEnumerable<DisplayModelModel>>(make.Models);
 
             this.ViewBag.MakeName = make.Name;
 
@@ -67,12 +63,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 return this.View(createModelModel);
             }
 
-            var model = new Model
-            {
-                Name = createModelModel.Name,
-                Description = createModelModel.Description,
-                MakeId = make.Id
-            };
+            var model = Mapper.Map<Model>(createModelModel);
 
             modelsService.AddModelToMake(id, model);
 
@@ -88,11 +79,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 return this.BadRequest();
             }
 
-            var viewModel = new EditModelModel
-            {
-                Name = model.Name,
-                Description = model.Description
-            };
+            var viewModel = Mapper.Map<EditModelModel>(model);
 
             return this.View(viewModel);
         }

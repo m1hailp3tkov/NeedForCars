@@ -1,6 +1,9 @@
-﻿namespace NeedForCars.Web.Areas.Administrator.ViewModels.Models
+﻿using NeedForCars.Models;
+using NeedForCars.Services.Mapping;
+
+namespace NeedForCars.Web.Areas.Administrator.ViewModels.Models
 {
-    public class DisplayModelModel
+    public class DisplayModelModel : IMapFrom<Model>
     {
         public string Id { get; set; }
 

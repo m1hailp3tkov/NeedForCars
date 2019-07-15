@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NeedForCars.Models;
 using NeedForCars.Services.Contracts;
 using NeedForCars.Web.Areas.Administrator.ViewModels.Generations;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NeedForCars.Web.Areas.Administrator.Controllers
@@ -26,14 +27,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 return this.BadRequest();
             }
 
-
-            var viewModel = model
-                .Generations
-                .Select(x => new DisplayGenerationModel
-                {
-                    Name = x.Name,
-                    Description = x.Description
-                });
+            var viewModel = Mapper.Map<IEnumerable<DisplayGenerationModel>>(model.Generations);
 
             this.ViewBag.Make = model.Make.Name;
             this.ViewBag.Model = model.Name;
@@ -86,11 +80,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 return this.BadRequest();
             }
 
-            var viewModel = new EditGenerationModel
-            {
-                Name = generation.Name,
-                Description = generation.Description
-            };
+            var viewModel = Mapper.Map<EditGenerationModel>(generation);
 
             this.ViewBag.Model = generation.Model.Name;
             return this.View(viewModel);

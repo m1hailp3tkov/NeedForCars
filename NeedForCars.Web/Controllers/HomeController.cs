@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NeedForCars.Web.ViewModels;
+using NeedForCars.Web.Models;
 
 namespace NeedForCars.Web.Controllers
 {

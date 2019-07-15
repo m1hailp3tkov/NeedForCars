@@ -17,6 +17,11 @@ using NeedForCars.Models;
 using NeedForCars.Web.Middlewares;
 using NeedForCars.Services.Contracts;
 using NeedForCars.Services;
+using NeedForCars.Services.Mapping;
+using NeedForCars.Web.ViewModels;
+using System.Reflection;
+using AutoMapper;
+using NeedForCars.Web.Areas.Administrator.ViewModels.Generations;
 
 namespace NeedForCars.Web
 {
@@ -58,12 +63,10 @@ namespace NeedForCars.Web
                     Configuration.GetConnectionString("DefaultConnection")));
 
 
-            services.AddScoped<IMakesService, MakesService>();
-            services.AddScoped<IImagesService, ImagesService>();
-            services.AddScoped<IModelsService, ModelsService>();
-            services.AddScoped<IGenerationsService, GenerationsService>();
-
-                
+            services.AddTransient<IMakesService, MakesService>();
+            services.AddTransient<IImagesService, ImagesService>();
+            services.AddTransient<IModelsService, ModelsService>();
+            services.AddTransient<IGenerationsService, GenerationsService>();
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -72,6 +75,8 @@ namespace NeedForCars.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            AutoMapperConfig.RegisterMappings(typeof(CreateGenerationModel).GetTypeInfo().Assembly);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

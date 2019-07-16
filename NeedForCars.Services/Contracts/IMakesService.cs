@@ -1,6 +1,5 @@
 ﻿using NeedForCars.Models;
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace NeedForCars.Services.Contracts
 {
@@ -10,7 +9,7 @@ namespace NeedForCars.Services.Contracts
 
         bool Exists(string makeName);
 
-        ICollection<Make> GetAll();
+        IQueryable<Make> GetAll();
 
         Make GetById(string id);
 

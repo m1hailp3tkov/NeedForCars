@@ -21,4 +21,9 @@
     <ProjectReference Include="..\NeedForCars.Services\NeedForCars.Services.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Areas\Administrator\Views\Engines\" />
+  </ItemGroup>
+
 </Project>

@@ -1,5 +1,5 @@
 ﻿using NeedForCars.Models;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace NeedForCars.Services.Contracts
 {
@@ -9,7 +9,7 @@ namespace NeedForCars.Services.Contracts
 
         bool Exists(string modelId, string generationName);
 
-        ICollection<Generation> GetAllForModel(string modelId);
+        IQueryable<Generation> GetAllForModel(string modelId);
 
         Generation GetById(string id);
 

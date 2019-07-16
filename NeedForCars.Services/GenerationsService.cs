@@ -44,13 +44,14 @@ namespace NeedForCars.Services
                 .FirstOrDefault(x => x.Id == id);
         }
 
-        public ICollection<Generation> GetAllForModel(string modelId)
+        public IQueryable<Generation> GetAllForModel(string modelId)
         {
             var generations = this.context
                 .Models
                 .Include(x => x.Generations)
                 .FirstOrDefault(x => x.Id == modelId)
-                .Generations;
+                .Generations
+                .AsQueryable();
 
             return generations;
         }

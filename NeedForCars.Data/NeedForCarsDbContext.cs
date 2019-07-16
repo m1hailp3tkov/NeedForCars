@@ -49,6 +49,12 @@ namespace NeedForCars.Data
                 .HasForeignKey(x => x.OwnerId);
 
             builder.Entity<UserCar>()
+                .HasOne(x => x.CustomEngine)
+                .WithMany(x => x.ModifiedCars)
+                .HasForeignKey(x => x.CustomEngineId)
+                .IsRequired(false);
+
+            builder.Entity<UserCar>()
                 .OwnsOne(x => x.ModifiedFuelConsumption);
 
             builder.Entity<UserCar>()

@@ -85,11 +85,9 @@ namespace NeedForCars.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -120,11 +118,9 @@ namespace NeedForCars.Data.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -184,10 +180,13 @@ namespace NeedForCars.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("AlternativeFuel");
+
                     b.Property<int?>("Aspiration");
 
-                    b.Property<string>("Creator")
-                        .IsRequired();
+                    b.Property<string>("Creator");
+
+                    b.Property<string>("CreatorInfoUrl");
 
                     b.Property<decimal?>("CylinderBore");
 
@@ -248,8 +247,7 @@ namespace NeedForCars.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description")
-                        .IsRequired();
+                    b.Property<string>("Description");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -379,6 +377,8 @@ namespace NeedForCars.Data.Migrations
 
                     b.Property<int?>("Currency");
 
+                    b.Property<string>("CustomEngineId");
+
                     b.Property<string>("Description");
 
                     b.Property<bool>("ForSale");
@@ -405,6 +405,8 @@ namespace NeedForCars.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
+
+                    b.HasIndex("CustomEngineId");
 
                     b.HasIndex("OwnerId");
 
@@ -544,6 +546,10 @@ namespace NeedForCars.Data.Migrations
                         .WithMany()
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("NeedForCars.Models.Engine", "CustomEngine")
+                        .WithMany("ModifiedCars")
+                        .HasForeignKey("CustomEngineId");
 
                     b.HasOne("NeedForCars.Models.NeedForCarsUser", "Owner")
                         .WithMany("UserCars")

@@ -2,9 +2,24 @@
 
 <h1>Models for @ViewBag.MakeName</h1>
 
-@foreach(var modelDto in Model)
-{
-    <h4>Name: @modelDto.Name</h4>
-    <h4>Description: @modelDto.Description</h4>
-    <br />
-}
+<table class="col-md-8">
+    <td><h3>Name:</h3></td>
+    <td><h3>Description:</h3></td>
+    @foreach (var _model in Model)
+    {
+        <tr>
+            <td>
+                <div class="col-md-4">
+                    <a asp-controller="Generations" asp-action="All" asp-route-id="@_model.Id">
+                        <h4>@_model.Name</h4>
+                    </a>
+                </div>
+            </td>
+            <td>
+                <div class="col-md-4">
+                    @_model.Description
+                </div>
+            </td>
+        </tr>
+    }
+</table>

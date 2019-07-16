@@ -106,7 +106,7 @@ namespace NeedForCars.Web
                 //admin/{makeName}/models - all models
                 //admin/{makeName}/createModel - create model
                 //admin/{makeName}/{modelName/Id}/Edit
-                
+
                 //etc..
                 routes.MapRoute(
                     name: "areaRoute",
@@ -115,6 +115,8 @@ namespace NeedForCars.Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                
 
             });
         }

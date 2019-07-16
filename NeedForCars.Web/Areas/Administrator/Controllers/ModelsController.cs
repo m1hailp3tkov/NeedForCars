@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NeedForCars.Models;
 using NeedForCars.Services.Contracts;
+using NeedForCars.Services.Mapping;
 using NeedForCars.Web.Areas.Administrator.ViewModels.Models;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,9 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 return this.BadRequest();
             }
 
-            var viewModel = Mapper.Map<IEnumerable<DisplayModelModel>>(make.Models);
+            var viewModel = make.Models
+                .AsQueryable()
+                .To<DisplayModelModel>();
 
             this.ViewBag.MakeName = make.Name;
 

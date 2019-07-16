@@ -30,9 +30,9 @@ namespace NeedForCars.Services
                 .Any(x => x.Name == makeName);
         }
 
-        public ICollection<Make> GetAll()
+        public IQueryable<Make> GetAll()
         {
-            return this.context.Makes.ToList();
+            return this.context.Makes;
         }
 
         public Make GetById(string id)
@@ -40,7 +40,7 @@ namespace NeedForCars.Services
             return this.context
                 .Makes
                 .Include(x => x.Models)
-                .FirstOrDefault(x => x.Id == id);
+                .FirstOrDefault(x => x.Id == id || x.Name == id);
         }
 
         public void Update(Make make)

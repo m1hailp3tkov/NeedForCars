@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NeedForCars.Models;
 using NeedForCars.Services.Contracts;
+using NeedForCars.Services.Mapping;
 using NeedForCars.Web.Areas.Administrator.ViewModels.Makes;
 using NeedForCars.Web.Common;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         {
             var allMakes = makesService.GetAll();
 
-            var makes = Mapper.Map<IEnumerable<DisplayMakeModel>>(allMakes);
+            var makes = allMakes.To<DisplayMakeModel>();
 
             return this.View(makes);
         }
@@ -51,11 +52,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
 
             //TODO: Use automapper
-            var make = new Make
-            {
-                Name = createMakeModel.Name,
-                Description = createMakeModel.Description
-            };
+            var make = Mapper.Map<Make>(createMakeModel);
             this.makesService.Add(make);
 
             var imagePath = string.Format(GlobalConstants.MAKE_LOGO_PATH_TEMPLATE, make.Id);
@@ -73,12 +70,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
 
             //TODO : Automapper
-            var viewModel = new EditMakeModel
-            {
-                Id = id,
-                Name = make.Name,
-                Description = make.Description
-            };
+            var viewModel = Mapper.Map<EditMakeModel>(make);
 
             return this.View(viewModel);
         }

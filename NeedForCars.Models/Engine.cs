@@ -10,6 +10,7 @@ namespace NeedForCars.Models
         public Engine()
         {
             this.Cars = new HashSet<Car>();
+            this.ModifiedCars = new HashSet<UserCar>();
         }
 
         public string Id { get; set; }
@@ -21,17 +22,22 @@ namespace NeedForCars.Models
         public FuelType FuelType { get; set; }
 
         [Required]
-        [RegularExpression("[A-Za-z, ]+")]
-        public string Creator { get; set; }
-
-        [Required]
         [Range(1, int.MaxValue)]
         public int MaxHP { get; set; }
 
         public virtual ICollection<Car> Cars { get; set; }
+        public virtual ICollection<UserCar> ModifiedCars { get; set; }
 
         //Nullables
+        public AlternativeFuel AlternativeFuel { get; set; }
+
         public string Description { get; set; }
+
+        [RegularExpression("[A-Za-z, ]+")]
+        public string Creator { get; set; }
+
+        [Url]
+        public string CreatorInfoUrl { get; set; }
 
         [Range(1, int.MaxValue)]
         public int? MaxHPAtRpm { get; set; }

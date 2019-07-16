@@ -1,5 +1,5 @@
 ﻿using NeedForCars.Models;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace NeedForCars.Services.Contracts
 {
@@ -11,7 +11,7 @@ namespace NeedForCars.Services.Contracts
 
         Model GetById(string modelId);
 
-        ICollection<Model> GetAllForMake(string makeId);
+        IQueryable<Model> GetAllForMake(string makeId);
 
         void Update(Model model);
     }

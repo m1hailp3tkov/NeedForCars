@@ -60,6 +60,9 @@ namespace NeedForCars.Models
 
         // Modified Cars
         // Performance
+        public string CustomEngineId { get; set; }
+        public Engine CustomEngine { get; set; }
+
         public FuelConsumption ModifiedFuelConsumption { get; set; }
 
         public Acceleration ModifiedAcceleration { get; set; }

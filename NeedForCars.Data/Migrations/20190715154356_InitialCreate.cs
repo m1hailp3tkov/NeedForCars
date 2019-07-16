@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NeedForCars.Data.Migrations
 {
-    public partial class CreatedEntitiesWithoutNullableProperties : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,10 +55,21 @@ namespace NeedForCars.Data.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    MaxHP = table.Column<int>(nullable: false),
                     FuelType = table.Column<int>(nullable: false),
+                    Creator = table.Column<string>(nullable: false),
+                    MaxHP = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    Displacement = table.Column<int>(nullable: true)
+                    MaxHPAtRpm = table.Column<int>(nullable: true),
+                    MaxTorque = table.Column<int>(nullable: true),
+                    MaxTorqueAtRpm = table.Column<int>(nullable: true),
+                    Aspiration = table.Column<int>(nullable: true),
+                    Displacement = table.Column<int>(nullable: true),
+                    NumberOfCylinders = table.Column<int>(nullable: true),
+                    EngineConfiguration = table.Column<int>(nullable: true),
+                    CylinderBore = table.Column<decimal>(nullable: true),
+                    PistonStroke = table.Column<decimal>(nullable: true),
+                    ValvesPerCylinder = table.Column<int>(nullable: true),
+                    ValvetrainType = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -71,7 +82,7 @@ namespace NeedForCars.Data.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: false)
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -124,8 +135,8 @@ namespace NeedForCars.Data.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -169,8 +180,8 @@ namespace NeedForCars.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -185,39 +196,13 @@ namespace NeedForCars.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cars",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    OwnerId = table.Column<string>(nullable: false),
-                    Color = table.Column<string>(nullable: false),
-                    ProductionDate = table.Column<DateTime>(nullable: false),
-                    Mileage = table.Column<int>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    IsPublic = table.Column<bool>(nullable: false),
-                    ForSale = table.Column<bool>(nullable: false),
-                    Price = table.Column<int>(nullable: true),
-                    Currency = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cars", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cars_AspNetUsers_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Messages",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
                     SenderId = table.Column<string>(nullable: false),
                     ReceiverId = table.Column<string>(nullable: false),
-                    Content = table.Column<string>(nullable: false),
+                    Content = table.Column<string>(maxLength: 1000, nullable: false),
                     SentOn = table.Column<DateTime>(nullable: false),
                     Read = table.Column<bool>(nullable: false)
                 },
@@ -243,44 +228,134 @@ namespace NeedForCars.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    MakeId = table.Column<int>(nullable: false),
-                    MakeId1 = table.Column<string>(nullable: true),
+                    MakeId = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    Seats = table.Column<int>(nullable: true)
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Models", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Models_Makes_MakeId1",
-                        column: x => x.MakeId1,
+                        name: "FK_Models_Makes_MakeId",
+                        column: x => x.MakeId,
                         principalTable: "Makes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ModelEngines",
+                name: "Generations",
                 columns: table => new
                 {
+                    Id = table.Column<string>(nullable: false),
                     ModelId = table.Column<string>(nullable: false),
-                    EngineId = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ModelEngines", x => new { x.EngineId, x.ModelId });
+                    table.PrimaryKey("PK_Generations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ModelEngines_Engines_EngineId",
+                        name: "FK_Generations_Models_ModelId",
+                        column: x => x.ModelId,
+                        principalTable: "Models",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cars",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    GenerationId = table.Column<string>(nullable: false),
+                    EngineId = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    TopSpeed = table.Column<int>(nullable: true),
+                    FuelConsumption_Urban = table.Column<decimal>(nullable: true),
+                    FuelConsumption_ExtraUrban = table.Column<decimal>(nullable: true),
+                    FuelConsumption_Combined = table.Column<decimal>(nullable: true),
+                    Acceleration__0_100 = table.Column<decimal>(nullable: true),
+                    Acceleration__0_200 = table.Column<decimal>(nullable: true),
+                    Acceleration__0_300 = table.Column<decimal>(nullable: true),
+                    DriveWheel = table.Column<int>(nullable: true),
+                    Transmission = table.Column<int>(nullable: true),
+                    NumberOfGears = table.Column<int>(nullable: true),
+                    BeginningOfProduction = table.Column<DateTime>(nullable: true),
+                    EndOfProduction = table.Column<DateTime>(nullable: true),
+                    BodyType = table.Column<int>(nullable: false),
+                    Seats = table.Column<int>(nullable: true),
+                    TiresSize = table.Column<string>(nullable: true),
+                    HasABS = table.Column<bool>(nullable: true),
+                    HasESP = table.Column<bool>(nullable: true),
+                    HasTSC = table.Column<bool>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cars", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cars_Engines_EngineId",
                         column: x => x.EngineId,
+                        principalTable: "Engines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Cars_Generations_GenerationId",
+                        column: x => x.GenerationId,
+                        principalTable: "Generations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserCars",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    OwnerId = table.Column<string>(nullable: false),
+                    CarId = table.Column<string>(nullable: false),
+                    Color = table.Column<string>(nullable: false),
+                    ProductionDate = table.Column<DateTime>(nullable: false),
+                    Mileage = table.Column<int>(nullable: false),
+                    IsPublic = table.Column<bool>(nullable: false),
+                    ForSale = table.Column<bool>(nullable: false),
+                    IsPerformanceModified = table.Column<bool>(nullable: false),
+                    IsVisuallyModified = table.Column<bool>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    AlternativeFuel = table.Column<int>(nullable: true),
+                    Price = table.Column<int>(nullable: true),
+                    Currency = table.Column<int>(nullable: true),
+                    CustomEngineId = table.Column<string>(nullable: true),
+                    ModifiedFuelConsumption_Urban = table.Column<decimal>(nullable: true),
+                    ModifiedFuelConsumption_ExtraUrban = table.Column<decimal>(nullable: true),
+                    ModifiedFuelConsumption_Combined = table.Column<decimal>(nullable: true),
+                    ModifiedAcceleration__0_100 = table.Column<decimal>(nullable: true),
+                    ModifiedAcceleration__0_200 = table.Column<decimal>(nullable: true),
+                    ModifiedAcceleration__0_300 = table.Column<decimal>(nullable: true),
+                    PerformanceModificationsDescription = table.Column<string>(nullable: true),
+                    VisualModificationsDescription = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserCars", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserCars_Cars_CarId",
+                        column: x => x.CarId,
+                        principalTable: "Cars",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserCars_Engines_CustomEngineId",
+                        column: x => x.CustomEngineId,
                         principalTable: "Engines",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ModelEngines_Models_ModelId",
-                        column: x => x.ModelId,
-                        principalTable: "Models",
+                        name: "FK_UserCars_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -323,9 +398,19 @@ namespace NeedForCars.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cars_OwnerId",
+                name: "IX_Cars_EngineId",
                 table: "Cars",
-                column: "OwnerId");
+                column: "EngineId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cars_GenerationId",
+                table: "Cars",
+                column: "GenerationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Generations_ModelId",
+                table: "Generations",
+                column: "ModelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_ReceiverId",
@@ -338,14 +423,24 @@ namespace NeedForCars.Data.Migrations
                 column: "SenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ModelEngines_ModelId",
-                table: "ModelEngines",
-                column: "ModelId");
+                name: "IX_Models_MakeId",
+                table: "Models",
+                column: "MakeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Models_MakeId1",
-                table: "Models",
-                column: "MakeId1");
+                name: "IX_UserCars_CarId",
+                table: "UserCars",
+                column: "CarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCars_CustomEngineId",
+                table: "UserCars",
+                column: "CustomEngineId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCars_OwnerId",
+                table: "UserCars",
+                column: "OwnerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -366,22 +461,25 @@ namespace NeedForCars.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Cars");
-
-            migrationBuilder.DropTable(
                 name: "Messages");
 
             migrationBuilder.DropTable(
-                name: "ModelEngines");
+                name: "UserCars");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Cars");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Engines");
+
+            migrationBuilder.DropTable(
+                name: "Generations");
 
             migrationBuilder.DropTable(
                 name: "Models");

@@ -88,9 +88,9 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EditModelModel editModelModel, string id)
+        public IActionResult Edit(EditModelModel editModelModel)
         {
-            var model = modelsService.GetById(id);
+            var model = modelsService.GetById(editModelModel.Id);
             if(model == null)
             {
                 return this.BadRequest();

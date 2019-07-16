@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<DisplayMakeModel>
-    @{
+@{
     ViewData["Title"] = "All Makes";
-    }
+}
 
-    <table class="table col-md-6">
-        @foreach (var make in Model)
-        {
+<table class="table col-md-6">
+    @foreach (var make in Model)
+    {
         <tr>
             <td>
                 <div class="col-md-1">
@@ -21,5 +21,5 @@
                 </div>
             </td>
         </tr>
-        }
-    </table>
+    }
+</table>

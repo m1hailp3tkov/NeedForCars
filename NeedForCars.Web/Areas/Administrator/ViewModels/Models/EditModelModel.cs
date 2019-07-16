@@ -5,5 +5,6 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Models
 {
     public class EditModelModel : CreateModelModel, IMapFrom<Model>
     {
+        public string Id { get; set; }
     }
 }

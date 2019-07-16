@@ -1,32 +1,22 @@
-﻿using NeedForCars.Models.Contracts;
+﻿using NeedForCars.Models;
 using NeedForCars.Models.Enums;
+using NeedForCars.Services.Mapping;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace NeedForCars.Models
+namespace NeedForCars.Web.Areas.Administrator.ViewModels.Engines
 {
-    public class Engine : IIdentifiable
+    public class EngineDetailsModel : IMapFrom<Engine>
     {
-        public Engine()
-        {
-            this.Cars = new HashSet<Car>();
-            this.ModifiedCars = new HashSet<UserCar>();
-        }
-
         public string Id { get; set; }
 
-        [Required]
         public string Name { get; set; }
 
-        [Required]
         public FuelType FuelType { get; set; }
 
-        [Required]
-        [Range(1, int.MaxValue)]
         public int MaxHP { get; set; }
-
-        public virtual ICollection<Car> Cars { get; set; }
-        public virtual ICollection<UserCar> ModifiedCars { get; set; }
 
         //Nullables
         public AlternativeFuel? AlternativeFuel { get; set; }
@@ -35,25 +25,18 @@ namespace NeedForCars.Models
 
         public string Creator { get; set; }
 
-        [Url]
         public string CreatorInfoUrl { get; set; }
 
-        [Range(1, int.MaxValue)]
         public int? MaxHPAtRpm { get; set; }
 
-        [Range(1, int.MaxValue)]
         public int? MaxTorque { get; set; }
 
-        [Range(0, int.MaxValue)]
         public int? MaxTorqueAtRpm { get; set; }
 
-        [EnumDataType(typeof(Aspiration))]
         public Aspiration? Aspiration { get; set; }
 
-        [Range(1, int.MaxValue)]
         public int? Displacement { get; set; }
 
-        [Range(1, int.MaxValue)]
         public int? NumberOfCylinders { get; set; }
 
         public EngineConfiguration? EngineConfiguration { get; set; }

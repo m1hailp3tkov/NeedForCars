@@ -1,0 +1,122 @@
+﻿@model EngineDetailsModel
+
+<div>
+    <h4>EngineDetailsModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FuelType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FuelType)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MaxHP)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MaxHP)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AlternativeFuel)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AlternativeFuel)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Creator)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Creator)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatorInfoUrl)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreatorInfoUrl)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MaxHPAtRpm)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MaxHPAtRpm)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MaxTorque)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MaxTorque)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MaxTorqueAtRpm)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MaxTorqueAtRpm)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Aspiration)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Aspiration)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Displacement)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Displacement)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NumberOfCylinders)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NumberOfCylinders)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EngineConfiguration)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EngineConfiguration)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CylinderBore)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CylinderBore)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PistonStroke)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PistonStroke)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ValvesPerCylinder)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ValvesPerCylinder)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ValvetrainType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ValvetrainType)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+    @Html.ActionLink("Delete", "Delete", new { id = Model.Id }) |
+    <br/>
+    <a asp-action="All">Back to List</a>
+</div>

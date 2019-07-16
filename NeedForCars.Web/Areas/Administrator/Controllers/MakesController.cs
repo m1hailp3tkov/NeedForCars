@@ -21,6 +21,11 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             this.imagesService = imagesService;
         }
 
+        public IActionResult Index()
+        {
+            return this.RedirectToAction(nameof(All));
+        }
+
         public IActionResult All()
         {
             var allMakes = makesService.GetAll();
@@ -76,9 +81,9 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EditMakeModel editMakeModel, string id)
+        public IActionResult Edit(EditMakeModel editMakeModel)
         {
-            var make = makesService.GetById(id);
+            var make = makesService.GetById(editMakeModel.Id);
             if(make == null)
             {
                 return this.BadRequest();
@@ -90,7 +95,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
             if (!ModelState.IsValid)
             {
-                return this.Edit(id);
+                return this.Edit(editMakeModel.Id);
             }
             
             make.Name = editMakeModel.Name;
@@ -100,7 +105,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             if (editMakeModel.NewLogo != null)
             {
-                var imagePath = string.Format(GlobalConstants.MAKE_LOGO_PATH_TEMPLATE, id);
+                var imagePath = string.Format(GlobalConstants.MAKE_LOGO_PATH_TEMPLATE, editMakeModel.Id);
                 this.imagesService.UploadImage(editMakeModel.NewLogo, imagePath);
             }
 

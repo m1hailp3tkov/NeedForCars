@@ -90,9 +90,9 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EditGenerationModel editGenerationModel, string id)
+        public IActionResult Edit(EditGenerationModel editGenerationModel)
         {
-            var generation = generationsService.GetById(id);
+            var generation = generationsService.GetById(editGenerationModel.Id);
             if (generation == null)
             {
                 return this.BadRequest();

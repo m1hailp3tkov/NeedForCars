@@ -1,0 +1,36 @@
+﻿@model IEnumerable<DisplayEngineModel>
+@{
+    ViewData["Title"] = "All Engines";
+}
+<h1>All Engines</h1>
+<table class="table col-md-6">
+    <thead>
+        <tr class="font-weight-bold">
+            <th class="col-md-1">Name</th>
+            <th class="col-md-4">HP</th>
+            <th class="col-md-1">Fuel</th>
+            <th class="col-md-2">Creator</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var engine in Model)
+        {
+            <tr>
+                <td class="col-md-1">
+                    <a asp-controller="Engines" asp-action="Details" asp-route-id="@engine.Id">
+                        @engine.Name
+                    </a>
+                </td>
+                <td class="col-md-4">
+                    @engine.MaxHP
+                </td>
+                <td class="col-md-1">
+                    @engine.FuelType
+                </td>
+                <td class="col-md-2">
+                    @engine.Creator
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

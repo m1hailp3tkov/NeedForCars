@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NeedForCars.Data\NeedForCars.Data.csproj" />
+    <ProjectReference Include="..\NeedForCars.Services.Mapping\NeedForCars.Services.Mapping.csproj" />
   </ItemGroup>
 
 </Project>

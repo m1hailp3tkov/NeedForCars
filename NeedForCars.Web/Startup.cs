@@ -67,6 +67,7 @@ namespace NeedForCars.Web
             services.AddTransient<IImagesService, ImagesService>();
             services.AddTransient<IModelsService, ModelsService>();
             services.AddTransient<IGenerationsService, GenerationsService>();
+            services.AddTransient<IEnginesService, EnginesService>();
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

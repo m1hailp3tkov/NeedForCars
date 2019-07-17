@@ -61,7 +61,10 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.BadRequest();
             }
-
+            if(this.generationsService.Exists(id, createGenerationModel.Name))
+            {
+                this.ModelState.AddModelError(nameof(createGenerationModel.Name), "Generation already exists");
+            }
             if (!this.ModelState.IsValid)
             {
                 return this.View(createGenerationModel);
@@ -97,7 +100,10 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.BadRequest();
             }
-
+            if (this.generationsService.Exists(editGenerationModel.Id, editGenerationModel.Name))
+            {
+                this.ModelState.AddModelError(nameof(editGenerationModel.Name), "Generation already exists");
+            }
             if (!ModelState.IsValid)
             {
                 return this.View(editGenerationModel);

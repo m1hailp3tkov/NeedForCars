@@ -1,4 +1,5 @@
 ﻿using NeedForCars.Models.Contracts;
+using NeedForCars.Models.Enums;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -16,6 +17,10 @@ namespace NeedForCars.Models
         [Required]
         public string ModelId { get; set; }
         public Model Model { get; set; }
+
+        //Body/physical data
+        [Required]
+        public BodyType BodyType { get; set; }
 
         public virtual ICollection<Car> Cars { get; set; }
 

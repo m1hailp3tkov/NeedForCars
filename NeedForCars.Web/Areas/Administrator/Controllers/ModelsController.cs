@@ -60,7 +60,10 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.BadRequest();
             }
-            
+            if(modelsService.Exists(id,createModelModel.Name))
+            {
+                this.ModelState.AddModelError(nameof(createModelModel.Name), "Model already exists");
+            }
             if(!this.ModelState.IsValid)
             {
                 return this.View(createModelModel);
@@ -95,7 +98,10 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.BadRequest();
             }
-
+            if (modelsService.Exists(model.Make.Id, editModelModel.Name))
+            {
+                this.ModelState.AddModelError(nameof(editModelModel.Name), "Model already exists");
+            }
             if (!ModelState.IsValid)
             {
                 return this.View(editModelModel);

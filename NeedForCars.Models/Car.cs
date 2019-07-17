@@ -18,6 +18,13 @@ namespace NeedForCars.Models
         public string EngineId { get; set; }
         public Engine Engine { get; set; }
 
+        [Required]
+        public Transmission Transmission { get; set; }
+
+        [Required]
+        public DriveWheel DriveWheel { get; set; }
+
+
         //Nullables
         public string Name { get; set; }
 
@@ -29,9 +36,6 @@ namespace NeedForCars.Models
 
         public Acceleration Acceleration { get; set; }
 
-        public DriveWheel? DriveWheel { get; set; }
-
-        public Transmission? Transmission { get; set; }
 
         [Range(1, 10)]
         public int? NumberOfGears { get; set; }
@@ -41,9 +45,6 @@ namespace NeedForCars.Models
         public DateTime? BeginningOfProduction { get; set; }
 
         public DateTime? EndOfProduction { get; set; }
-
-        //Body/physical data
-        public BodyType BodyType { get; set; }
 
         [Range(1, 8)]
         public int? Seats { get; set; }

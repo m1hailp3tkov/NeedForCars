@@ -16,6 +16,9 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Generations
         [EnumDataType(typeof(BodyType), ErrorMessage = "Invalid body type")]
         public BodyType BodyType { get; set; }
 
+        [Range(1,8)]
+        public int? Seats { get; set; }
+
         public string Description { get; set; }
     }
 }

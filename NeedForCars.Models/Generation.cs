@@ -25,6 +25,9 @@ namespace NeedForCars.Models
         public virtual ICollection<Car> Cars { get; set; }
 
         //Nullables
+        [Range(1, 8)]
+        public int? Seats { get; set; }
+
         [StringLength(50)]
         public string Name { get; set; }
 

@@ -36,7 +36,6 @@ namespace NeedForCars.Models
 
         public Acceleration Acceleration { get; set; }
 
-
         [Range(1, 10)]
         public int? NumberOfGears { get; set; }
 
@@ -45,9 +44,6 @@ namespace NeedForCars.Models
         public DateTime? BeginningOfProduction { get; set; }
 
         public DateTime? EndOfProduction { get; set; }
-
-        [Range(1, 8)]
-        public int? Seats { get; set; }
 
         // TODO: Server Validations for wheel sizes: 
         /*

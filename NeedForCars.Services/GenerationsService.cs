@@ -18,13 +18,9 @@ namespace NeedForCars.Services
             this.context = context;
         }
 
-        public void AddGenerationToModel(string modelId, Generation generation)
+        public void Add(Generation generation)
         {
-            var model = modelsService.GetById(modelId);
-
-            model.Generations.Add(generation);
-
-            this.context.Models.Update(model);
+            this.context.Generations.Add(generation);
             this.context.SaveChanges();
         }
 

@@ -23,7 +23,6 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
         public IActionResult All(string id)
         {
-            //id is MAKE ID
             var make = makesService.GetById(id);
             if(make == null)
             {
@@ -41,7 +40,6 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
         public IActionResult Create(string id)
         {
-            //ID IS MAKE ID
             var make = makesService.GetById(id);
             if (make == null)
             {
@@ -70,8 +68,9 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
 
             var model = Mapper.Map<Model>(createModelModel);
+            model.MakeId = id;
 
-            modelsService.AddModelToMake(id, model);
+            modelsService.Add(model);
 
             return this.RedirectToAction(nameof(All), new { id });
             // TODO? fix redirects with proper routes

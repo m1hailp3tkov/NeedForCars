@@ -1,0 +1,108 @@
+﻿@model CreateCarModel
+
+<h4>CreateCarModel</h4>
+<hr />
+<div class="row">
+    <div class="container-fluid">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EngineId" class="control-label"></label>
+                <input asp-for="EngineId" class="form-control" />
+                <span asp-validation-for="EngineId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Transmission" class="control-label"></label>
+                <select asp-for="Transmission" asp-items="Html.GetEnumSelectList<Transmission>()" class="form-control">
+                    <option selected="selected" value="">--</option>
+                </select>
+                <span asp-validation-for="Transmission" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DriveWheel" class="control-label"></label>
+                <select asp-for="DriveWheel" asp-items="Html.GetEnumSelectList<DriveWheel>()" class="form-control">
+                    <option selected="selected" value="">--</option>
+                </select>
+                <span asp-validation-for="DriveWheel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Fuel Consumption</label><br />
+                Urban
+                <input asp-for="FuelConsumption.Urban" class="form-control" />
+                Extra Urban
+                <input asp-for="FuelConsumption.ExtraUrban" class="form-control" />
+                Combined
+                <input asp-for="FuelConsumption.Combined" class="form-control" />
+                <span asp-validation-for="FuelConsumption.Urban" class="text-danger"></span>
+                <span asp-validation-for="FuelConsumption.ExtraUrban" class="text-danger"></span>
+                <span asp-validation-for="FuelConsumption.Combined" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label"><b>Acceleration</b></label><br />
+                0 - 100
+                <input asp-for="Acceleration._0_100" class="form-control" />
+                0 - 200
+                <input asp-for="Acceleration._0_200" class="form-control" />
+                0 - 300
+                <input asp-for="Acceleration._0_300" class="form-control" />
+                <span asp-validation-for="Acceleration._0_100" class="text-danger"></span>
+                <span asp-validation-for="Acceleration._0_200" class="text-danger"></span>
+                <span asp-validation-for="Acceleration._0_300" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TopSpeed" class="control-label"></label>
+                <input asp-for="TopSpeed" class="form-control" />
+                <span asp-validation-for="TopSpeed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfGears" class="control-label"></label>
+                <input asp-for="NumberOfGears" class="form-control" />
+                <span asp-validation-for="NumberOfGears" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BeginningOfProduction" class="control-label"></label>
+                <input asp-for="BeginningOfProduction" class="form-control" />
+                <span asp-validation-for="BeginningOfProduction" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndOfProduction" class="control-label"></label>
+                <input asp-for="EndOfProduction" class="form-control" />
+                <span asp-validation-for="EndOfProduction" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Tires size</label>
+                <input asp-for="TireWidth" class="col-2" step="5" /> /
+                <input asp-for="AspectRatio" class="col-2" step="5" /> /
+                <input asp-for="WheelDiameter" class="col-2" />
+                <span asp-validation-for="TiresSize" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-auto">
+                    <label class="control-label">ABS</label>
+                    <input type="checkbox" name="HasABS" value="true" />
+                </div>
+                <div class="col-auto">
+                    <label class="control-label">ESP</label>
+                    <input type="checkbox" name="HasESP" value="true" />
+                </div>
+                <div class="col-auto">
+                    <label class="control-label">TSC</label>
+                    <input type="checkbox" name="HasTSC" value="true" />
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

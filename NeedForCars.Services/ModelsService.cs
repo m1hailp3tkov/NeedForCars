@@ -18,13 +18,9 @@ namespace NeedForCars.Services
             this.makesService = makesService;
         }
 
-        public void AddModelToMake(string makeId, Model model)
+        public void Add(Model model)
         {
-            var make = makesService.GetById(makeId);
-
-            make.Models.Add(model);
-
-            this.context.Makes.Update(make);
+            this.context.Models.Add(model);
             this.context.SaveChanges();
         }
 

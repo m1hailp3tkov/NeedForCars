@@ -24,6 +24,13 @@ namespace NeedForCars.Models
         [Required]
         public DriveWheel DriveWheel { get; set; }
 
+        //TODO Server Validation for production DateTimes in CarModel
+        [Required]
+        public DateTime BeginningOfProduction { get; set; }
+
+        [Required]
+        public DateTime EndOfProduction { get; set; }
+
 
         //Nullables
         public string Name { get; set; }
@@ -38,12 +45,6 @@ namespace NeedForCars.Models
 
         [Range(1, 10)]
         public int? NumberOfGears { get; set; }
-
-        //Production Data
-        //TODO Server Validation for production DateTimes in CarModel
-        public DateTime? BeginningOfProduction { get; set; }
-
-        public DateTime? EndOfProduction { get; set; }
 
         // TODO: Server Validations for wheel sizes: 
         /*

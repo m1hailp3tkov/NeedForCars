@@ -48,7 +48,6 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             this.ViewBag.Make = model.Make.Name;
             this.ViewBag.Model = model.Name;
-            //TODO : Viewbag data?
 
             return this.View();
         }
@@ -72,8 +71,9 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
 
             var generation = Mapper.Map<Generation>(createGenerationModel);
+            generation.ModelId = id;
 
-            generationsService.AddGenerationToModel(id, generation);
+            generationsService.Add(generation);
 
             return this.RedirectToAction(nameof(All), new { id });
         }

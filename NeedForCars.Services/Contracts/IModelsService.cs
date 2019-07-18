@@ -5,7 +5,7 @@ namespace NeedForCars.Services.Contracts
 {
     public interface IModelsService
     {
-        void AddModelToMake(string makeId, Model model);
+        void Add(Model model);
 
         bool Exists(string makeId, string modelName);
 

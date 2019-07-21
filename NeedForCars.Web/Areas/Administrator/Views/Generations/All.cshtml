@@ -2,9 +2,11 @@
 
 <h1>Generations for @ViewBag.Make - @ViewBag.Model</h1>
 
-@foreach(var generation in Model)
+@foreach (var generation in Model)
 {
-    <h3>@generation.Name</h3>
-    <h4>@generation.Description</h4>
-    @generation.BodyType
+    <a asp-controller="Cars" asp-action="All" asp-route-id="@generation.Id">
+        <h3>@generation.Name</h3>
+        <h4>@generation.Description</h4>
+        @generation.BodyType
+    </a>
 }

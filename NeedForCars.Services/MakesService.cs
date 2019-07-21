@@ -42,9 +42,11 @@ namespace NeedForCars.Services
                 .Include(x => x.Models)
                 .FirstOrDefault(x => x.Id == id || x.Name == id);
         }
-
+        //TODO : replace == null in services with exception throw;
         public void Update(Make make)
         {
+            if (make == null) return;
+
             this.context.Makes
                 .Update(make);
 

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NeedForCars.Data;
 
 namespace NeedForCars.Data.Migrations
 {
     [DbContext(typeof(NeedForCarsDbContext))]
-    partial class NeedForCarsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190721135524_CarBooleansNotNullable")]
+    partial class CarBooleansNotNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,11 +152,13 @@ namespace NeedForCars.Data.Migrations
 
                     b.Property<bool>("HasESP");
 
-                    b.Property<bool>("HasTCS");
+                    b.Property<bool>("HasTSC");
 
                     b.Property<string>("Name");
 
                     b.Property<int?>("NumberOfGears");
+
+                    b.Property<string>("TiresSize");
 
                     b.Property<int?>("TopSpeed");
 
@@ -468,26 +472,6 @@ namespace NeedForCars.Data.Migrations
                         .WithMany("Cars")
                         .HasForeignKey("GenerationId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.OwnsOne("NeedForCars.Models.Owned.TireInfo", "TireInfo", b1 =>
-                        {
-                            b1.Property<string>("CarId");
-
-                            b1.Property<int>("AspectRatio");
-
-                            b1.Property<int>("TireWidth");
-
-                            b1.Property<int>("WheelDiameter");
-
-                            b1.HasKey("CarId");
-
-                            b1.ToTable("Cars");
-
-                            b1.HasOne("NeedForCars.Models.Car")
-                                .WithOne("TireInfo")
-                                .HasForeignKey("NeedForCars.Models.Owned.TireInfo", "CarId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
 
                     b.OwnsOne("NeedForCars.Models.Owned.Acceleration", "Acceleration", b1 =>
                         {

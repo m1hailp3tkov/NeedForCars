@@ -20,6 +20,8 @@ namespace NeedForCars.Services
 
         public void Add(Generation generation)
         {
+            if (generation == null) return;
+
             this.context.Generations.Add(generation);
             this.context.SaveChanges();
         }
@@ -37,6 +39,9 @@ namespace NeedForCars.Services
             return this.context
                 .Generations
                 .Include(x => x.Model)
+                    .ThenInclude(x => x.Make)
+                .Include(x => x.Cars)
+                    .ThenInclude(x => x.Engine)
                 .FirstOrDefault(x => x.Id == id);
         }
 
@@ -54,6 +59,8 @@ namespace NeedForCars.Services
 
         public void Update(Generation generation)
         {
+            if (generation == null) return;
+
             this.context.Generations
                 .Update(generation);
 

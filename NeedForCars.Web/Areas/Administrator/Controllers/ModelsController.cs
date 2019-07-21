@@ -60,7 +60,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
             if(modelsService.Exists(id,createModelModel.Name))
             {
-                this.ModelState.AddModelError(nameof(createModelModel.Name), "Model already exists");
+                this.ModelState.AddModelError(nameof(createModelModel.Name), $"A model with this name already exists for {make.Name}");
             }
             if(!this.ModelState.IsValid)
             {
@@ -73,7 +73,6 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             modelsService.Add(model);
 
             return this.RedirectToAction(nameof(All), new { id });
-            // TODO? fix redirects with proper routes
         }
 
         public IActionResult Edit(string id)
@@ -97,17 +96,16 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.BadRequest();
             }
-            if (modelsService.Exists(model.Make.Id, editModelModel.Name))
+            if(modelsService.Exists(model.MakeId, editModelModel.Name) && editModelModel.Name != model.Name)
             {
-                this.ModelState.AddModelError(nameof(editModelModel.Name), "Model already exists");
+                this.ModelState.AddModelError(nameof(editModelModel.Name), $"A model with this name already exists for {model.Make.Name}");
             }
             if (!ModelState.IsValid)
             {
                 return this.View(editModelModel);
             }
 
-            model.Name = editModelModel.Name;
-            model.Description = editModelModel.Description;
+            model = Mapper.Map(editModelModel, model);
 
             modelsService.Update(model);
 

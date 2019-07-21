@@ -80,6 +80,9 @@ namespace NeedForCars.Data
 
             builder.Entity<Car>()
                 .OwnsOne(x => x.Acceleration);
+
+            builder.Entity<Car>()
+                .OwnsOne(x => x.TireInfo);
         }
     }
 }

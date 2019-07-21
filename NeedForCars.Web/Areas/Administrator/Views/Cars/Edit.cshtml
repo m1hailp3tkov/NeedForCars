@@ -1,4 +1,4 @@
-﻿@model CreateCarModel
+﻿@model EditCarModel
 @inject IEnginesService enginesService
 @{
     var enginesList = enginesService.All()
@@ -9,11 +9,11 @@
         })
         .OrderBy(x => x.Text);
 }
-<h4>CreateCarModel</h4>
+<h4>EditCarModel</h4>
 <hr />
 <div class="row">
     <div class="container-fluid">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="EngineId" class="control-label"></label>
@@ -113,8 +113,3 @@
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

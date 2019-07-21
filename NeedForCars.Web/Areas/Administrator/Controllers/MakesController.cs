@@ -89,6 +89,10 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 return this.BadRequest();
             }
 
+            if(this.makesService.Exists(editMakeModel.Name) && editMakeModel.Name!=make.Name)
+            {
+                this.ModelState.AddModelError(nameof(editMakeModel.Name), "A make with this name already exists");
+            }
             if (!this.imagesService.IsValidImage(editMakeModel.NewLogo) && editMakeModel.NewLogo != null)
             {
                 this.ModelState.AddModelError(nameof(editMakeModel.NewLogo), "Image is not in valid format");
@@ -97,9 +101,8 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.Edit(editMakeModel.Id);
             }
-            
-            make.Name = editMakeModel.Name;
-            make.Description = editMakeModel.Description;
+
+            make = Mapper.Map(editMakeModel, make);
 
             makesService.Update(make);
 

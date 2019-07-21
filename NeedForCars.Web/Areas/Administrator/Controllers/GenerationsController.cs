@@ -88,6 +88,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             var viewModel = Mapper.Map<EditGenerationModel>(generation);
 
+            this.ViewBag.Make = generation.Model.Make.Name;
             this.ViewBag.Model = generation.Model.Name;
             return this.View(viewModel);
         }
@@ -100,7 +101,8 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.BadRequest();
             }
-            if (this.generationsService.Exists(editGenerationModel.Id, editGenerationModel.Name))
+            if (this.generationsService.Exists(generation.ModelId, editGenerationModel.Name) 
+                && editGenerationModel.Name != generation.Name)
             {
                 this.ModelState.AddModelError(nameof(editGenerationModel.Name), "Generation already exists");
             }
@@ -109,8 +111,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 return this.View(editGenerationModel);
             }
 
-            generation.Name = editGenerationModel.Name;
-            generation.Description = editGenerationModel.Description;
+            generation = Mapper.Map(editGenerationModel, generation);
 
             generationsService.Update(generation);
 

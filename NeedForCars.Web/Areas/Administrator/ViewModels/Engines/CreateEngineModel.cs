@@ -18,15 +18,16 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Engines
         [Range(1, 3000)]
         public int MaxHP { get; set; }
 
-        public AlternativeFuel? AlternativeFuel { get; set; }
-
-        public string Description { get; set; }
-
+        [Required]
         [RegularExpression(@"[A-Za-z.\-, ]+")]
         public string Creator { get; set; }
 
         [Url]
         public string CreatorInfoUrl { get; set; }
+
+        public string Description { get; set; }
+
+        public AlternativeFuel? AlternativeFuel { get; set; }
 
         [Range(1, int.MaxValue)]
         public int? MaxHPAtRpm { get; set; }

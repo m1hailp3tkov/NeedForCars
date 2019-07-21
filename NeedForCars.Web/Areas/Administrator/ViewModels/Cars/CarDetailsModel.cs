@@ -1,60 +1,45 @@
-﻿using NeedForCars.Models.Contracts;
+﻿using NeedForCars.Models;
 using NeedForCars.Models.Enums;
 using NeedForCars.Models.Owned;
+using NeedForCars.Services.Mapping;
 using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace NeedForCars.Models
+namespace NeedForCars.Web.Areas.Administrator.ViewModels.Cars
 {
-    public class Car : IIdentifiable
+    public class CarDetailsModel : IMapFrom<Car>
     {
         public string Id { get; set; }
 
-        [Required]
         public string GenerationId { get; set; }
         public Generation Generation { get; set; }
 
-        [Required]
         public string EngineId { get; set; }
         public Engine Engine { get; set; }
 
-        [Required]
         public Transmission Transmission { get; set; }
 
-        [Required]
         public DriveWheel DriveWheel { get; set; }
 
-        //TODO Server Validation for production DateTimes in CarModel
-        [Required]
         public DateTime BeginningOfProduction { get; set; }
 
-        [Required]
         public DateTime EndOfProduction { get; set; }
 
-        //Safety data
-        [Required]
-        public bool HasABS { get; set; }
-
-        [Required]
-        public bool HasESP { get; set; }
-
-        [Required]
-        public bool HasTCS { get; set; }
-
-        //Nullables
         public string Name { get; set; }
 
-        //Performance Data
-        [Range(1, 500)]
         public int? TopSpeed { get; set; }
-
-        [Range(1, 10)]
-        public int? NumberOfGears { get; set; }
 
         public FuelConsumption FuelConsumption { get; set; }
 
         public Acceleration Acceleration { get; set; }
 
         public TireInfo TireInfo { get; set; }
+
+        public int? NumberOfGears { get; set; }
+
+        public bool HasABS { get; set; }
+
+        public bool HasESP { get; set; }
+
+        public bool HasTCS { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NeedForCars.Models;
+using NeedForCars.Models.Owned;
 using NeedForCars.Services.Contracts;
 using NeedForCars.Services.Mapping;
 using NeedForCars.Web.Areas.Administrator.ViewModels.Cars;
@@ -61,13 +62,9 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             var generation = generationsService.GetById(id);
             var engine = enginesService.GetById(createCarModel.EngineId);
 
-            if (generation == null)
+            if (generation == null || engine == null)
             {
                 return this.BadRequest();
-            }
-            if (engine == null)
-            {
-                this.ModelState.AddModelError(nameof(createCarModel.EngineId), "Engine does not exist.");
             }
             //TODO: extract First car Year to global constants
             //TODO: extract model error messages to global constants
@@ -75,18 +72,26 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 this.ModelState.AddModelError(nameof(createCarModel.BeginningOfProduction), "Cars didn't exist back then.");
             }
-            if (createCarModel.EndOfProduction > DateTime.UtcNow)
+            if (createCarModel.EndOfProduction > DateTime.UtcNow || createCarModel.EndOfProduction < createCarModel.BeginningOfProduction)
             {
                 this.ModelState.AddModelError(nameof(createCarModel.EndOfProduction),
-                    "We do not not support cars from the future.");
-            }
-            if (!this.ModelState.IsValid)
-            {
-                return this.View();
+                    "Invalid date.");
             }
 
             var car = Mapper.Map<Car>(createCarModel);
             car.GenerationId = id;
+
+            if (this.carsService.Exists(car))
+            {
+                this.ModelState.AddModelError("", "A car like that already exists");
+            }
+
+            ValidateTireInfo(createCarModel.TireInfo);
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
 
             this.carsService.Add(car);
 
@@ -96,7 +101,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         public IActionResult Details(string id)
         {
             var car = carsService.GetById(id);
-            if(car == null)
+            if (car == null)
             {
                 return this.BadRequest();
             }
@@ -121,32 +126,61 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         [HttpPost]
         public IActionResult Edit(EditCarModel editCarModel)
         {
+            var car = carsService.GetById(editCarModel.Id);
             var engine = enginesService.GetById(editCarModel.EngineId);
+            var generation = generationsService.GetById(editCarModel.GenerationId);
 
-            //TODO: if car exists
-            if (engine == null)
+            if (generation == null || engine == null || car == null)
             {
-                this.ModelState.AddModelError(nameof(editCarModel.EngineId), "Engine does not exist.");
+                return this.BadRequest();
             }
             if (editCarModel.BeginningOfProduction.Year < 1886)
             {
                 this.ModelState.AddModelError(nameof(editCarModel.BeginningOfProduction), "Cars didn't exist back then.");
             }
-            if (editCarModel.EndOfProduction > DateTime.UtcNow)
+            if (editCarModel.EndOfProduction > DateTime.UtcNow || editCarModel.EndOfProduction<editCarModel.BeginningOfProduction)
             {
                 this.ModelState.AddModelError(nameof(editCarModel.EndOfProduction),
-                    "We do not not support cars from the future.");
+                    "Invalid date.");
             }
+
+            bool isChanged =
+                   car.EngineId != editCarModel.EngineId
+                || car.GenerationId != editCarModel.GenerationId
+                || car.Transmission != editCarModel.Transmission
+                || car.DriveWheel != editCarModel.DriveWheel
+                || car.BeginningOfProduction != editCarModel.BeginningOfProduction
+                || car.EndOfProduction != editCarModel.EndOfProduction;
+
+            Mapper.Map(editCarModel, car);
+
+            if (isChanged && carsService.Exists(car))
+            {
+                this.ModelState.AddModelError("", "A car like that already exists");
+            }
+
+            ValidateTireInfo(editCarModel.TireInfo);
             if (!this.ModelState.IsValid)
             {
                 return this.View();
             }
 
-            var car = Mapper.Map<Car>(editCarModel);
-
             carsService.Update(car);
 
+            this.TempData.Clear();
             return this.RedirectToAction(nameof(Details), new { car.Id });
+        }
+
+        private void ValidateTireInfo(TireInfo tireInfo)
+        {
+            if (tireInfo.WheelDiameter == 0 &&
+                   tireInfo.AspectRatio == 0 &&
+                   tireInfo.TireWidth == 0)
+            {
+                this.ModelState.Remove($"{typeof(TireInfo).Name}.{nameof(tireInfo.WheelDiameter)}");
+                this.ModelState.Remove($"{typeof(TireInfo).Name}.{nameof(tireInfo.AspectRatio)}");
+                this.ModelState.Remove($"{typeof(TireInfo).Name}.{nameof(tireInfo.TireWidth)}");
+            }
         }
     }
 }

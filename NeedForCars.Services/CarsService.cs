@@ -9,10 +9,12 @@ namespace NeedForCars.Services
     public class CarsService : ICarsService
     {
         private readonly NeedForCarsDbContext context;
+        private readonly IGenerationsService generationsService;
 
-        public CarsService(NeedForCarsDbContext context)
+        public CarsService(NeedForCarsDbContext context, IGenerationsService generationsService)
         {
             this.context = context;
+            this.generationsService = generationsService;
         }
 
         public void Add(Car car)
@@ -33,9 +35,16 @@ namespace NeedForCars.Services
                 .FirstOrDefault(x => x.Id == id);
         }
 
-        public bool Exists(Car car, string generationName)
+        public bool Exists(Car car)
         {
-            throw new System.NotImplementedException();
+            return this.context.Cars
+                .Any(x =>
+                    x.EngineId == car.EngineId &&
+                    x.GenerationId == car.GenerationId &&
+                    x.Transmission == car.Transmission &&
+                    x.DriveWheel == car.DriveWheel &&
+                    x.BeginningOfProduction == car.BeginningOfProduction &&
+                    x.EndOfProduction == car.EndOfProduction);
         }
 
         public void Update(Car car)

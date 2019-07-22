@@ -32,13 +32,10 @@ namespace NeedForCars.Models
         public DateTime EndOfProduction { get; set; }
 
         //Safety data
-        [Required]
         public bool HasABS { get; set; }
 
-        [Required]
         public bool HasESP { get; set; }
 
-        [Required]
         public bool HasTCS { get; set; }
 
         //Nullables

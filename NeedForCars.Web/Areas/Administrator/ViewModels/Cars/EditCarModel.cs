@@ -3,8 +3,10 @@ using NeedForCars.Services.Mapping;
 
 namespace NeedForCars.Web.Areas.Administrator.ViewModels.Cars
 {
-    public class EditCarModel : CreateCarModel, IMapFrom<Car>
+    public class EditCarModel : CreateCarModel, IMapFrom<Car>, IMapTo<Car>
     {
         public string Id { get; set; }
+
+        public string GenerationId { get; set; }
     }
 }

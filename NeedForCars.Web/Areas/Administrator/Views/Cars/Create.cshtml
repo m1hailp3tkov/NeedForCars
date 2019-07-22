@@ -88,6 +88,9 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Tires size</label>
+                <span asp-validation-for="TireInfo.TireWidth" class="text-da"></span>
+                <span asp-validation-for="TireInfo.AspectRatio" class="text-danger"></span>
+                <span asp-validation-for="TireInfo.WheelDiameter" class="text-danger"></span>
                 <input asp-for="TireInfo.TireWidth" class="col-2" step="5" /> /
                 <input asp-for="TireInfo.AspectRatio" class="col-2" step="5" /> /
                 <input asp-for="TireInfo.WheelDiameter" class="col-2" />

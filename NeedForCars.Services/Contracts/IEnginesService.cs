@@ -1,5 +1,6 @@
 ﻿using NeedForCars.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeedForCars.Services.Contracts
 {
@@ -7,12 +8,12 @@ namespace NeedForCars.Services.Contracts
     {
         IQueryable<Engine> All();
 
-        void Add(Engine engine);
+        Task AddAsync(Engine engine);
 
         Engine GetById(string id);
 
-        void Update(Engine engine);
+        Task UpdateAsync(Engine engine);
 
-        void Delete(string engineId);
+        Task DeleteAsync(string engineId);
     }
 }

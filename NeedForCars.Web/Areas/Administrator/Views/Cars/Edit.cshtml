@@ -13,7 +13,7 @@
 <hr />
 <div class="row">
     <div class="container-fluid">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="GenerationId" hidden />
             <div class="form-group">

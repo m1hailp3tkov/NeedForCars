@@ -1,9 +1,12 @@
-﻿using NeedForCars.Models;
+﻿using Microsoft.AspNetCore.Http;
+using NeedForCars.Models;
 using NeedForCars.Models.Enums;
 using NeedForCars.Models.Owned;
 using NeedForCars.Services.Mapping;
+using NeedForCars.Web.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +16,7 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Cars
     public class CreateCarModel : IMapTo<Car>
     {
         [Required]
+        [DisplayName("Engine")]
         public string EngineId { get; set; }
 
         [Required]
@@ -20,35 +24,43 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Cars
         public Transmission Transmission { get; set; }
 
         [Required]
+        [DisplayName("Drive Wheel")]
         [EnumDataType(typeof(DriveWheel))]
         public DriveWheel DriveWheel { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
+        [DisplayName("Beginning of production")]
         public DateTime BeginningOfProduction { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
+        [DisplayName("End of production")]
         public DateTime EndOfProduction { get; set; }
 
         //Safety data
         [Required]
+        [DisplayName("ABS")]
         public bool HasABS { get; set; }
 
         [Required]
+        [DisplayName("ESP")]
         public bool HasESP { get; set; }
 
         [Required]
+        [DisplayName("TCS")]
         public bool HasTCS { get; set; }
 
         //Nullables
         public string Name { get; set; }
 
         //Performance Data
-        [Range(1, 500, ErrorMessage = "{0} must be a value between {1} and {2}")]
+        [Range(1, 500, ErrorMessage = GlobalConstants.CAR_TOPSPEED_INVALID)]
+        [DisplayName("Top Speed (km/h)")]
         public int? TopSpeed { get; set; }
 
-        [Range(1, 10)]
+        [Range(1, 10, ErrorMessage = GlobalConstants.CAR_NUMBEROFGEARS_INVALID)]
+        [DisplayName("Number of Gears")]
         public int? NumberOfGears { get; set; }
 
         public FuelConsumption FuelConsumption { get; set; }

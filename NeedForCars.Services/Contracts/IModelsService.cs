@@ -1,11 +1,12 @@
 ﻿using NeedForCars.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeedForCars.Services.Contracts
 {
     public interface IModelsService
     {
-        void Add(Model model);
+        Task AddAsync(Model model);
 
         bool Exists(string makeId, string modelName);
 
@@ -13,6 +14,6 @@ namespace NeedForCars.Services.Contracts
 
         IQueryable<Model> GetAllForMake(string makeId);
 
-        void Update(Model model);
+        Task UpdateAsync(Model model);
     }
 }

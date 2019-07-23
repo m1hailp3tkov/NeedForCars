@@ -1,11 +1,12 @@
 ﻿using NeedForCars.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeedForCars.Services.Contracts
 {
     public interface IGenerationsService
     {
-        void Add(Generation generation);
+        Task AddAsync(Generation generation);
 
         bool Exists(string modelId, string generationName);
 
@@ -13,6 +14,8 @@ namespace NeedForCars.Services.Contracts
 
         Generation GetById(string id);
 
-        void Update(Generation generation);
+        Task UpdateAsync(Generation generation);
+
+        //TODO: Add Delete for generations
     }
 }

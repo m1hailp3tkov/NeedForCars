@@ -4,9 +4,11 @@ using NeedForCars.Models;
 using NeedForCars.Services.Contracts;
 using NeedForCars.Services.Mapping;
 using NeedForCars.Web.Areas.Administrator.ViewModels.Models;
+using NeedForCars.Web.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeedForCars.Web.Areas.Administrator.Controllers
 {
@@ -51,7 +53,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateModelModel createModelModel, string id)
+        public async Task<IActionResult> Create(CreateModelModel createModelModel, string id)
         {
             var make = makesService.GetById(id);
             if (make == null)
@@ -60,7 +62,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
             if(modelsService.Exists(id,createModelModel.Name))
             {
-                this.ModelState.AddModelError(nameof(createModelModel.Name), $"A model with this name already exists for {make.Name}");
+                this.ModelState.AddModelError(nameof(createModelModel.Name), GlobalConstants.MODEL_ALREADY_EXISTS);
             }
             if(!this.ModelState.IsValid)
             {
@@ -70,7 +72,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             var model = Mapper.Map<Model>(createModelModel);
             model.MakeId = id;
 
-            modelsService.Add(model);
+            await modelsService.AddAsync(model);
 
             return this.RedirectToAction(nameof(All), new { id });
         }
@@ -89,7 +91,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EditModelModel editModelModel)
+        public async Task<IActionResult> Edit(EditModelModel editModelModel)
         {
             var model = modelsService.GetById(editModelModel.Id);
             if(model == null)
@@ -98,7 +100,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
             if(modelsService.Exists(model.MakeId, editModelModel.Name) && editModelModel.Name != model.Name)
             {
-                this.ModelState.AddModelError(nameof(editModelModel.Name), $"A model with this name already exists for {model.Make.Name}");
+                this.ModelState.AddModelError(nameof(editModelModel.Name), GlobalConstants.MODEL_ALREADY_EXISTS);
             }
             if (!ModelState.IsValid)
             {
@@ -107,7 +109,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             model = Mapper.Map(editModelModel, model);
 
-            modelsService.Update(model);
+            await modelsService.UpdateAsync(model);
 
             return this.RedirectToAction(nameof(All), new { Id = model.MakeId});
         }

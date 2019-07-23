@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NeedForCars.Data;
 using NeedForCars.Models;
@@ -18,12 +19,12 @@ namespace NeedForCars.Services
             this.context = context;
         }
 
-        public void Add(Generation generation)
+        public async Task AddAsync(Generation generation)
         {
             if (generation == null) return;
 
-            this.context.Generations.Add(generation);
-            this.context.SaveChanges();
+            await this.context.Generations.AddAsync(generation);
+            await this.context.SaveChangesAsync();
         }
 
         public bool Exists(string modelId, string generationName)
@@ -57,14 +58,14 @@ namespace NeedForCars.Services
             return generations;
         }
 
-        public void Update(Generation generation)
+        public async Task UpdateAsync(Generation generation)
         {
             if (generation == null) return;
 
             this.context.Generations
                 .Update(generation);
 
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
         }
     }
 }

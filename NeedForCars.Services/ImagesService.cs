@@ -1,21 +1,40 @@
 ﻿using Microsoft.AspNetCore.Http;
 using NeedForCars.Services.Contracts;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System.Drawing;
 
 namespace NeedForCars.Services
 {
     public class ImagesService : IImagesService
     {
-        public async void UploadImage(IFormFile formImage, string path)
+        public void DeleteImagesFromDirectory(string path)
         {
-            // Ensure directory exists
+            path = Path.GetDirectoryName(path);
+            try
+            {
+                Directory.Delete(path, recursive: true);
+            }
+            catch (DirectoryNotFoundException) { }
+        }
+
+        public async Task UploadImageAsync(IFormFile formImage, string path)
+        {
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             
             using (FileStream stream = File.Create(path))
             {
                 await formImage.CopyToAsync(stream);
+            }
+        }
+
+        public async Task UploadImagesAsync(IList<IFormFile> formImages, string path, string folderName)
+        {
+            for(int i=0;i<formImages.Count;i++)
+            {
+                string _path = string.Format(path, folderName, i);
+
+                await UploadImageAsync(formImages[i], _path);
             }
         }
 
@@ -25,6 +44,16 @@ namespace NeedForCars.Services
 
             return formImage.ContentType == "image/png" ||
                     formImage.ContentType == "image/jpeg";
+        }
+
+        public bool IsValidImageCollection(IEnumerable<IFormFile> formImages)
+        {
+            foreach(var formImage in formImages)
+            {
+                if (!IsValidImage(formImage)) return false;
+            }
+
+            return true;
         }
     }
 }

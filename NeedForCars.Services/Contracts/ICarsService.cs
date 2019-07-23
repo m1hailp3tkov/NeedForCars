@@ -1,15 +1,16 @@
 ﻿using NeedForCars.Models;
+using System.Threading.Tasks;
 
 namespace NeedForCars.Services.Contracts
 {
     public interface ICarsService
     {
-        void Add(Car car);
+        Task AddAsync(Car car);
 
         bool Exists(Car car);
 
         Car GetById(string id);
 
-        void Update(Car car);
+        Task Update(Car car);
     }
 }

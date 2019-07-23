@@ -4,6 +4,7 @@ using NeedForCars.Models;
 using NeedForCars.Services.Contracts;
 using NeedForCars.Services.Mapping;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeedForCars.Services
 {
@@ -21,21 +22,21 @@ namespace NeedForCars.Services
             return this.context.Engines;
         }
 
-        public void Add(Engine engine)
+        public async Task AddAsync(Engine engine)
         {
             if (engine == null) return;
 
-            this.context.Engines.Add(engine);
-            this.context.SaveChanges();
+            await this.context.Engines.AddAsync(engine);
+            await this.context.SaveChangesAsync();
         }
 
-        public void Delete(string engineId)
+        public async Task DeleteAsync(string engineId)
         {
             var engine = this.GetById(engineId);
             if (engine == null) return;
 
             this.context.Engines.Remove(engine);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
         }
 
         public Engine GetById(string id)
@@ -46,12 +47,12 @@ namespace NeedForCars.Services
                 .FirstOrDefault(x => x.Id == id);
         }
 
-        public void Update(Engine engine)
+        public async Task UpdateAsync(Engine engine)
         {
             if (engine == null) return;
 
             this.context.Engines.Update(engine);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
         }
     }
 }

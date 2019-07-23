@@ -3,6 +3,7 @@ using NeedForCars.Data;
 using NeedForCars.Models;
 using NeedForCars.Services.Contracts;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeedForCars.Services
 {
@@ -17,12 +18,12 @@ namespace NeedForCars.Services
             this.generationsService = generationsService;
         }
 
-        public void Add(Car car)
+        public async Task AddAsync(Car car)
         {
             if (car == null) return;
 
-            this.context.Cars.Add(car);
-            this.context.SaveChanges();
+            await this.context.Cars.AddAsync(car);
+            await this.context.SaveChangesAsync();
         }
 
         public Car GetById(string id)
@@ -47,12 +48,12 @@ namespace NeedForCars.Services
                     x.EndOfProduction == car.EndOfProduction);
         }
 
-        public void Update(Car car)
+        public async Task Update(Car car)
         {
             if (car == null) return;
 
             this.context.Cars.Update(car);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
         }
     }
 }

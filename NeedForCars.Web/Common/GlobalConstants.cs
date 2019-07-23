@@ -5,6 +5,56 @@
         // File path templates
         public const string MAKE_LOGO_PATH_TEMPLATE = @"wwwroot\images\makes\{0}.png";
 
+        public const string GENERATION_PHOTO_PATH_TEMPLATE = @"wwwroot\images\generations\{0}\{1}.png";
+
+
+        // Error Messages
+        // Global
+        public const string REQUIRED_NAME = "You must enter a name.";
+        //----Images
+        public const string IMAGE_COLLECTION_INVALID = "One or more of the images selected are not in valid format.";
+        public const string IMAGE_INVALID = "Image is not in valid format";
+
+        //----Engines
+        public const string ENGINE_NAME_INVALID = "Engine name is not in valid format.";
+        public const string FUELTYPE_INVALID = "Fuel type is not valid.";
+        public const string ENGINE_NUMBERVALUE_INVALID = "Value must be betweeen {1} and {2}.";
+        public const string ENGINE_CREATOR_INVALID = "Creator can only contain latin characters, dashes, dots, commas and spaces";
+        public const string ENGINE_NUMBEROFCYLINDERS_INVALID = "An engine can only have between 1 and 18 cylinders";
+        public const string ENGINE_VALVESPERCYLINDER_INVALID = "A cylinder can only have between 2 and 6 valves";
+
+        //----Cars
+        //--------Controller
+        public const string CAR_PRODUCTION_YEAR_TOO_EARLY = "Cars didn't exist back then.";
+        public const string CAR_PRODUCTION_YEAR_IS_FUTURE = "We do not support cars from the future";
+        public const string CAR_ALREADY_EXISTS = "A car with those specs that already exists";
+        //--------ViewModels
+        public const string CAR_NUMBEROFGEARS_INVALID = "A gearbox can only have between 1 and 10 gears";
+        public const string CAR_TOPSPEED_INVALID = "Cars can barely make it to {2} km/h. Value must be between {1} and {2}";
+
+
+        //----Generations
+        //--------Controller
+        public const string GENERATION_ALREADY_EXISTS = "Generation already exists";
+        //--------ViewModels
+        public const string GENERATION_NAME_LENGTH = "Generation name must be at least {2} and at max {1} characters long.";
+        public const string GENERATION_NAME_INVALID = "Generation name can only contain Latin characters, brackets, dashes, dots and spaces";
+        public const string GENERATION_BODYTYPE_INVALID = "Invalid body type";
+        public const string GENERATION_SEATS_INVALID = "Seats must be a number between {1} and {2}";
+
+        //----Makes
+        //--------Controller
+        public const string MAKE_ALREADY_EXISTS = "Make already exists";
+        //--------ViewModels
+        public const string MAKE_NAME_INVALID = "Make name can only contain Latin characters, spaces, dots and dashes";
+        public const string MAKE_LOGO_REQUIRED = "You must add a logo image";
+
+
+        //----Models
+        //--------Controller
+        public const string MODEL_ALREADY_EXISTS = "Model already exists";
+        //--------ViewModels
+        public const string MODEL_NAME_INVALID = "Model name can only contain Latin characters, numbers, spaces, dots and dashes";
 
 
         // Regular Expressions
@@ -16,10 +66,10 @@
 
         public const string CAR_NAME_REGEX = "[A-Za-z 0-9]+";
 
-        public const string GENERATON_NAME_REGEX = @"\d{3}\/\d{2} R\d{2}";
+        public const string GENERATION_NAME_REGEX = "[a-zA-Z0-9 ()-.]+";
 
         public const string ENGINE_NAME_REGEX = @"\d.\d( ?[A-Za-z0-9 ]+)?";
 
-        public const string TIRE_SIZE_REGEX = @"\d{3}\/\d{2} R\d{2}";
+        public const string ENGINE_CREATOR_REGEX = @"[A-Za-z.\-, ]+";
     }
 }

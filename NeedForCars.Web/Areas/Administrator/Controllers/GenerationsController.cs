@@ -4,8 +4,10 @@ using NeedForCars.Models;
 using NeedForCars.Services.Contracts;
 using NeedForCars.Services.Mapping;
 using NeedForCars.Web.Areas.Administrator.ViewModels.Generations;
+using NeedForCars.Web.Common;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeedForCars.Web.Areas.Administrator.Controllers
 {
@@ -13,17 +15,20 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
     {
         private readonly IGenerationsService generationsService;
         private readonly IModelsService modelsService;
+        private readonly IImagesService imagesService;
 
-        public GenerationsController(IGenerationsService generationsService , IModelsService modelsService)
+        public GenerationsController(IGenerationsService generationsService,
+            IModelsService modelsService, IImagesService imagesService)
         {
             this.generationsService = generationsService;
             this.modelsService = modelsService;
+            this.imagesService = imagesService;
         }
 
         public IActionResult All(string id)
         {
             var model = this.modelsService.GetById(id);
-            if(model == null)
+            if (model == null)
             {
                 return this.BadRequest();
             }
@@ -53,27 +58,39 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateGenerationModel createGenerationModel, string id)
+        public async Task<IActionResult> Create(CreateGenerationModel createGenerationModel, string id)
         {
             var model = modelsService.GetById(id);
             if (model == null)
             {
                 return this.BadRequest();
             }
-            if(this.generationsService.Exists(id, createGenerationModel.Name))
+            if (this.generationsService.Exists(id, createGenerationModel.Name))
             {
-                this.ModelState.AddModelError(nameof(createGenerationModel.Name), "Generation already exists");
+                this.ModelState.AddModelError(nameof(createGenerationModel.Name), 
+                    GlobalConstants.GENERATION_ALREADY_EXISTS);
+            }
+            if (createGenerationModel.FormImages != null)
+            {
+                if (!imagesService.IsValidImageCollection(createGenerationModel.FormImages))
+                {
+                    this.ModelState.AddModelError(nameof(createGenerationModel.FormImages), 
+                        GlobalConstants.IMAGE_COLLECTION_INVALID);
+                }
             }
             if (!this.ModelState.IsValid)
             {
                 return this.View(createGenerationModel);
             }
 
-
             var generation = Mapper.Map<Generation>(createGenerationModel);
+
             generation.ModelId = id;
 
-            generationsService.Add(generation);
+            await this.generationsService.AddAsync(generation);
+
+            await this.imagesService.UploadImagesAsync(createGenerationModel.FormImages.ToList(),
+                GlobalConstants.GENERATION_PHOTO_PATH_TEMPLATE, generation.Id);
 
             return this.RedirectToAction(nameof(All), new { id });
         }
@@ -94,26 +111,45 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EditGenerationModel editGenerationModel)
+        public async Task<IActionResult> Edit(EditGenerationModel editGenerationModel)
         {
             var generation = generationsService.GetById(editGenerationModel.Id);
             if (generation == null)
             {
                 return this.BadRequest();
             }
-            if (this.generationsService.Exists(generation.ModelId, editGenerationModel.Name) 
+            if (this.generationsService.Exists(generation.ModelId, editGenerationModel.Name)
                 && editGenerationModel.Name != generation.Name)
             {
-                this.ModelState.AddModelError(nameof(editGenerationModel.Name), "Generation already exists");
+                this.ModelState.AddModelError(nameof(editGenerationModel.Name), 
+                    GlobalConstants.GENERATION_ALREADY_EXISTS);
+            }
+            if (editGenerationModel.FormImages != null)
+            {
+                if (!imagesService.IsValidImageCollection(editGenerationModel.FormImages))
+                {
+                    this.ModelState.AddModelError(nameof(editGenerationModel.FormImages), 
+                        GlobalConstants.IMAGE_COLLECTION_INVALID);
+                }
             }
             if (!ModelState.IsValid)
             {
                 return this.View(editGenerationModel);
             }
 
+            if (editGenerationModel.FormImages != null)
+            {
+                var path = string.Format(GlobalConstants.GENERATION_PHOTO_PATH_TEMPLATE, generation.Id, "0");
+
+                this.imagesService.DeleteImagesFromDirectory(path);
+
+                await this.imagesService.UploadImagesAsync(editGenerationModel.FormImages.ToList(),
+                GlobalConstants.GENERATION_PHOTO_PATH_TEMPLATE, generation.Id);
+            }
+
             generation = Mapper.Map(editGenerationModel, generation);
 
-            generationsService.Update(generation);
+            await generationsService.UpdateAsync(generation);
 
             return this.RedirectToAction(nameof(All), new { Id = generation.ModelId });
         }

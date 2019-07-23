@@ -13,7 +13,7 @@
 <hr />
 <div class="row">
     <div class="container-fluid">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="EngineId" class="control-label"></label>
@@ -38,27 +38,27 @@
                 <span asp-validation-for="DriveWheel" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Fuel Consumption</label><br />
-                Urban
+                <label class="control-label"><b>Fuel Consumption</b></label><br />
+                <label asp-for="FuelConsumption.Urban" class="control-label"></label>
                 <input asp-for="FuelConsumption.Urban" class="form-control" />
-                Extra Urban
-                <input asp-for="FuelConsumption.ExtraUrban" class="form-control" />
-                Combined
-                <input asp-for="FuelConsumption.Combined" class="form-control" />
                 <span asp-validation-for="FuelConsumption.Urban" class="text-danger"></span>
+                <label asp-for="FuelConsumption.ExtraUrban" class="control-label"></label>
+                <input asp-for="FuelConsumption.ExtraUrban" class="form-control" />
                 <span asp-validation-for="FuelConsumption.ExtraUrban" class="text-danger"></span>
+                <label asp-for="FuelConsumption.Combined" class="control-label"></label>
+                <input asp-for="FuelConsumption.Combined" class="form-control" />
                 <span asp-validation-for="FuelConsumption.Combined" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label"><b>Acceleration</b></label><br />
-                0 - 100
+                <label asp-for="Acceleration._0_100" class="control-label"></label>
                 <input asp-for="Acceleration._0_100" class="form-control" />
-                0 - 200
-                <input asp-for="Acceleration._0_200" class="form-control" />
-                0 - 300
-                <input asp-for="Acceleration._0_300" class="form-control" />
                 <span asp-validation-for="Acceleration._0_100" class="text-danger"></span>
+                <label asp-for="Acceleration._0_200" class="control-label"></label>
+                <input asp-for="Acceleration._0_200" class="form-control" />
                 <span asp-validation-for="Acceleration._0_200" class="text-danger"></span>
+                <label asp-for="Acceleration._0_300" class="control-label"></label>
+                <input asp-for="Acceleration._0_300" class="form-control" />
                 <span asp-validation-for="Acceleration._0_300" class="text-danger"></span>
             </div>
             <div class="form-group">

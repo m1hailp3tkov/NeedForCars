@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -9,6 +8,7 @@ using NeedForCars.Models.Owned;
 using NeedForCars.Services.Contracts;
 using NeedForCars.Services.Mapping;
 using NeedForCars.Web.Areas.Administrator.ViewModels.Cars;
+using NeedForCars.Web.Common;
 
 namespace NeedForCars.Web.Areas.Administrator.Controllers
 {
@@ -17,12 +17,15 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         private readonly ICarsService carsService;
         private readonly IEnginesService enginesService;
         private readonly IGenerationsService generationsService;
+        private readonly IImagesService imagesService;
 
-        public CarsController(ICarsService carsService, IEnginesService enginesService, IGenerationsService generationsService)
+        public CarsController(ICarsService carsService, IEnginesService enginesService, 
+            IGenerationsService generationsService, IImagesService imagesService)
         {
             this.carsService = carsService;
             this.enginesService = enginesService;
             this.generationsService = generationsService;
+            this.imagesService = imagesService;
         }
 
         public IActionResult All(string id)
@@ -57,25 +60,25 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateCarModel createCarModel, string id)
+        public async Task<IActionResult> Create(CreateCarModel createCarModel, string id)
         {
             var generation = generationsService.GetById(id);
             var engine = enginesService.GetById(createCarModel.EngineId);
 
-            if (generation == null || engine == null)
+            if (generation == null)
             {
                 return this.BadRequest();
             }
-            //TODO: extract First car Year to global constants
-            //TODO: extract model error messages to global constants
             if (createCarModel.BeginningOfProduction.Year < 1886)
             {
-                this.ModelState.AddModelError(nameof(createCarModel.BeginningOfProduction), "Cars didn't exist back then.");
+                this.ModelState.AddModelError(nameof(createCarModel.BeginningOfProduction), 
+                    GlobalConstants.CAR_PRODUCTION_YEAR_TOO_EARLY);
             }
-            if (createCarModel.EndOfProduction > DateTime.UtcNow || createCarModel.EndOfProduction < createCarModel.BeginningOfProduction)
+            if (createCarModel.EndOfProduction > DateTime.UtcNow 
+                || createCarModel.EndOfProduction < createCarModel.BeginningOfProduction)
             {
                 this.ModelState.AddModelError(nameof(createCarModel.EndOfProduction),
-                    "Invalid date.");
+                    GlobalConstants.CAR_PRODUCTION_YEAR_IS_FUTURE);
             }
 
             var car = Mapper.Map<Car>(createCarModel);
@@ -83,7 +86,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             if (this.carsService.Exists(car))
             {
-                this.ModelState.AddModelError("", "A car like that already exists");
+                this.ModelState.AddModelError("", GlobalConstants.CAR_ALREADY_EXISTS);
             }
 
             ValidateTireInfo(createCarModel.TireInfo);
@@ -93,7 +96,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 return this.View();
             }
 
-            this.carsService.Add(car);
+            await carsService.AddAsync(car);
 
             return this.RedirectToAction(nameof(All), new { id });
         }
@@ -124,7 +127,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EditCarModel editCarModel)
+        public async Task<IActionResult> Edit(EditCarModel editCarModel)
         {
             var car = carsService.GetById(editCarModel.Id);
             var engine = enginesService.GetById(editCarModel.EngineId);
@@ -136,12 +139,14 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
             if (editCarModel.BeginningOfProduction.Year < 1886)
             {
-                this.ModelState.AddModelError(nameof(editCarModel.BeginningOfProduction), "Cars didn't exist back then.");
+                this.ModelState.AddModelError(nameof(editCarModel.BeginningOfProduction), 
+                    GlobalConstants.CAR_PRODUCTION_YEAR_TOO_EARLY);
             }
-            if (editCarModel.EndOfProduction > DateTime.UtcNow || editCarModel.EndOfProduction<editCarModel.BeginningOfProduction)
+            if (editCarModel.EndOfProduction > DateTime.UtcNow 
+                || editCarModel.EndOfProduction<editCarModel.BeginningOfProduction)
             {
                 this.ModelState.AddModelError(nameof(editCarModel.EndOfProduction),
-                    "Invalid date.");
+                    GlobalConstants.CAR_PRODUCTION_YEAR_IS_FUTURE);
             }
 
             bool isChanged =
@@ -156,18 +161,18 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             if (isChanged && carsService.Exists(car))
             {
-                this.ModelState.AddModelError("", "A car like that already exists");
+                this.ModelState.AddModelError("", GlobalConstants.CAR_ALREADY_EXISTS);
             }
 
             ValidateTireInfo(editCarModel.TireInfo);
+
             if (!this.ModelState.IsValid)
             {
                 return this.View();
             }
 
-            carsService.Update(car);
+            await carsService.Update(car);
 
-            this.TempData.Clear();
             return this.RedirectToAction(nameof(Details), new { car.Id });
         }
 
@@ -184,3 +189,5 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
     }
 }
+
+//TODO: Deletion of entities

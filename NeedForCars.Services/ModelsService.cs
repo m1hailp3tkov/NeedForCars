@@ -4,6 +4,7 @@ using NeedForCars.Services.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace NeedForCars.Services
 {
@@ -18,15 +19,18 @@ namespace NeedForCars.Services
             this.makesService = makesService;
         }
 
-        public void Add(Model model)
+        public async Task AddAsync(Model model)
         {
-            this.context.Models.Add(model);
-            this.context.SaveChanges();
+            if (model == null) return;
+
+            await this.context.Models.AddAsync(model);
+            await this.context.SaveChangesAsync();
         }
 
         public bool Exists(string makeId, string modelName)
         {
             var make = makesService.GetById(makeId);
+            if (make == null) return false;
 
             return make.Models
                 .Any(x => x.Name == modelName);
@@ -53,12 +57,11 @@ namespace NeedForCars.Services
             return models;
         }
 
-        public void Update(Model model)
+        public async Task UpdateAsync(Model model)
         {
-            this.context.Models
-                .Update(model);
+            this.context.Models.Update(model);
 
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
         }
     }
 }

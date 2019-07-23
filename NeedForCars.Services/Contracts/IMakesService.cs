@@ -1,11 +1,12 @@
 ﻿using NeedForCars.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeedForCars.Services.Contracts
 {
     public interface IMakesService
     {
-        void Add(Make make);
+        Task AddAsync(Make make);
 
         bool Exists(string makeName);
 
@@ -13,6 +14,6 @@ namespace NeedForCars.Services.Contracts
 
         Make GetById(string id);
 
-        void Update(Make make);
+        Task UpdateAsync(Make make);
     }
 }

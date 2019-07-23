@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace NeedForCars.Models.Owned
 {
@@ -8,6 +9,7 @@ namespace NeedForCars.Models.Owned
         public decimal? Urban { get; set; }
 
         [Range(typeof(decimal), "0.1", "100")]
+        [DisplayName("Extra Urban")]
         public decimal? ExtraUrban { get; set; }
 
         [Range(typeof(decimal), "0.1", "100")]

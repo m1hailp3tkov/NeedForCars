@@ -24,7 +24,6 @@ namespace NeedForCars.Models
         [Required]
         public DriveWheel DriveWheel { get; set; }
 
-        //TODO Server Validation for production DateTimes in CarModel
         [Required]
         public DateTime BeginningOfProduction { get; set; }
 

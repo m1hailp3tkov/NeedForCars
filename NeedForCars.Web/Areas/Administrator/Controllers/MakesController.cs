@@ -7,6 +7,7 @@ using NeedForCars.Web.Areas.Administrator.ViewModels.Makes;
 using NeedForCars.Web.Common;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeedForCars.Web.Areas.Administrator.Controllers
 {
@@ -41,27 +42,26 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateMakeModel createMakeModel)
+        public async Task<IActionResult> Create(CreateMakeModel createMakeModel)
         {
             if (this.makesService.Exists(createMakeModel.Name))
             {
-                this.ModelState.AddModelError(nameof(createMakeModel.Name), "Make already exists");
+                this.ModelState.AddModelError(nameof(createMakeModel.Name), GlobalConstants.MAKE_ALREADY_EXISTS);
             }
             if (!this.imagesService.IsValidImage(createMakeModel.Logo))
             {
-                this.ModelState.AddModelError(nameof(createMakeModel.Logo), "Image is not in valid format");
+                this.ModelState.AddModelError(nameof(createMakeModel.Logo), GlobalConstants.IMAGE_INVALID);
             }
             if (!ModelState.IsValid)
             {
-                return this.Create();
+                return this.View(createMakeModel);
             }
 
-            //TODO: Use automapper
             var make = Mapper.Map<Make>(createMakeModel);
-            this.makesService.Add(make);
+            await this.makesService.AddAsync(make);
 
             var imagePath = string.Format(GlobalConstants.MAKE_LOGO_PATH_TEMPLATE, make.Id);
-            this.imagesService.UploadImage(createMakeModel.Logo, imagePath);
+            await this.imagesService.UploadImageAsync(createMakeModel.Logo, imagePath);
 
             return this.RedirectToAction(nameof(All));
         }
@@ -71,17 +71,16 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             var make = makesService.GetById(id);
             if (make == null)
             {
-                return BadRequest();
+                return this.BadRequest();
             }
 
-            //TODO : Automapper
             var viewModel = Mapper.Map<EditMakeModel>(make);
 
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit(EditMakeModel editMakeModel)
+        public async Task<IActionResult> Edit(EditMakeModel editMakeModel)
         {
             var make = makesService.GetById(editMakeModel.Id);
             if(make == null)
@@ -91,11 +90,11 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             if(this.makesService.Exists(editMakeModel.Name) && editMakeModel.Name!=make.Name)
             {
-                this.ModelState.AddModelError(nameof(editMakeModel.Name), "A make with this name already exists");
+                this.ModelState.AddModelError(nameof(editMakeModel.Name), GlobalConstants.MAKE_ALREADY_EXISTS);
             }
             if (!this.imagesService.IsValidImage(editMakeModel.NewLogo) && editMakeModel.NewLogo != null)
             {
-                this.ModelState.AddModelError(nameof(editMakeModel.NewLogo), "Image is not in valid format");
+                this.ModelState.AddModelError(nameof(editMakeModel.NewLogo), GlobalConstants.IMAGE_INVALID);
             }
             if (!ModelState.IsValid)
             {
@@ -104,17 +103,15 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             make = Mapper.Map(editMakeModel, make);
 
-            makesService.Update(make);
+            await makesService.UpdateAsync(make);
 
             if (editMakeModel.NewLogo != null)
             {
                 var imagePath = string.Format(GlobalConstants.MAKE_LOGO_PATH_TEMPLATE, editMakeModel.Id);
-                this.imagesService.UploadImage(editMakeModel.NewLogo, imagePath);
+                await this.imagesService.UploadImageAsync(editMakeModel.NewLogo, imagePath);
             }
 
             return this.RedirectToAction(nameof(All));
         }
     }
 }
-
-//TODO Async controllers

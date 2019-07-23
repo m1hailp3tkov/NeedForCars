@@ -53,7 +53,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateEngineModel viewModel)
+        public async Task<IActionResult> Create(CreateEngineModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -62,7 +62,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             var engine = Mapper.Map<Engine>(viewModel);
 
-            enginesService.Add(engine);
+            await enginesService.AddAsync(engine);
 
             return this.RedirectToAction(nameof(All));
         }
@@ -81,7 +81,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EditEngineModel viewModel)
+        public async Task<IActionResult> Edit(EditEngineModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             var engine = Mapper.Map<Engine>(viewModel);
 
-            this.enginesService.Update(engine);
+            await this.enginesService.UpdateAsync(engine);
 
             return this.RedirectToAction(nameof(Details), new { id = engine.Id });
         }
@@ -109,9 +109,10 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(DisplayEngineModel viewModel)
+        public async Task<IActionResult> Delete(DisplayEngineModel viewModel)
         {
-            this.enginesService.Delete(viewModel.Id);
+            await this.enginesService.DeleteAsync(viewModel.Id);
+            //TODO Results of deletion
 
             return this.RedirectToAction(nameof(All));
         }

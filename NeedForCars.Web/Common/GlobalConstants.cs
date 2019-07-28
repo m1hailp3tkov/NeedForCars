@@ -16,6 +16,7 @@
         //----Images
         public const string IMAGE_COLLECTION_INVALID = "One or more of the images selected are not in valid format.";
         public const string IMAGE_INVALID = "Image is not in valid format";
+        public const string IMAGE_REQUIRED = "You must add at least one image";
 
         //----Engines
         public const string ENGINE_NAME_INVALID = "Engine name is not in valid format.";

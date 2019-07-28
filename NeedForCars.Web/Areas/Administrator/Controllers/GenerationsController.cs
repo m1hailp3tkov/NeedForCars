@@ -70,13 +70,11 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 this.ModelState.AddModelError(nameof(createGenerationModel.Name),
                     GlobalConstants.GENERATION_ALREADY_EXISTS);
             }
-            if (createGenerationModel.FormImages != null)
+            if (createGenerationModel.FormImages != null
+                && !imagesService.IsValidImageCollection(createGenerationModel.FormImages))
             {
-                if (!imagesService.IsValidImageCollection(createGenerationModel.FormImages))
-                {
-                    this.ModelState.AddModelError(nameof(createGenerationModel.FormImages),
-                        GlobalConstants.IMAGE_COLLECTION_INVALID);
-                }
+                this.ModelState.AddModelError(nameof(createGenerationModel.FormImages),
+                    GlobalConstants.IMAGE_COLLECTION_INVALID);
             }
             if (!this.ModelState.IsValid)
             {

@@ -12,8 +12,10 @@ namespace NeedForCars.Services.Contracts
 
         Task UpdateAsync(UserCar userCar);
 
-        Task<IQueryable<UserCar>> GetAllForUser(string userId);
+        IQueryable<UserCar> GetAllForUser(string userId);
 
-        void Delete(UserCar userCar);
+        Task DeleteAsync(UserCar userCar);
+
+        Task DeleteAllForUser(string userId);
     }
 }

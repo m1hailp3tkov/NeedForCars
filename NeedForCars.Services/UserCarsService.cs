@@ -26,27 +26,45 @@ namespace NeedForCars.Services
             await this.context.SaveChangesAsync();
         }
 
-        public void Delete(UserCar userCar)
-        {
-            if (userCar == null) return;
-        }
-
-        public async Task<IQueryable<UserCar>> GetAllForUser(string userId)
-        {
-            var user = await this.userManager.FindByIdAsync(userId);
-
-            return user.UserCars.AsQueryable();
-        }
-
         public UserCar GetById(string id)
         {
             return this.context.UserCars
                 .FirstOrDefault(x => x.Id == id);
         }
 
+        public IQueryable<UserCar> GetAllForUser(string userId)
+        {
+            var userCars = this.context
+                .UserCars
+                .Where(x => x.OwnerId == userId)
+                .AsQueryable();
+
+            return userCars;
+        }
+
         public async Task UpdateAsync(UserCar userCar)
         {
             this.context.Update(userCar);
+
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(UserCar userCar)
+        {
+            if (userCar == null) return;
+
+            this.context.Remove(userCar);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAllForUser(string userId)
+        {
+            var userCars = this.context
+                .UserCars
+                .Where(x => x.OwnerId == userId);
+
+            this.context.UserCars
+                .RemoveRange(userCars);
 
             await this.context.SaveChangesAsync();
         }

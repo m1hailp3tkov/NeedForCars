@@ -16,7 +16,6 @@ namespace NeedForCars.Web.ViewModels.UserCars
     {
         public string OwnerId { get; set; }
 
-        [Required(ErrorMessage = GlobalConstants.USERCAR_PHOTOS_REQUIRED)]
         public IEnumerable<IFormFile> Photos { get; set; }
 
         [Required(ErrorMessage = GlobalConstants.USERCAR_CARID_REQUIRED)]

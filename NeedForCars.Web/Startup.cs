@@ -118,12 +118,9 @@ namespace NeedForCars.Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-
-                
-
             });
         }
     }
 }
 
-// TODO: Entities that do not require security (makes/models/generations/cars) should use Int ID instead of GUID
+//TODO: Custom validation attributes for "The value '' is invalid."

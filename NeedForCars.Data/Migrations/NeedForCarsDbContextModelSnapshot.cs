@@ -131,8 +131,9 @@ namespace NeedForCars.Data.Migrations
 
             modelBuilder.Entity("NeedForCars.Models.Car", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("BeginningOfProduction");
 
@@ -140,11 +141,9 @@ namespace NeedForCars.Data.Migrations
 
                     b.Property<DateTime>("EndOfProduction");
 
-                    b.Property<string>("EngineId")
-                        .IsRequired();
+                    b.Property<int>("EngineId");
 
-                    b.Property<string>("GenerationId")
-                        .IsRequired();
+                    b.Property<int>("GenerationId");
 
                     b.Property<bool>("HasABS");
 
@@ -171,8 +170,9 @@ namespace NeedForCars.Data.Migrations
 
             modelBuilder.Entity("NeedForCars.Models.Engine", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("AlternativeFuel");
 
@@ -219,15 +219,15 @@ namespace NeedForCars.Data.Migrations
 
             modelBuilder.Entity("NeedForCars.Models.Generation", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("BodyType");
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("ModelId")
-                        .IsRequired();
+                    b.Property<int>("ModelId");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50);
@@ -243,8 +243,9 @@ namespace NeedForCars.Data.Migrations
 
             modelBuilder.Entity("NeedForCars.Models.Make", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description");
 
@@ -286,13 +287,13 @@ namespace NeedForCars.Data.Migrations
 
             modelBuilder.Entity("NeedForCars.Models.Model", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("MakeId")
-                        .IsRequired();
+                    b.Property<int>("MakeId");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -368,15 +369,14 @@ namespace NeedForCars.Data.Migrations
 
                     b.Property<int?>("AlternativeFuel");
 
-                    b.Property<string>("CarId")
-                        .IsRequired();
+                    b.Property<int>("CarId");
 
                     b.Property<string>("Color")
                         .IsRequired();
 
                     b.Property<int?>("Currency");
 
-                    b.Property<string>("CustomEngineId");
+                    b.Property<int?>("CustomEngineId");
 
                     b.Property<string>("Description");
 
@@ -471,7 +471,9 @@ namespace NeedForCars.Data.Migrations
 
                     b.OwnsOne("NeedForCars.Models.Owned.TireInfo", "TireInfo", b1 =>
                         {
-                            b1.Property<string>("CarId");
+                            b1.Property<int>("CarId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<int>("AspectRatio");
 
@@ -491,7 +493,9 @@ namespace NeedForCars.Data.Migrations
 
                     b.OwnsOne("NeedForCars.Models.Owned.Acceleration", "Acceleration", b1 =>
                         {
-                            b1.Property<string>("CarId");
+                            b1.Property<int>("CarId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<decimal?>("_0_100");
 
@@ -511,7 +515,9 @@ namespace NeedForCars.Data.Migrations
 
                     b.OwnsOne("NeedForCars.Models.Owned.FuelConsumption", "FuelConsumption", b1 =>
                         {
-                            b1.Property<string>("CarId");
+                            b1.Property<int>("CarId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<decimal?>("Combined");
 

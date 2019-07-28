@@ -8,11 +8,11 @@ namespace NeedForCars.Services.Contracts
     {
         Task AddAsync(Generation generation);
 
-        bool Exists(string modelId, string generationName);
+        bool Exists(int modelId, string generationName);
 
-        IQueryable<Generation> GetAllForModel(string modelId);
+        IQueryable<Generation> GetAllForModel(int modelId);
 
-        Generation GetById(string id);
+        Generation GetById(int id);
 
         Task UpdateAsync(Generation generation);
 

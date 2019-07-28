@@ -27,7 +27,7 @@ namespace NeedForCars.Services
             await this.context.SaveChangesAsync();
         }
 
-        public bool Exists(string makeId, string modelName)
+        public bool Exists(int makeId, string modelName)
         {
             var make = makesService.GetById(makeId);
             if (make == null) return false;
@@ -36,7 +36,7 @@ namespace NeedForCars.Services
                 .Any(x => x.Name == modelName);
         }
 
-        public Model GetById(string modelId)
+        public Model GetById(int modelId)
         {
             return this.context
                 .Models
@@ -45,7 +45,7 @@ namespace NeedForCars.Services
                 .FirstOrDefault(x => x.Id == modelId);
         }
 
-        public IQueryable<Model> GetAllForMake(string makeId)
+        public IQueryable<Model> GetAllForMake(int makeId)
         {
             var models = this.context
                 .Makes

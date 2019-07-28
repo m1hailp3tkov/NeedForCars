@@ -66,7 +66,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             return this.RedirectToAction(nameof(All));
         }
 
-        public IActionResult Edit(string id)
+        public IActionResult Edit(int id)
         {
             var make = makesService.GetById(id);
             if (make == null)

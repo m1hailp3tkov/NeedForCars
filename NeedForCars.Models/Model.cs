@@ -7,17 +7,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NeedForCars.Models
 {
-    public class Model : IIdentifiable
+    public class Model : IIdentifiable<int>
     {
         public Model()
         {
             this.Generations = new HashSet<Generation>();
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        public string MakeId { get; set; }
+        public int MakeId { get; set; }
         public Make Make { get; set; }
 
         [Required]

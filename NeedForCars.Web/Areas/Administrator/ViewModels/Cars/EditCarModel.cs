@@ -5,8 +5,8 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Cars
 {
     public class EditCarModel : CreateCarModel, IMapFrom<Car>, IMapTo<Car>
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
-        public string GenerationId { get; set; }
+        public int GenerationId { get; set; }
     }
 }

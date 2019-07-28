@@ -5,17 +5,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NeedForCars.Models
 {
-    public class Generation : IIdentifiable
+    public class Generation : IIdentifiable<int>
     {
         public Generation()
         {
             this.Cars = new HashSet<Car>();
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        public string ModelId { get; set; }
+        public int ModelId { get; set; }
         public Model Model { get; set; }
 
         //Body/physical data

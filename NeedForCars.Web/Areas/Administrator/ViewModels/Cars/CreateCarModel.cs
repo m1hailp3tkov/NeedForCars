@@ -17,7 +17,7 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Cars
     {
         [Required]
         [DisplayName("Engine")]
-        public string EngineId { get; set; }
+        public int EngineId { get; set; }
 
         [Required]
         [EnumDataType(typeof(Transmission))]

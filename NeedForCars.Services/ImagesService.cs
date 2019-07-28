@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using NeedForCars.Services.Contracts;
 using System.Collections.Generic;
 using System.IO;
@@ -8,14 +9,23 @@ namespace NeedForCars.Services
 {
     public class ImagesService : IImagesService
     {
-        public void DeleteImagesFromDirectory(string path)
+        public ImagesService()
+        {
+            //TODO: add logging for exception
+        }
+
+        public bool TryDeleteImagesFromDirectory(string path)
         {
             path = Path.GetDirectoryName(path);
             try
             {
                 Directory.Delete(path, recursive: true);
+                return true;
             }
-            catch (DirectoryNotFoundException) { }
+            catch (DirectoryNotFoundException)
+            {
+                return false;
+            }
         }
 
         public async Task UploadImageAsync(IFormFile formImage, string path)

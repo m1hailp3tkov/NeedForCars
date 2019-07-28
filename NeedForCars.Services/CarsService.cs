@@ -26,7 +26,7 @@ namespace NeedForCars.Services
             await this.context.SaveChangesAsync();
         }
 
-        public Car GetById(string id)
+        public Car GetById(int id)
         {
             return this.context.Cars
                 .Include(x => x.Engine)
@@ -48,7 +48,7 @@ namespace NeedForCars.Services
                     x.EndOfProduction == car.EndOfProduction);
         }
 
-        public async Task Update(Car car)
+        public async Task UpdateAsync(Car car)
         {
             if (car == null) return;
 

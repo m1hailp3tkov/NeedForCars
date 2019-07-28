@@ -10,10 +10,10 @@ namespace NeedForCars.Services.Contracts
 
         Task AddAsync(Engine engine);
 
-        Engine GetById(string id);
+        Engine GetById(int id);
 
         Task UpdateAsync(Engine engine);
 
-        Task DeleteAsync(string engineId);
+        Task DeleteAsync(int engineId);
     }
 }

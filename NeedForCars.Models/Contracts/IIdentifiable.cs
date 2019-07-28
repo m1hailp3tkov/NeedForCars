@@ -1,7 +1,7 @@
 ﻿namespace NeedForCars.Models.Contracts
 {
-    public interface IIdentifiable
+    public interface IIdentifiable<T>
     {
-        string Id { get; set; }
+        T Id { get; set; }
     }
 }

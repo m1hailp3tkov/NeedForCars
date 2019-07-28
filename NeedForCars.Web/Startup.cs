@@ -69,6 +69,7 @@ namespace NeedForCars.Web
             services.AddTransient<IGenerationsService, GenerationsService>();
             services.AddTransient<IEnginesService, EnginesService>();
             services.AddTransient<ICarsService, CarsService>();
+            services.AddTransient<IUserCarsService, UserCarsService>();
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -125,4 +126,4 @@ namespace NeedForCars.Web
     }
 }
 
-//TODO viewmodels' regexes in global constants
+// TODO: Entities that do not require security (makes/models/generations/cars) should use Int ID instead of GUID

@@ -30,7 +30,7 @@ namespace NeedForCars.Services
             await this.context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(string engineId)
+        public async Task DeleteAsync(int engineId)
         {
             var engine = this.GetById(engineId);
             if (engine == null) return;
@@ -39,7 +39,7 @@ namespace NeedForCars.Services
             await this.context.SaveChangesAsync();
         }
 
-        public Engine GetById(string id)
+        public Engine GetById(int id)
         {
             return this.context.Engines
                 .Include(x => x.Cars)

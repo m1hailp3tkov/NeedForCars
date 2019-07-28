@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NeedForCars.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class RecreateDbWithIntPrimaryKeys : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,11 +53,14 @@ namespace NeedForCars.Data.Migrations
                 name: "Engines",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false),
                     FuelType = table.Column<int>(nullable: false),
-                    Creator = table.Column<string>(nullable: false),
                     MaxHP = table.Column<int>(nullable: false),
+                    Creator = table.Column<string>(nullable: false),
+                    CreatorInfoUrl = table.Column<string>(nullable: true),
+                    AlternativeFuel = table.Column<int>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     MaxHPAtRpm = table.Column<int>(nullable: true),
                     MaxTorque = table.Column<int>(nullable: true),
@@ -80,7 +83,8 @@ namespace NeedForCars.Data.Migrations
                 name: "Makes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true)
                 },
@@ -227,8 +231,9 @@ namespace NeedForCars.Data.Migrations
                 name: "Models",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    MakeId = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    MakeId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true)
                 },
@@ -247,8 +252,11 @@ namespace NeedForCars.Data.Migrations
                 name: "Generations",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    ModelId = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ModelId = table.Column<int>(nullable: false),
+                    BodyType = table.Column<int>(nullable: false),
+                    Seats = table.Column<int>(nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: true),
                     Description = table.Column<string>(nullable: true)
                 },
@@ -267,28 +275,29 @@ namespace NeedForCars.Data.Migrations
                 name: "Cars",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    GenerationId = table.Column<string>(nullable: false),
-                    EngineId = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    GenerationId = table.Column<int>(nullable: false),
+                    EngineId = table.Column<int>(nullable: false),
+                    Transmission = table.Column<int>(nullable: false),
+                    DriveWheel = table.Column<int>(nullable: false),
+                    BeginningOfProduction = table.Column<DateTime>(nullable: false),
+                    EndOfProduction = table.Column<DateTime>(nullable: false),
+                    HasABS = table.Column<bool>(nullable: false),
+                    HasESP = table.Column<bool>(nullable: false),
+                    HasTCS = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     TopSpeed = table.Column<int>(nullable: true),
+                    NumberOfGears = table.Column<int>(nullable: true),
                     FuelConsumption_Urban = table.Column<decimal>(nullable: true),
                     FuelConsumption_ExtraUrban = table.Column<decimal>(nullable: true),
                     FuelConsumption_Combined = table.Column<decimal>(nullable: true),
                     Acceleration__0_100 = table.Column<decimal>(nullable: true),
                     Acceleration__0_200 = table.Column<decimal>(nullable: true),
                     Acceleration__0_300 = table.Column<decimal>(nullable: true),
-                    DriveWheel = table.Column<int>(nullable: true),
-                    Transmission = table.Column<int>(nullable: true),
-                    NumberOfGears = table.Column<int>(nullable: true),
-                    BeginningOfProduction = table.Column<DateTime>(nullable: true),
-                    EndOfProduction = table.Column<DateTime>(nullable: true),
-                    BodyType = table.Column<int>(nullable: false),
-                    Seats = table.Column<int>(nullable: true),
-                    TiresSize = table.Column<string>(nullable: true),
-                    HasABS = table.Column<bool>(nullable: true),
-                    HasESP = table.Column<bool>(nullable: true),
-                    HasTSC = table.Column<bool>(nullable: true)
+                    TireInfo_TireWidth = table.Column<int>(nullable: false),
+                    TireInfo_AspectRatio = table.Column<int>(nullable: false),
+                    TireInfo_WheelDiameter = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -313,7 +322,7 @@ namespace NeedForCars.Data.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     OwnerId = table.Column<string>(nullable: false),
-                    CarId = table.Column<string>(nullable: false),
+                    CarId = table.Column<int>(nullable: false),
                     Color = table.Column<string>(nullable: false),
                     ProductionDate = table.Column<DateTime>(nullable: false),
                     Mileage = table.Column<int>(nullable: false),
@@ -325,7 +334,7 @@ namespace NeedForCars.Data.Migrations
                     AlternativeFuel = table.Column<int>(nullable: true),
                     Price = table.Column<int>(nullable: true),
                     Currency = table.Column<int>(nullable: true),
-                    CustomEngineId = table.Column<string>(nullable: true),
+                    CustomEngineId = table.Column<int>(nullable: true),
                     ModifiedFuelConsumption_Urban = table.Column<decimal>(nullable: true),
                     ModifiedFuelConsumption_ExtraUrban = table.Column<decimal>(nullable: true),
                     ModifiedFuelConsumption_Combined = table.Column<decimal>(nullable: true),

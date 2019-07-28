@@ -25,7 +25,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             this.imagesService = imagesService;
         }
 
-        public IActionResult All(string id)
+        public IActionResult All(int id)
         {
             var model = this.modelsService.GetById(id);
             if (model == null)
@@ -43,7 +43,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             return this.View(viewModel);
         }
 
-        public IActionResult Create(string id)
+        public IActionResult Create(int id)
         {
             var model = modelsService.GetById(id);
             if (model == null)
@@ -58,7 +58,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateGenerationModel createGenerationModel, string id)
+        public async Task<IActionResult> Create(CreateGenerationModel createGenerationModel, int id)
         {
             var model = modelsService.GetById(id);
             if (model == null)
@@ -67,14 +67,14 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
             if (this.generationsService.Exists(id, createGenerationModel.Name))
             {
-                this.ModelState.AddModelError(nameof(createGenerationModel.Name), 
+                this.ModelState.AddModelError(nameof(createGenerationModel.Name),
                     GlobalConstants.GENERATION_ALREADY_EXISTS);
             }
             if (createGenerationModel.FormImages != null)
             {
                 if (!imagesService.IsValidImageCollection(createGenerationModel.FormImages))
                 {
-                    this.ModelState.AddModelError(nameof(createGenerationModel.FormImages), 
+                    this.ModelState.AddModelError(nameof(createGenerationModel.FormImages),
                         GlobalConstants.IMAGE_COLLECTION_INVALID);
                 }
             }
@@ -90,12 +90,12 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             await this.generationsService.AddAsync(generation);
 
             await this.imagesService.UploadImagesAsync(createGenerationModel.FormImages.ToList(),
-                GlobalConstants.GENERATION_PHOTO_PATH_TEMPLATE, generation.Id);
+                GlobalConstants.GENERATION_PHOTO_PATH_TEMPLATE, generation.Id.ToString());
 
             return this.RedirectToAction(nameof(All), new { id });
         }
 
-        public IActionResult Edit(string id)
+        public IActionResult Edit(int id)
         {
             var generation = generationsService.GetById(id);
             if (generation == null)
@@ -121,16 +121,14 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             if (this.generationsService.Exists(generation.ModelId, editGenerationModel.Name)
                 && editGenerationModel.Name != generation.Name)
             {
-                this.ModelState.AddModelError(nameof(editGenerationModel.Name), 
+                this.ModelState.AddModelError(nameof(editGenerationModel.Name),
                     GlobalConstants.GENERATION_ALREADY_EXISTS);
             }
-            if (editGenerationModel.FormImages != null)
+            if (editGenerationModel.FormImages != null
+                && !imagesService.IsValidImageCollection(editGenerationModel.FormImages))
             {
-                if (!imagesService.IsValidImageCollection(editGenerationModel.FormImages))
-                {
-                    this.ModelState.AddModelError(nameof(editGenerationModel.FormImages), 
-                        GlobalConstants.IMAGE_COLLECTION_INVALID);
-                }
+                this.ModelState.AddModelError(nameof(editGenerationModel.FormImages),
+                    GlobalConstants.IMAGE_COLLECTION_INVALID);
             }
             if (!ModelState.IsValid)
             {
@@ -141,10 +139,10 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 var path = string.Format(GlobalConstants.GENERATION_PHOTO_PATH_TEMPLATE, generation.Id, "0");
 
-                this.imagesService.DeleteImagesFromDirectory(path);
+                this.imagesService.TryDeleteImagesFromDirectory(path);
 
                 await this.imagesService.UploadImagesAsync(editGenerationModel.FormImages.ToList(),
-                GlobalConstants.GENERATION_PHOTO_PATH_TEMPLATE, generation.Id);
+                    GlobalConstants.GENERATION_PHOTO_PATH_TEMPLATE, generation.Id.ToString());
             }
 
             generation = Mapper.Map(editGenerationModel, generation);

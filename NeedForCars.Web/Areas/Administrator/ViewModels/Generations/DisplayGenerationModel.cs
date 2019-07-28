@@ -6,7 +6,7 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Generations
 {
     public class DisplayGenerationModel : IMapFrom<Generation>
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 

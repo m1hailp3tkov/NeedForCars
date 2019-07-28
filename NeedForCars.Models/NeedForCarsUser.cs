@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NeedForCars.Models
 {
-    public class NeedForCarsUser : IdentityUser, IIdentifiable
+    public class NeedForCarsUser : IdentityUser, IIdentifiable<string>
     {
         public NeedForCarsUser()
         {

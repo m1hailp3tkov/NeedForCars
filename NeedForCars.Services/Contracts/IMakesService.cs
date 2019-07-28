@@ -12,7 +12,7 @@ namespace NeedForCars.Services.Contracts
 
         IQueryable<Make> GetAll();
 
-        Make GetById(string id);
+        Make GetById(int id);
 
         Task UpdateAsync(Make make);
     }

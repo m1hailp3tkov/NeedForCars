@@ -27,7 +27,7 @@ namespace NeedForCars.Services
             await this.context.SaveChangesAsync();
         }
 
-        public bool Exists(string modelId, string generationName)
+        public bool Exists(int modelId, string generationName)
         {
             var model = this.modelsService.GetById(modelId);
 
@@ -35,7 +35,7 @@ namespace NeedForCars.Services
                 .Any(x => x.Name == generationName);
         }
 
-        public Generation GetById(string id)
+        public Generation GetById(int id)
         {
             return this.context
                 .Generations
@@ -46,7 +46,7 @@ namespace NeedForCars.Services
                 .FirstOrDefault(x => x.Id == id);
         }
 
-        public IQueryable<Generation> GetAllForModel(string modelId)
+        public IQueryable<Generation> GetAllForModel(int modelId)
         {
             var generations = this.context
                 .Models

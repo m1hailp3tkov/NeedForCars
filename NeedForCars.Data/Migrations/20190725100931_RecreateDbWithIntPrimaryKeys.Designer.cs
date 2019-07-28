@@ -10,8 +10,8 @@ using NeedForCars.Data;
 namespace NeedForCars.Data.Migrations
 {
     [DbContext(typeof(NeedForCarsDbContext))]
-    [Migration("20190717045100_ReworkedCarAndGenerationEntities")]
-    partial class ReworkedCarAndGenerationEntities
+    [Migration("20190725100931_RecreateDbWithIntPrimaryKeys")]
+    partial class RecreateDbWithIntPrimaryKeys
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -133,34 +133,29 @@ namespace NeedForCars.Data.Migrations
 
             modelBuilder.Entity("NeedForCars.Models.Car", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("BeginningOfProduction");
+                    b.Property<DateTime>("BeginningOfProduction");
 
                     b.Property<int>("DriveWheel");
 
-                    b.Property<DateTime?>("EndOfProduction");
+                    b.Property<DateTime>("EndOfProduction");
 
-                    b.Property<string>("EngineId")
-                        .IsRequired();
+                    b.Property<int>("EngineId");
 
-                    b.Property<string>("GenerationId")
-                        .IsRequired();
+                    b.Property<int>("GenerationId");
 
-                    b.Property<bool?>("HasABS");
+                    b.Property<bool>("HasABS");
 
-                    b.Property<bool?>("HasESP");
+                    b.Property<bool>("HasESP");
 
-                    b.Property<bool?>("HasTSC");
+                    b.Property<bool>("HasTCS");
 
                     b.Property<string>("Name");
 
                     b.Property<int?>("NumberOfGears");
-
-                    b.Property<int?>("Seats");
-
-                    b.Property<string>("TiresSize");
 
                     b.Property<int?>("TopSpeed");
 
@@ -177,14 +172,16 @@ namespace NeedForCars.Data.Migrations
 
             modelBuilder.Entity("NeedForCars.Models.Engine", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("AlternativeFuel");
 
                     b.Property<int?>("Aspiration");
 
-                    b.Property<string>("Creator");
+                    b.Property<string>("Creator")
+                        .IsRequired();
 
                     b.Property<string>("CreatorInfoUrl");
 
@@ -224,18 +221,20 @@ namespace NeedForCars.Data.Migrations
 
             modelBuilder.Entity("NeedForCars.Models.Generation", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("BodyType");
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("ModelId")
-                        .IsRequired();
+                    b.Property<int>("ModelId");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50);
+
+                    b.Property<int?>("Seats");
 
                     b.HasKey("Id");
 
@@ -246,8 +245,9 @@ namespace NeedForCars.Data.Migrations
 
             modelBuilder.Entity("NeedForCars.Models.Make", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description");
 
@@ -289,13 +289,13 @@ namespace NeedForCars.Data.Migrations
 
             modelBuilder.Entity("NeedForCars.Models.Model", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("MakeId")
-                        .IsRequired();
+                    b.Property<int>("MakeId");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -371,15 +371,14 @@ namespace NeedForCars.Data.Migrations
 
                     b.Property<int?>("AlternativeFuel");
 
-                    b.Property<string>("CarId")
-                        .IsRequired();
+                    b.Property<int>("CarId");
 
                     b.Property<string>("Color")
                         .IsRequired();
 
                     b.Property<int?>("Currency");
 
-                    b.Property<string>("CustomEngineId");
+                    b.Property<int?>("CustomEngineId");
 
                     b.Property<string>("Description");
 
@@ -472,9 +471,33 @@ namespace NeedForCars.Data.Migrations
                         .HasForeignKey("GenerationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.OwnsOne("NeedForCars.Models.Owned.TireInfo", "TireInfo", b1 =>
+                        {
+                            b1.Property<int>("CarId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("AspectRatio");
+
+                            b1.Property<int>("TireWidth");
+
+                            b1.Property<int>("WheelDiameter");
+
+                            b1.HasKey("CarId");
+
+                            b1.ToTable("Cars");
+
+                            b1.HasOne("NeedForCars.Models.Car")
+                                .WithOne("TireInfo")
+                                .HasForeignKey("NeedForCars.Models.Owned.TireInfo", "CarId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
                     b.OwnsOne("NeedForCars.Models.Owned.Acceleration", "Acceleration", b1 =>
                         {
-                            b1.Property<string>("CarId");
+                            b1.Property<int>("CarId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<decimal?>("_0_100");
 
@@ -494,7 +517,9 @@ namespace NeedForCars.Data.Migrations
 
                     b.OwnsOne("NeedForCars.Models.Owned.FuelConsumption", "FuelConsumption", b1 =>
                         {
-                            b1.Property<string>("CarId");
+                            b1.Property<int>("CarId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<decimal?>("Combined");
 

@@ -34,7 +34,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             return View(model);
         }
 
-        public IActionResult Details(string id)
+        public IActionResult Details(int id)
         {
             var engine = enginesService.GetById(id);
             if (engine == null)
@@ -67,7 +67,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             return this.RedirectToAction(nameof(All));
         }
 
-        public IActionResult Edit(string id)
+        public IActionResult Edit(int id)
         {
             var engine = enginesService.GetById(id);
             if (engine == null)
@@ -95,7 +95,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             return this.RedirectToAction(nameof(Details), new { id = engine.Id });
         }
 
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
             var engine = this.enginesService.GetById(id);
             if (engine == null)
@@ -103,13 +103,13 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 return this.BadRequest();
             }
 
-            var viewModel = Mapper.Map<DisplayEngineModel>(engine);
+            var viewModel = Mapper.Map<DeleteEngineModel>(engine);
 
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(DisplayEngineModel viewModel)
+        public async Task<IActionResult> Delete(DeleteEngineModel viewModel)
         {
             await this.enginesService.DeleteAsync(viewModel.Id);
             //TODO Results of deletion

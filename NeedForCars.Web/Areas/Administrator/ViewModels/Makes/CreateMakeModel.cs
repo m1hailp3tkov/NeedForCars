@@ -9,7 +9,7 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Makes
     public class CreateMakeModel : IMapTo<Make>
     {
         [Required(ErrorMessage = GlobalConstants.REQUIRED_NAME)]
-        [RegularExpression("[A-Za-z-. ]{2,}", ErrorMessage = GlobalConstants.MAKE_NAME_INVALID)]
+        [RegularExpression(GlobalConstants.MAKE_NAME_REGEX, ErrorMessage = GlobalConstants.MAKE_NAME_INVALID)]
         public string Name { get; set; }
 
         public string Description { get; set; }

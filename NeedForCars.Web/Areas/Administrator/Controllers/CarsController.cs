@@ -28,7 +28,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             this.imagesService = imagesService;
         }
 
-        public IActionResult All(string id)
+        public IActionResult All(int id)
         {
             var generation = generationsService.GetById(id);
             if (generation == null)
@@ -48,7 +48,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Create(string id)
+        public IActionResult Create(int id)
         {
             var generation = generationsService.GetById(id);
             if (generation == null)
@@ -60,7 +60,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateCarModel createCarModel, string id)
+        public async Task<IActionResult> Create(CreateCarModel createCarModel, int id)
         {
             var generation = generationsService.GetById(id);
             var engine = enginesService.GetById(createCarModel.EngineId);
@@ -101,7 +101,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             return this.RedirectToAction(nameof(All), new { id });
         }
 
-        public IActionResult Details(string id)
+        public IActionResult Details(int id)
         {
             var car = carsService.GetById(id);
             if (car == null)
@@ -113,7 +113,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             return this.View(viewModel);
         }
 
-        public IActionResult Edit(string id)
+        public IActionResult Edit(int id)
         {
             var car = carsService.GetById(id);
             if (car == null)
@@ -171,10 +171,25 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 return this.View();
             }
 
-            await carsService.Update(car);
+            await carsService.UpdateAsync(car);
 
             return this.RedirectToAction(nameof(Details), new { car.Id });
         }
+
+        public IActionResult Delete(int id)
+        {
+            var car = this.carsService.GetById(id);
+            if(car == null)
+            {
+                return this.BadRequest();
+            }
+
+            var viewModel = Mapper.Map<DeleteCarModel>(car);
+
+            return this.View(viewModel);
+        }
+
+        //TODO: Deleting of entities
 
         private void ValidateTireInfo(TireInfo tireInfo)
         {
@@ -189,5 +204,3 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
     }
 }
-
-//TODO: Deletion of entities

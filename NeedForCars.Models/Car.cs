@@ -6,16 +6,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NeedForCars.Models
 {
-    public class Car : IIdentifiable
+    public class Car : IIdentifiable<int>
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        public string GenerationId { get; set; }
+        public int GenerationId { get; set; }
         public Generation Generation { get; set; }
 
         [Required]
-        public string EngineId { get; set; }
+        public int EngineId { get; set; }
         public Engine Engine { get; set; }
 
         [Required]

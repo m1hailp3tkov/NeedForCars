@@ -5,6 +5,6 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Engines
 {
     public class EditEngineModel : CreateEngineModel, IMapFrom<Engine>
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
     }
 }

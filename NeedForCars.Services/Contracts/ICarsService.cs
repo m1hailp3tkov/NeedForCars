@@ -9,8 +9,8 @@ namespace NeedForCars.Services.Contracts
 
         bool Exists(Car car);
 
-        Car GetById(string id);
+        Car GetById(int id);
 
-        Task Update(Car car);
+        Task UpdateAsync(Car car);
     }
 }

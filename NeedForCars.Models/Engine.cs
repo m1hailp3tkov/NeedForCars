@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NeedForCars.Models
 {
-    public class Engine : IIdentifiable
+    public class Engine : IIdentifiable<int>
     {
         public Engine()
         {
@@ -13,7 +13,7 @@ namespace NeedForCars.Models
             this.ModifiedCars = new HashSet<UserCar>();
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }

@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NeedForCars.Models
 {
-    public class Make : IIdentifiable
+    public class Make : IIdentifiable<int>
     {
         public Make()
         {
             this.Models = new HashSet<Model>();
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }

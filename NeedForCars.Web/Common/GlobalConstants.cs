@@ -7,6 +7,8 @@
 
         public const string GENERATION_PHOTO_PATH_TEMPLATE = @"wwwroot\images\generations\{0}\{1}.png";
 
+        public const string USERCAR_PHOTO_PATH_TEMPLATE = @"wwwroot\images\userCars\{0}\{1}.png";
+
 
         // Error Messages
         // Global
@@ -56,6 +58,18 @@
         //--------ViewModels
         public const string MODEL_NAME_INVALID = "Model name can only contain Latin characters, numbers, spaces, dots and dashes";
 
+        //----UserCars
+        //--------Controller
+        public const string USERCAR_PRODUCTIONDATE_INVALID = "This car is only produced between {0} and {1}";
+        //--------ViewModels
+        public const string USERCAR_COLOR_REQUIRED = "You must enter a color for your car";
+        public const string USERCAR_PRODUCTIONDATE_REQUIRED = "You must enter a production date for your car";
+        public const string USERCAR_MILEAGE_REQUIRED = "You must enter your car's mileage";
+        public const string USERCAR_MILEAGE_INVALID = "Mileage must be a number between {0} and {1}";
+        public const string USERCAR_CARID_REQUIRED = "You must select a valid car";
+        public const string USERCAR_PRICE_INVALID = "Car price must be between {0} and {1}";
+        public const string USERCAR_PHOTOS_REQUIRED = "You must add photos of your car.";
+
 
         // Regular Expressions
         public const string EMAIL_REGEX = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
@@ -63,6 +77,8 @@
                                + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))\z";
 
         public const string USERNAME_REGEX = "[A-Za-z0-9._]{3,20}";
+
+        public const string MAKE_NAME_REGEX = "[A-Za-z-. ]{2,}";
 
         public const string CAR_NAME_REGEX = "[A-Za-z 0-9]+";
 

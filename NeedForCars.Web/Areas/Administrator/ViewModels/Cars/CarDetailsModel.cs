@@ -8,12 +8,12 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Cars
 {
     public class CarDetailsModel : IMapFrom<Car>
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
-        public string GenerationId { get; set; }
+        public int GenerationId { get; set; }
         public Generation Generation { get; set; }
 
-        public string EngineId { get; set; }
+        public int EngineId { get; set; }
         public Engine Engine { get; set; }
 
         public Transmission Transmission { get; set; }

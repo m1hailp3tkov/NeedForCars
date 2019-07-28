@@ -36,12 +36,12 @@ namespace NeedForCars.Services
             return this.context.Makes;
         }
 
-        public Make GetById(string id)
+        public Make GetById(int id)
         {
             return this.context
                 .Makes
                 .Include(x => x.Models)
-                .FirstOrDefault(x => x.Id == id || x.Name == id);
+                .FirstOrDefault(x => x.Id == id);
         }
 
         public async Task UpdateAsync(Make make)

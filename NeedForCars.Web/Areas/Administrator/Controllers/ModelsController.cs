@@ -23,7 +23,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             this.makesService = makesService;
         }
 
-        public IActionResult All(string id)
+        public IActionResult All(int id)
         {
             var make = makesService.GetById(id);
             if(make == null)
@@ -40,7 +40,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             return this.View(viewModel);
         }
 
-        public IActionResult Create(string id)
+        public IActionResult Create(int id)
         {
             var make = makesService.GetById(id);
             if (make == null)
@@ -53,7 +53,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateModelModel createModelModel, string id)
+        public async Task<IActionResult> Create(CreateModelModel createModelModel, int id)
         {
             var make = makesService.GetById(id);
             if (make == null)
@@ -77,7 +77,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             return this.RedirectToAction(nameof(All), new { id });
         }
 
-        public IActionResult Edit(string id)
+        public IActionResult Edit(int id)
         {
             var model = modelsService.GetById(id);
             if(model == null)

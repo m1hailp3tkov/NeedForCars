@@ -9,7 +9,7 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Cars
 {
     public class DisplayCarModel : IMapFrom<Car>
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public Engine Engine { get; set; }
 

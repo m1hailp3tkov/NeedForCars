@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NeedForCars.Models
 {
-    public class Message : IIdentifiable
+    public class Message : IIdentifiable<string>
     {
         public string Id { get; set; }
 

@@ -74,7 +74,6 @@ namespace NeedForCars.Services
 
         public void GetRelatedEntitiesCount(Model model, out int generations, out int cars, out int userCars)
         {
-            //TODO INCLUDE??
             generations = 0;
             cars = 0;
             userCars = 0;

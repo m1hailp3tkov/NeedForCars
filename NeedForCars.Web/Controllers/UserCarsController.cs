@@ -45,6 +45,20 @@ namespace NeedForCars.Web.Controllers
             return this.View();
         }
 
+        public IActionResult Details(string id)
+        {
+            var userCar = this.userCarsService.GetById(id);
+
+            if(userCar == null)
+            {
+                return this.BadRequest();
+            }
+
+            var viewModel = Mapper.Map<DetailsUserCarModel>(userCar);
+
+            return this.View(viewModel);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserCarModel createUserCarModel)
         {
@@ -171,17 +185,15 @@ namespace NeedForCars.Web.Controllers
 
         private void ValidateProductionDate(CreateUserCarModel model, Car car)
         {
-            if (car != null && (model.ProductionDate < car.BeginningOfProduction
+            /*if (car != null && (model.ProductionDate < car.BeginningOfProduction
                              || model.ProductionDate > car.EndOfProduction))
             {
                 this.ModelState.AddModelError(nameof(model.ProductionDate),
                     string.Format
                     (GlobalConstants.USERCAR_PRODUCTIONDATE_INVALID,
                         car.BeginningOfProduction.ToShortDateString(),
-                        car.EndOfProduction.ToShortDateString()));
-            }
+                        car.EndOfProduction.ToString()));
+            }*/
         }
     }
 }
-
-//TODO Add UserCar Details

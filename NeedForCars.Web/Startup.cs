@@ -122,5 +122,3 @@ namespace NeedForCars.Web
         }
     }
 }
-
-//TODO: Custom validation attributes for "The value '' is invalid."

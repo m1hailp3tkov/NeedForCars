@@ -13,9 +13,9 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Cars
 
         public Engine Engine { get; set; }
 
-        public DateTime BeginningOfProduction { get; set; }
+        public int BeginningOfProductionYear { get; set; }
 
-        public DateTime EndOfProduction { get; set; }
+        public int? EndOfProductionYear { get; set; }
 
         public string Name { get; set; }
     }

@@ -20,7 +20,11 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Cars
 
         public DriveWheel DriveWheel { get; set; }
 
-        public DateTime BeginningOfProduction { get; set; }
+        public int BeginningOfProductionYear { get; set; }
+        public int BeginningOfProductionMonth { get; set; }
+
+        public int? EndOfProductionYear { get; set; }
+        public int? EndOfProductionMonth { get; set; }
 
         public DateTime EndOfProduction { get; set; }
 

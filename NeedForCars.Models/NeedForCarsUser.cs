@@ -29,10 +29,13 @@ namespace NeedForCars.Models
         public string LastName { get; set; }
 
 
+        [PersonalData]
         public ICollection<UserCar> UserCars { get; set; }
 
+        [PersonalData]
         public ICollection<Message> SentMessages { get; set; }
 
+        [PersonalData]
         public ICollection<Message> ReceivedMessages { get; set; }
     }
 }

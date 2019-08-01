@@ -24,12 +24,12 @@
                     @item.Engine.Name (@item.Engine.MaxHP HP) @item.Name
                 </td>
                 <td>
-                    @item.BeginningOfProduction.Year - @item.EndOfProduction.Year
+                    @item.BeginningOfProductionYear - @item.EndOfProductionYear
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
             </tr>
         }

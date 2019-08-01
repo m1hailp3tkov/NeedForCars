@@ -22,7 +22,8 @@ namespace NeedForCars.Models
         public string Color { get; set; }
 
         [Required]
-        public DateTime ProductionDate { get; set; }
+        public int ProductionDateYear { get; set; }
+        public int ProductionDateMonth { get; set; }
 
         [Required]
         [Range(0, 10000000)]

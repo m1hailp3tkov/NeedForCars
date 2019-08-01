@@ -46,8 +46,6 @@ namespace NeedForCars.Web.Areas.Identity.Pages.Account.Manage
 
             Response.Headers.Add("Content-Disposition", "attachment; filename=PersonalData.json");
             return new FileContentResult(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(personalData)), "text/json");
-
-            //TODO : Personal data visualization
         }
     }
 }

@@ -28,15 +28,18 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Cars
         [EnumDataType(typeof(DriveWheel))]
         public DriveWheel DriveWheel { get; set; }
 
+        //Datetime properties:
         [Required]
-        [DataType(DataType.Date)]
-        [DisplayName("Beginning of production")]
-        public DateTime BeginningOfProduction { get; set; }
+        //TODO: Validation attribute for beginning
+        public int BeginningOfProductionYear { get; set; }
+        [Required]
+        [Range(1,12)]
+        public int BeginningOfProductionMonth { get; set; }
 
-        [Required]
-        [DataType(DataType.Date)]
-        [DisplayName("End of production")]
-        public DateTime EndOfProduction { get; set; }
+        [Range(1879, int.MaxValue)]
+        public int? EndOfProductionYear { get; set; }
+        [Range(1,12)]
+        public int? EndOfProductionMonth { get; set; }
 
         //Safety data
         [Required]

@@ -9,12 +9,6 @@ namespace NeedForCars.Services
 {
     public class ImagesService : IImagesService
     {
-        public ImagesService()
-        {
-            //TODO: add logging for exception
-        }
-
-
         public bool TryDeleteImage(string path)
         {
             try

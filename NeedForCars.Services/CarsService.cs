@@ -44,8 +44,10 @@ namespace NeedForCars.Services
                     x.GenerationId == car.GenerationId &&
                     x.Transmission == car.Transmission &&
                     x.DriveWheel == car.DriveWheel &&
-                    x.BeginningOfProduction == car.BeginningOfProduction &&
-                    x.EndOfProduction == car.EndOfProduction);
+                    x.BeginningOfProductionYear == car.BeginningOfProductionYear &&
+                    x.EndOfProductionYear == car.EndOfProductionYear &&
+                    x.BeginningOfProductionMonth == car.BeginningOfProductionMonth && 
+                    x.EndOfProductionMonth == car.EndOfProductionMonth);
         }
 
         public async Task UpdateAsync(Car car)

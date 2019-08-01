@@ -69,7 +69,8 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.BadRequest();
             }
-            if (createCarModel.BeginningOfProduction.Year < 1886)
+            // TODO
+            /*if (createCarModel.BeginningOfProduction.Year < 1886)
             {
                 this.ModelState.AddModelError(nameof(createCarModel.BeginningOfProduction), 
                     GlobalConstants.CAR_PRODUCTION_YEAR_TOO_EARLY);
@@ -79,7 +80,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 this.ModelState.AddModelError(nameof(createCarModel.EndOfProduction),
                     GlobalConstants.CAR_PRODUCTION_YEAR_IS_FUTURE);
-            }
+            }*/
 
             var car = Mapper.Map<Car>(createCarModel);
             car.GenerationId = id;
@@ -137,7 +138,8 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.BadRequest();
             }
-            if (editCarModel.BeginningOfProduction.Year < 1886)
+            //TODO:
+            /*if (editCarModel.BeginningOfProduction.Year < 1886)
             {
                 this.ModelState.AddModelError(nameof(editCarModel.BeginningOfProduction), 
                     GlobalConstants.CAR_PRODUCTION_YEAR_TOO_EARLY);
@@ -147,15 +149,17 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 this.ModelState.AddModelError(nameof(editCarModel.EndOfProduction),
                     GlobalConstants.CAR_PRODUCTION_YEAR_IS_FUTURE);
-            }
+            }*/
 
             bool isChanged =
                    car.EngineId != editCarModel.EngineId
                 || car.GenerationId != editCarModel.GenerationId
                 || car.Transmission != editCarModel.Transmission
                 || car.DriveWheel != editCarModel.DriveWheel
-                || car.BeginningOfProduction != editCarModel.BeginningOfProduction
-                || car.EndOfProduction != editCarModel.EndOfProduction;
+                || car.BeginningOfProductionYear != editCarModel.BeginningOfProductionYear
+                || car.BeginningOfProductionMonth != editCarModel.BeginningOfProductionMonth
+                || car.EndOfProductionYear != editCarModel.EndOfProductionYear
+                || car.EndOfProductionMonth != editCarModel.EndOfProductionMonth;
 
             Mapper.Map(editCarModel, car);
 
@@ -202,8 +206,6 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             return this.RedirectToAction(nameof(All));
         }
 
-        //TODO: Deleting of entities
-        //TODO: as validation attribute
         private void ValidateTireInfo(TireInfo tireInfo)
         {
             if (tireInfo.WheelDiameter == 0 &&

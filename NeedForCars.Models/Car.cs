@@ -25,10 +25,12 @@ namespace NeedForCars.Models
         public DriveWheel DriveWheel { get; set; }
 
         [Required]
-        public DateTime BeginningOfProduction { get; set; }
-
+        public int BeginningOfProductionYear { get; set; }
         [Required]
-        public DateTime EndOfProduction { get; set; }
+        public int BeginningOfProductionMonth { get; set; }
+
+        public int? EndOfProductionYear { get; set; }
+        public int? EndOfProductionMonth { get; set; }
 
         //Safety data
         public bool HasABS { get; set; }

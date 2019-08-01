@@ -77,18 +77,29 @@
                 <span asp-validation-for="NumberOfGears" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BeginningOfProduction" class="control-label"></label>
-                <input asp-for="BeginningOfProduction" class="form-control" />
-                <span asp-validation-for="BeginningOfProduction" class="text-danger"></span>
+                <label asp-for="BeginningOfProductionYear" class="control-label"></label>
+                <input asp-for="BeginningOfProductionYear" class="form-control" />
+                <span asp-validation-for="BeginningOfProductionYear" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EndOfProduction" class="control-label"></label>
-                <input asp-for="EndOfProduction" class="form-control" />
-                <span asp-validation-for="EndOfProduction" class="text-danger"></span>
+                <label asp-for="BeginningOfProductionMonth" class="control-label"></label>
+                <input asp-for="BeginningOfProductionMonth" class="form-control" />
+                <span asp-validation-for="BeginningOfProductionMonth" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EndOfProductionYear" class="control-label"></label>
+                <input asp-for="EndOfProductionYear" class="form-control" />
+                <span asp-validation-for="EndOfProductionYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndOfProductionMonth" class="control-label"></label>
+                <input asp-for="EndOfProductionMonth" class="form-control" />
+                <span asp-validation-for="EndOfProductionMonth" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Tires size</label>
-                <span asp-validation-for="TireInfo.TireWidth" class="text-da"></span>
+                <span asp-validation-for="TireInfo.TireWidth" class="text-danger"></span>
                 <span asp-validation-for="TireInfo.AspectRatio" class="text-danger"></span>
                 <span asp-validation-for="TireInfo.WheelDiameter" class="text-danger"></span>
                 <input asp-for="TireInfo.TireWidth" class="col-2" step="5" /> /

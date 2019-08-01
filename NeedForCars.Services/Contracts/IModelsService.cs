@@ -15,5 +15,9 @@ namespace NeedForCars.Services.Contracts
         IQueryable<Model> GetAllForMake(int makeId);
 
         Task UpdateAsync(Model model);
+
+        Task DeleteAsync(Model model);
+
+        void GetRelatedEntitiesCount(Model model, out int generations, out int cars, out int userCars);
     }
 }

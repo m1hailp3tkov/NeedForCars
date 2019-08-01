@@ -6,6 +6,8 @@ namespace NeedForCars.Services.Contracts
 {
     public interface IImagesService
     {
+        bool TryDeleteImage(string path);
+
         bool TryDeleteImagesFromDirectory(string path);
 
         Task UploadImageAsync(IFormFile formImage, string filePath);

@@ -17,7 +17,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         private readonly IModelsService modelsService;
         private readonly IMakesService makesService;
 
-        public ModelsController(IModelsService modelsService , IMakesService makesService)
+        public ModelsController(IModelsService modelsService, IMakesService makesService)
         {
             this.modelsService = modelsService;
             this.makesService = makesService;
@@ -26,7 +26,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         public IActionResult All(int id)
         {
             var make = makesService.GetById(id);
-            if(make == null)
+            if (make == null)
             {
                 return this.BadRequest();
             }
@@ -60,11 +60,11 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.BadRequest();
             }
-            if(modelsService.Exists(id,createModelModel.Name))
+            if (modelsService.Exists(id, createModelModel.Name))
             {
                 this.ModelState.AddModelError(nameof(createModelModel.Name), GlobalConstants.MODEL_ALREADY_EXISTS);
             }
-            if(!this.ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 return this.View(createModelModel);
             }
@@ -80,7 +80,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         public IActionResult Edit(int id)
         {
             var model = modelsService.GetById(id);
-            if(model == null)
+            if (model == null)
             {
                 return this.BadRequest();
             }
@@ -94,11 +94,11 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         public async Task<IActionResult> Edit(EditModelModel editModelModel)
         {
             var model = modelsService.GetById(editModelModel.Id);
-            if(model == null)
+            if (model == null)
             {
                 return this.BadRequest();
             }
-            if(modelsService.Exists(model.MakeId, editModelModel.Name) && editModelModel.Name != model.Name)
+            if (modelsService.Exists(model.MakeId, editModelModel.Name) && editModelModel.Name != model.Name)
             {
                 this.ModelState.AddModelError(nameof(editModelModel.Name), GlobalConstants.MODEL_ALREADY_EXISTS);
             }
@@ -111,7 +111,36 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             await modelsService.UpdateAsync(model);
 
-            return this.RedirectToAction(nameof(All), new { Id = model.MakeId});
+            return this.RedirectToAction(nameof(All), new { Id = model.MakeId });
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var model = this.modelsService.GetById(id);
+
+            if (model == null)
+            {
+                return this.BadRequest();
+            }
+
+            var viewModel = Mapper.Map<DeleteModelModel>(model);
+            this.modelsService.GetRelatedEntitiesCount(model, out int generations, out int cars, out int userCars);
+
+            viewModel.GenerationsCount = generations;
+            viewModel.CarsCount = cars;
+            viewModel.UserCarsCount = userCars;
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeleteModelModel deleteModelModel)
+        {
+            var model = this.modelsService.GetById(deleteModelModel.Id);
+
+            await this.modelsService.DeleteAsync(model);
+
+            return this.RedirectToAction(nameof(All), new { id = model.MakeId });
         }
     }
 }

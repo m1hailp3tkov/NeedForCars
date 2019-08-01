@@ -104,15 +104,20 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
 
             var viewModel = Mapper.Map<DeleteEngineModel>(engine);
+            this.enginesService.GetRelatedEntitiesCount(engine, out int cars, out int userCars);
+
+            viewModel.CarsCount = cars;
+            viewModel.UserCarsCount = userCars;
 
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(DeleteEngineModel viewModel)
+        public async Task<IActionResult> Delete(DeleteEngineModel deleteEngineModel)
         {
-            await this.enginesService.DeleteAsync(viewModel.Id);
-            //TODO Results of deletion
+            var engine = enginesService.GetById(deleteEngineModel.Id);
+            
+            await this.enginesService.DeleteAsync(engine);
 
             return this.RedirectToAction(nameof(All));
         }

@@ -12,5 +12,9 @@ namespace NeedForCars.Services.Contracts
         Car GetById(int id);
 
         Task UpdateAsync(Car car);
+
+        Task DeleteAsync(Car car);
+
+        void GetRelatedEntitiesCount(Car car, out int userCars);
     }
 }

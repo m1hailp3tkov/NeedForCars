@@ -10,6 +10,9 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Generations
 {
     public class CreateGenerationModel : IMapTo<Generation>
     {
+        [Required(ErrorMessage = GlobalConstants.IMAGE_REQUIRED)]
+        public IEnumerable<IFormFile> FormImages { get; set; }
+
         [StringLength(50, ErrorMessage = GlobalConstants.GENERATION_NAME_LENGTH, MinimumLength = 1)]
         [RegularExpression(GlobalConstants.GENERATION_NAME_REGEX, ErrorMessage = GlobalConstants.GENERATION_NAME_INVALID)]
         public string Name { get; set; }
@@ -22,7 +25,5 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Generations
         public int? Seats { get; set; }
 
         public string Description { get; set; }
-
-        public IEnumerable<IFormFile> FormImages { get; set; }
     }
 }

@@ -16,6 +16,8 @@ namespace NeedForCars.Services.Contracts
 
         Task UpdateAsync(Generation generation);
 
-        //TODO: Add Delete for generations
+        Task DeleteAsync(Generation generation);
+
+        void GetRelatedEntitiesCount(Generation generation, out int cars, out int userCars);
     }
 }

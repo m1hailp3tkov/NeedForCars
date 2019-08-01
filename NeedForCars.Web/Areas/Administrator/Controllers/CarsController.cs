@@ -186,11 +186,24 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             var viewModel = Mapper.Map<DeleteCarModel>(car);
 
+            this.carsService.GetRelatedEntitiesCount(car, out int userCarsCount);
+            viewModel.UserCarsCount = userCarsCount;
+
             return this.View(viewModel);
         }
 
-        //TODO: Deleting of entities
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeleteCarModel deleteCarModel)
+        {
+            var car = this.carsService.GetById(deleteCarModel.Id);
 
+            await this.carsService.DeleteAsync(car);
+
+            return this.RedirectToAction(nameof(All));
+        }
+
+        //TODO: Deleting of entities
+        //TODO: as validation attribute
         private void ValidateTireInfo(TireInfo tireInfo)
         {
             if (tireInfo.WheelDiameter == 0 &&

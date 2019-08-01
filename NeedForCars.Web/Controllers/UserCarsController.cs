@@ -29,7 +29,7 @@ namespace NeedForCars.Web.Controllers
             this.imagesService = imagesService;
         }
 
-        public async Task<IActionResult> All()
+        public IActionResult All()
         {
             var userId = userManager.GetUserId(this.User);
             var userCars = this.userCarsService

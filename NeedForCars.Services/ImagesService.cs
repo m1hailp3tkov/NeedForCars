@@ -14,6 +14,20 @@ namespace NeedForCars.Services
             //TODO: add logging for exception
         }
 
+
+        public bool TryDeleteImage(string path)
+        {
+            try
+            {
+                File.Delete(path);
+                return true;
+            }
+            catch(DirectoryNotFoundException)
+            {
+                return false;
+            }
+        }
+
         public bool TryDeleteImagesFromDirectory(string path)
         {
             path = Path.GetDirectoryName(path);
@@ -31,7 +45,7 @@ namespace NeedForCars.Services
         public async Task UploadImageAsync(IFormFile formImage, string path)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(path));
-            
+
             using (FileStream stream = File.Create(path))
             {
                 await formImage.CopyToAsync(stream);
@@ -40,7 +54,7 @@ namespace NeedForCars.Services
 
         public async Task UploadImagesAsync(IList<IFormFile> formImages, string path, string folderName)
         {
-            for(int i=0;i<formImages.Count;i++)
+            for (int i = 0; i < formImages.Count; i++)
             {
                 string _path = string.Format(path, folderName, i);
 
@@ -58,7 +72,7 @@ namespace NeedForCars.Services
 
         public bool IsValidImageCollection(IEnumerable<IFormFile> formImages)
         {
-            foreach(var formImage in formImages)
+            foreach (var formImage in formImages)
             {
                 if (!IsValidImage(formImage)) return false;
             }

@@ -149,5 +149,34 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             return this.RedirectToAction(nameof(All), new { Id = generation.ModelId });
         }
+
+        public IActionResult Delete(int id)
+        {
+            var generation = generationsService.GetById(id);
+            if (generation == null)
+            {
+                return this.BadRequest();
+            }
+
+            var viewModel = Mapper.Map<DeleteGenerationModel>(generation);
+            this.generationsService.GetRelatedEntitiesCount(generation, out int cars, out int userCars);
+
+            viewModel.CarsCount = cars;
+            viewModel.UserCarsCount = userCars;
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeleteGenerationModel deleteGenerationModel)
+        {
+            var generation = generationsService.GetById(deleteGenerationModel.Id);
+            var path = string.Format(GlobalConstants.GENERATION_PHOTO_PATH_TEMPLATE, deleteGenerationModel.Id, "0");
+
+            this.imagesService.TryDeleteImagesFromDirectory(path);
+            await this.generationsService.DeleteAsync(generation);
+
+            return this.RedirectToAction(nameof(All), new { id = generation.ModelId });
+        }
     }
 }

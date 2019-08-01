@@ -55,5 +55,23 @@ namespace NeedForCars.Services
             this.context.Cars.Update(car);
             await this.context.SaveChangesAsync();
         }
+
+        public async Task DeleteAsync(Car car)
+        {
+            if (car == null) return;
+
+            this.context.Remove(car);
+            await this.context.SaveChangesAsync();
+        }
+
+        public void GetRelatedEntitiesCount(Car car, out int userCars)
+        {
+            userCars = 0;
+
+            if (car == null) return;
+
+            userCars = this.context.UserCars
+                .Count(x => x.CarId == car.Id);
+        }
     }
 }

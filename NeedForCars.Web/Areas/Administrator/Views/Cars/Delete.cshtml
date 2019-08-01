@@ -1,4 +1,5 @@
 ﻿@model DeleteCarModel
+@inject ICarsService carsService
 
 <h3>Are you sure you want to delete Car?</h3>
 <div>
@@ -32,7 +33,7 @@
     </dl>
 
     <b>This will result in:</b><br/>
-    [items] <br />
+    @Model.UserCarsCount Users' Cars <br />
     being deleted.
 
     

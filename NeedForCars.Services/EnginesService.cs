@@ -30,9 +30,8 @@ namespace NeedForCars.Services
             await this.context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int engineId)
+        public async Task DeleteAsync(Engine engine)
         {
-            var engine = this.GetById(engineId);
             if (engine == null) return;
 
             this.context.Engines.Remove(engine);
@@ -53,6 +52,22 @@ namespace NeedForCars.Services
 
             this.context.Engines.Update(engine);
             await this.context.SaveChangesAsync();
+        }
+
+        public void GetRelatedEntitiesCount(Engine engine, out int cars, out int userCars)
+        {
+            cars = 0;
+            userCars = 0;
+
+            if (engine == null) return;
+
+            cars = this.context.Cars
+                .Count(x => x.EngineId == engine.Id);
+
+            userCars = this.context.UserCars
+                .Count(x => x.CustomEngineId == engine.Id)
+                + this.context.UserCars
+                .Count(x => x.Car.EngineId == engine.Id);
         }
     }
 }

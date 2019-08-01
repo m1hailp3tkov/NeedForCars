@@ -14,6 +14,8 @@ namespace NeedForCars.Services.Contracts
 
         Task UpdateAsync(Engine engine);
 
-        Task DeleteAsync(int engineId);
+        Task DeleteAsync(Engine engine);
+
+        void GetRelatedEntitiesCount(Engine engine, out int cars, out int userCars);
     }
 }

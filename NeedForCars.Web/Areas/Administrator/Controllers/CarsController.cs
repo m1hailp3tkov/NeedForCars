@@ -69,18 +69,6 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.BadRequest();
             }
-            // TODO
-            /*if (createCarModel.BeginningOfProduction.Year < 1886)
-            {
-                this.ModelState.AddModelError(nameof(createCarModel.BeginningOfProduction), 
-                    GlobalConstants.CAR_PRODUCTION_YEAR_TOO_EARLY);
-            }
-            if (createCarModel.EndOfProduction > DateTime.UtcNow 
-                || createCarModel.EndOfProduction < createCarModel.BeginningOfProduction)
-            {
-                this.ModelState.AddModelError(nameof(createCarModel.EndOfProduction),
-                    GlobalConstants.CAR_PRODUCTION_YEAR_IS_FUTURE);
-            }*/
 
             var car = Mapper.Map<Car>(createCarModel);
             car.GenerationId = id;
@@ -138,18 +126,6 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.BadRequest();
             }
-            //TODO:
-            /*if (editCarModel.BeginningOfProduction.Year < 1886)
-            {
-                this.ModelState.AddModelError(nameof(editCarModel.BeginningOfProduction), 
-                    GlobalConstants.CAR_PRODUCTION_YEAR_TOO_EARLY);
-            }
-            if (editCarModel.EndOfProduction > DateTime.UtcNow 
-                || editCarModel.EndOfProduction<editCarModel.BeginningOfProduction)
-            {
-                this.ModelState.AddModelError(nameof(editCarModel.EndOfProduction),
-                    GlobalConstants.CAR_PRODUCTION_YEAR_IS_FUTURE);
-            }*/
 
             bool isChanged =
                    car.EngineId != editCarModel.EngineId

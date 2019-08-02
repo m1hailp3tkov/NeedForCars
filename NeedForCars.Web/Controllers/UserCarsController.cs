@@ -49,7 +49,7 @@ namespace NeedForCars.Web.Controllers
         {
             var userCar = this.userCarsService.GetById(id);
 
-            if(userCar == null)
+            if (userCar == null)
             {
                 return this.BadRequest();
             }
@@ -65,6 +65,17 @@ namespace NeedForCars.Web.Controllers
             createUserCarModel.OwnerId = userManager.GetUserId(this.User);
 
             var car = this.carsService.GetById(createUserCarModel.CarId);
+            if (car == null)
+            {
+                return this.BadRequest();
+            }
+
+            var validDateTime = DateTime.TryParse($"{createUserCarModel.ProductionDateYear}/{createUserCarModel.ProductionDateMonth}/01", out DateTime dateTime);
+            if(!validDateTime)
+            {
+                return this.BadRequest();
+            }
+
             if (createUserCarModel.Photos == null)
             {
                 this.ModelState.AddModelError(nameof(createUserCarModel.Photos),
@@ -72,7 +83,6 @@ namespace NeedForCars.Web.Controllers
             }
 
             ValidatePhotos(createUserCarModel);
-
             ValidateProductionDate(createUserCarModel, car);
 
             if (!this.ModelState.IsValid)
@@ -80,10 +90,6 @@ namespace NeedForCars.Web.Controllers
                 return this.View(createUserCarModel);
             }
 
-            if (car == null)
-            {
-                return this.BadRequest();
-            }
 
             var userCar = Mapper.Map<UserCar>(createUserCarModel);
             await this.userCarsService.AddAsync(userCar);
@@ -112,10 +118,16 @@ namespace NeedForCars.Web.Controllers
             var userId = userManager.GetUserId(this.User);
             var userCar = this.userCarsService.GetById(editUserCarModel.Id);
             var car = this.carsService.GetById(editUserCarModel.CarId);
+            var validDateTime = DateTime.TryParse($"{editUserCarModel.ProductionDateYear}/{editUserCarModel.ProductionDateMonth}/01", out DateTime dateTime);
 
             if (userCar.OwnerId != userId)
             {
                 return this.Unauthorized();
+            }
+
+            if (!validDateTime)
+            {
+                return this.BadRequest();
             }
 
             ValidatePhotos(editUserCarModel);
@@ -185,15 +197,29 @@ namespace NeedForCars.Web.Controllers
 
         private void ValidateProductionDate(CreateUserCarModel model, Car car)
         {
-            /*if (car != null && (model.ProductionDate < car.BeginningOfProduction
-                             || model.ProductionDate > car.EndOfProduction))
+            if (car == null || model == null) return;
+
+            var productionDate = new DateTime(model.ProductionDateYear, model.ProductionDateMonth, 1);
+            var beginningOfProduction = new DateTime(car.BeginningOfProductionYear, car.BeginningOfProductionMonth, 1);
+            DateTime endOfProduction;
+            if (car.EndOfProductionYear != null && car.EndOfProductionMonth != null)
             {
-                this.ModelState.AddModelError(nameof(model.ProductionDate),
+                endOfProduction = DateTime.UtcNow;
+            }
+            else
+            {
+                endOfProduction = new DateTime((int)car.EndOfProductionYear, (int)car.EndOfProductionMonth, 1);
+            }
+
+            if (productionDate < beginningOfProduction
+              || productionDate > endOfProduction)
+            {
+                this.ModelState.AddModelError(nameof(model.ProductionDateYear),
                     string.Format
                     (GlobalConstants.USERCAR_PRODUCTIONDATE_INVALID,
-                        car.BeginningOfProduction.ToShortDateString(),
-                        car.EndOfProduction.ToString()));
-            }*/
+                        beginningOfProduction.ToString("MMMM yyyy"),
+                        endOfProduction.ToString("MMMM yyyy")));
+            }
         }
     }
 }

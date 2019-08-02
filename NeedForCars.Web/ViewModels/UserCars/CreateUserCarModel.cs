@@ -24,9 +24,7 @@ namespace NeedForCars.Web.ViewModels.UserCars
         [Required(ErrorMessage = GlobalConstants.USERCAR_COLOR_REQUIRED)]
         public string Color { get; set; }
 
-        //TODO:
-        //[Required(ErrorMessage = GlobalConstants.USERCAR_PRODUCTIONDATE_REQUIRED)]
-        [Required]
+        [Required(ErrorMessage = GlobalConstants.USERCAR_PRODUCTIONDATE_REQUIRED)]
         public int ProductionDateYear { get; set; }
         [Required]
         public int ProductionDateMonth { get; set; }

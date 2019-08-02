@@ -28,8 +28,7 @@
 
         //----Cars
         //--------Controller
-        public const string CAR_PRODUCTION_YEAR_TOO_EARLY = "Cars didn't exist back then.";
-        public const string CAR_PRODUCTION_YEAR_IS_FUTURE = "We do not support cars from the future";
+        public const string CAR_PRODUCTION_YEAR_INVALID = "Invalid year";
         public const string CAR_ALREADY_EXISTS = "A car with those specs that already exists";
         //--------ViewModels
         public const string CAR_NUMBEROFGEARS_INVALID = "A gearbox can only have between 1 and 10 gears";

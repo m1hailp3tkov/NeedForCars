@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using static NeedForCars.Web.Common.ValidationAttributes.ProductionYearAttribute;
 
 namespace NeedForCars.Web.Areas.Administrator.ViewModels.Cars
 {
@@ -30,13 +31,13 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Cars
 
         //Datetime properties:
         [Required]
-        //TODO: Validation attribute for beginning
+        [YearRange(1879, ErrorMessage = GlobalConstants.CAR_PRODUCTION_YEAR_INVALID)]
         public int BeginningOfProductionYear { get; set; }
         [Required]
         [Range(1,12)]
         public int BeginningOfProductionMonth { get; set; }
 
-        [Range(1879, int.MaxValue)]
+        [YearRange(1879, ErrorMessage = GlobalConstants.CAR_PRODUCTION_YEAR_INVALID)]
         public int? EndOfProductionYear { get; set; }
         [Range(1,12)]
         public int? EndOfProductionMonth { get; set; }

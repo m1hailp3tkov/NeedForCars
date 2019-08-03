@@ -66,7 +66,7 @@
         public const string USERCAR_PRODUCTIONDATE_REQUIRED = "You must enter a production date for your car";
         public const string USERCAR_MILEAGE_REQUIRED = "You must enter your car's mileage";
         public const string USERCAR_MILEAGE_INVALID = "Mileage must be a number between {0} and {1}";
-        public const string USERCAR_CARID_REQUIRED = "You must select a valid car";
+        public const string USERCAR_CAR_REQUIRED = "You must select a car";
         public const string USERCAR_PRICE_INVALID = "Car price must be between {0} and {1}";
         public const string USERCAR_PHOTOS_REQUIRED = "You must add photos of your car.";
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using NeedForCars.Models;
 using NeedForCars.Models.Enums;
 using NeedForCars.Models.Owned;
@@ -18,8 +19,19 @@ namespace NeedForCars.Web.ViewModels.UserCars
 
         public IEnumerable<IFormFile> Photos { get; set; }
 
-        [Required(ErrorMessage = GlobalConstants.USERCAR_CARID_REQUIRED)]
-        public int CarId { get; set; }
+        [Required]
+        public int? SelectedMake { get; set; }
+        [Required]
+        public int? SelectedModel { get; set; }
+        [Required]
+        public int? SelectedGeneration { get; set; }
+        [Required(ErrorMessage = GlobalConstants.USERCAR_CAR_REQUIRED)]
+        public int? SelectedCar { get; set; }
+
+        public SelectList MakeList { get; set; }
+        public SelectList ModelList { get; set; }
+        public SelectList GenerationList { get; set; }
+        public SelectList CarList { get; set; }
 
         [Required(ErrorMessage = GlobalConstants.USERCAR_COLOR_REQUIRED)]
         public string Color { get; set; }

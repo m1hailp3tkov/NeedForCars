@@ -1,4 +1,5 @@
 ﻿using NeedForCars.Models;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NeedForCars.Services.Contracts
@@ -16,5 +17,7 @@ namespace NeedForCars.Services.Contracts
         Task DeleteAsync(Car car);
 
         void GetRelatedEntitiesCount(Car car, out int userCars);
+
+        IQueryable<Car> GetAllForGeneration(int generationId);
     }
 }

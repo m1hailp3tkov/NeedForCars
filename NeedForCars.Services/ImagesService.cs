@@ -16,7 +16,7 @@ namespace NeedForCars.Services
                 File.Delete(path);
                 return true;
             }
-            catch(DirectoryNotFoundException)
+            catch (DirectoryNotFoundException)
             {
                 return false;
             }
@@ -72,6 +72,22 @@ namespace NeedForCars.Services
             }
 
             return true;
+        }
+
+        public IEnumerable<string> GetImageUrls(string pathTemplate, string id)
+        {
+            var path = string.Format(pathTemplate, id, 0);
+            path = path.Substring(0, path.Length - (id.Length + 4)); //remove filename and extension
+
+            var filePaths = Directory.GetFiles(path);
+
+            //remove wwwroot
+            for (int i = 0; i < filePaths.Length; i++)
+            {
+                filePaths[i] = filePaths[i].Substring(7);
+            }
+
+            return filePaths;
         }
     }
 }

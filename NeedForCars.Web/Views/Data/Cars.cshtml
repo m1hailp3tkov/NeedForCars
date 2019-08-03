@@ -1,0 +1,18 @@
+﻿@model DisplayCarsWithImagesModel
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+@foreach(var image in Model.ImageUrls)
+{
+    <img src="@image" height="100" />
+}
+
+<hr />
+
+@foreach(var car in Model.Cars)
+{
+    <a href="">@car.EngineName (@car.EngineMaxHP) @car.Name</a>
+    <br />
+}

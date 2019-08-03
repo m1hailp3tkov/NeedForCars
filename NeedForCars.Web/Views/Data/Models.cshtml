@@ -1,0 +1,13 @@
+﻿@model IEnumerable<IGrouping<char, DisplayModelWithImageModel>>
+
+@foreach (var group in Model)
+{
+    <br />
+    <h3>@group.Key</h3>
+    <hr />
+    foreach (var _model in group)
+    {
+        <h4>@_model.Name</h4>
+        <img src="@_model.ImageUrl" height="100" />
+    }
+}

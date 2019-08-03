@@ -10,7 +10,7 @@
                 @Html.DisplayNameFor(model => model.CarId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.IsPublic)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
@@ -32,7 +32,7 @@
                     @Html.DisplayFor(modelItem => item.CarId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @Html.DisplayFor(modelItem => item.IsPublic)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
@@ -43,11 +43,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CustomEngineId)
                 </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
+                <td><img src="@item.ImageUrl" /></td>
             </tr>
         }
     </tbody>

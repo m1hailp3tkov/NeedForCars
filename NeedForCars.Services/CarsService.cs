@@ -75,5 +75,15 @@ namespace NeedForCars.Services
             userCars = this.context.UserCars
                 .Count(x => x.CarId == car.Id);
         }
+
+        public IQueryable<Car> GetAllForGeneration(int generationId)
+        {
+            var cars = this.context.Cars
+                .Include(x => x.Engine)
+                .Where(x => x.GenerationId == generationId)
+                .AsQueryable();
+
+            return cars;
+        }
     }
 }

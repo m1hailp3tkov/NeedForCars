@@ -1,0 +1,107 @@
+﻿@model CarDetailsWithImagesModel
+
+@foreach (var image in Model.ImageUrls)
+{
+    <img src="@image" height="100" />
+}
+
+<div>
+    <h4>CarDetailsWithImagesModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.GenerationId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.GenerationId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EngineId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EngineId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Transmission)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Transmission)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DriveWheel)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DriveWheel)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BeginningOfProductionYear)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeginningOfProductionYear)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BeginningOfProductionMonth)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeginningOfProductionMonth)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndOfProductionYear)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndOfProductionYear)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndOfProductionMonth)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndOfProductionMonth)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TopSpeed)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TopSpeed)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NumberOfGears)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumberOfGears)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.HasABS)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HasABS)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.HasESP)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HasESP)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.HasTCS)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HasTCS)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

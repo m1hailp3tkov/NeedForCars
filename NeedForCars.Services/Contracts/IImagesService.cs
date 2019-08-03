@@ -17,5 +17,7 @@ namespace NeedForCars.Services.Contracts
         bool IsValidImage(IFormFile formImage);
 
         bool IsValidImageCollection(IEnumerable<IFormFile> formImages);
+
+        IEnumerable<string> GetImageUrls(string path, string id);
     }
 }

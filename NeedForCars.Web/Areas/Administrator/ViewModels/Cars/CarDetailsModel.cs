@@ -26,8 +26,6 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Cars
         public int? EndOfProductionYear { get; set; }
         public int? EndOfProductionMonth { get; set; }
 
-        public DateTime EndOfProduction { get; set; }
-
         public string Name { get; set; }
 
         public int? TopSpeed { get; set; }

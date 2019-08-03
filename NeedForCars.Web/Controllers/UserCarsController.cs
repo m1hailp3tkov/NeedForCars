@@ -10,6 +10,8 @@ using NeedForCars.Services.Contracts;
 using NeedForCars.Web.Common;
 using NeedForCars.Services.Mapping;
 using NeedForCars.Web.ViewModels.UserCars;
+using NeedForCars.Web.ViewModels.UserCars.DTOs;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace NeedForCars.Web.Controllers
 {
@@ -19,14 +21,21 @@ namespace NeedForCars.Web.Controllers
         private readonly ICarsService carsService;
         private readonly IUserCarsService userCarsService;
         private readonly IImagesService imagesService;
+        private readonly IMakesService makesService;
+        private readonly IModelsService modelsService;
+        private readonly IGenerationsService generationsService;
 
         public UserCarsController(UserManager<NeedForCarsUser> userManager,
-            ICarsService carsService, IUserCarsService userCarsService, IImagesService imagesService)
+            ICarsService carsService, IUserCarsService userCarsService, IImagesService imagesService, 
+            IMakesService makesService, IModelsService modelsService, IGenerationsService generationsService)
         {
             this.userManager = userManager;
             this.carsService = carsService;
             this.userCarsService = userCarsService;
             this.imagesService = imagesService;
+            this.makesService = makesService;
+            this.modelsService = modelsService;
+            this.generationsService = generationsService;
         }
 
         public IActionResult All()
@@ -38,11 +47,6 @@ namespace NeedForCars.Web.Controllers
             var viewModel = userCars.To<DisplayUserCarModel>();
 
             return this.View(viewModel);
-        }
-
-        public IActionResult Create()
-        {
-            return this.View();
         }
 
         public IActionResult Details(string id)
@@ -59,12 +63,91 @@ namespace NeedForCars.Web.Controllers
             return this.View(viewModel);
         }
 
+        public JsonResult FetchModels(int id)
+        {
+            var models = modelsService.GetAllForMake(id)
+                .To<ModelDTO>()
+                .OrderBy(x => x.Name);
+
+            return Json(models);
+        }
+
+        public JsonResult FetchGenerations(int id)
+        {
+            var generations = generationsService.GetAllForModel(id)
+                .To<GenerationDTO>()
+                .OrderBy(x => x.Name);
+
+            return Json(generations);
+        }
+
+        public JsonResult FetchCars(int id)
+        {
+            var cars = carsService.GetAllForGeneration(id)
+                .To<CarDTO>()
+                .OrderBy(x => x.EngineMaxHP)
+                .ThenBy(x => x.DisplayText);
+
+            return Json(cars);
+        }
+
+        public IActionResult Create()
+        {
+            //TODO Extract method?
+            var viewModel = new CreateUserCarModel();
+            var makes = makesService.GetAll().To<MakeDTO>();
+            viewModel.MakeList = new SelectList(makes, nameof(MakeDTO.Id), nameof(MakeDTO.Name));
+
+            
+            if(viewModel.SelectedMake.HasValue)
+            {
+                IEnumerable<ModelDTO> models = this.modelsService
+                    .GetAllForMake(viewModel.SelectedMake.Value)
+                    .To<ModelDTO>();
+
+                viewModel.ModelList = new SelectList(models, nameof(ModelDTO.Id), nameof(ModelDTO.Name));
+            }
+            else
+            {
+                viewModel.ModelList = new SelectList(Enumerable.Empty<ModelDTO>());
+            }
+
+            if (viewModel.SelectedModel.HasValue)
+            {
+                IEnumerable<GenerationDTO> generations = this.generationsService
+                    .GetAllForModel(viewModel.SelectedModel.Value)
+                    .To<GenerationDTO>();
+
+                viewModel.GenerationList = new SelectList(generations, nameof(GenerationDTO.Id), nameof(GenerationDTO.Name));
+            }
+            else
+            {
+                viewModel.GenerationList = new SelectList(Enumerable.Empty<GenerationDTO>());
+            }
+
+            if (viewModel.SelectedGeneration.HasValue)
+            {
+                IEnumerable<CarDTO> cars = this.carsService
+                    .GetAllForGeneration(viewModel.SelectedGeneration.Value)
+                    .To<CarDTO>();
+
+                viewModel.CarList = new SelectList(cars, nameof(CarDTO.Id), nameof(CarDTO.DisplayText));
+            }
+            else
+            {
+                viewModel.CarList = new SelectList(Enumerable.Empty<CarDTO>());
+            }
+
+            return this.View(viewModel);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserCarModel createUserCarModel)
         {
             createUserCarModel.OwnerId = userManager.GetUserId(this.User);
 
-            var car = this.carsService.GetById(createUserCarModel.CarId);
+            //TODO: check for null
+            var car = this.carsService.GetById(createUserCarModel.SelectedCar.Value);
             if (car == null)
             {
                 return this.BadRequest();
@@ -117,7 +200,8 @@ namespace NeedForCars.Web.Controllers
         {
             var userId = userManager.GetUserId(this.User);
             var userCar = this.userCarsService.GetById(editUserCarModel.Id);
-            var car = this.carsService.GetById(editUserCarModel.CarId);
+            //TODO: check for null
+            var car = this.carsService.GetById(editUserCarModel.SelectedCar.Value);
             var validDateTime = DateTime.TryParse($"{editUserCarModel.ProductionDateYear}/{editUserCarModel.ProductionDateMonth}/01", out DateTime dateTime);
 
             if (userCar.OwnerId != userId)

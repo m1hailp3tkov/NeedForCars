@@ -179,7 +179,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             await this.carsService.DeleteAsync(car);
 
-            return this.RedirectToAction(nameof(All));
+            return this.RedirectToAction(nameof(All), new { car.Id });
         }
 
         private void ValidateTireInfo(TireInfo tireInfo)

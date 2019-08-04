@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using NeedForCars.Data;
 using NeedForCars.Models;
 using NeedForCars.Services.Contracts;
@@ -29,6 +30,11 @@ namespace NeedForCars.Services
         public UserCar GetById(string id)
         {
             return this.context.UserCars
+                .Include(x => x.Owner)
+                .Include(x => x.Car)
+                .ThenInclude(x => x.Generation)
+                .ThenInclude(x => x.Model)
+                .ThenInclude(x => x.Make)
                 .FirstOrDefault(x => x.Id == id);
         }
 

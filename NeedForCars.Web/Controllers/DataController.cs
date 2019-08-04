@@ -12,7 +12,7 @@ using NeedForCars.Web.ViewModels.Data;
 
 namespace NeedForCars.Web.Controllers
 {
-    public class DataController : BaseController
+    public class DataController : Controller
     {
         private readonly IMakesService makesService;
         private readonly IModelsService modelsService;

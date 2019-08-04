@@ -6,7 +6,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 {
     [Area("Administrator")]
     [Authorize(Roles = "Admin")]
-    public class AdministratorController : BaseController
+    public class AdministratorController : Controller
     {
     }
 }

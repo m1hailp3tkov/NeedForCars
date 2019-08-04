@@ -9,7 +9,7 @@ using NeedForCars.Web.ViewModels.UserCars.DTOs;
 
 namespace NeedForCars.Web.Controllers
 {
-    public class ApiController : BaseController
+    public class ApiController : Controller
     {
         private readonly IMakesService makesService;
         private readonly IModelsService modelsService;

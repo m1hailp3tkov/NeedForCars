@@ -77,7 +77,7 @@ namespace NeedForCars.Services
         public IEnumerable<string> GetImageUrls(string pathTemplate, string id)
         {
             var path = string.Format(pathTemplate, id, 0);
-            path = path.Substring(0, path.Length - (id.Length + 4)); //remove filename and extension
+            path = path.Substring(0, path.LastIndexOf('\\'));
 
             var filePaths = Directory.GetFiles(path);
 

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace NeedForCars.Web.Controllers
 {
     [Authorize]
-    public abstract class BaseController : Controller
+    public abstract class UserController : Controller
     {
     }
 }

@@ -8,7 +8,7 @@ using NeedForCars.Web.ViewModels;
 
 namespace NeedForCars.Web.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         public IActionResult Index()
         {

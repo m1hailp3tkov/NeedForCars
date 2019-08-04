@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NeedForCars.Models;
 using NeedForCars.Services.Contracts;
@@ -13,7 +14,7 @@ using X.PagedList;
 
 namespace NeedForCars.Web.Controllers
 {
-    public class CarsController : BaseController
+    public class CarsController : Controller
     {
         private readonly IUserCarsService userCarsService;
 
@@ -37,6 +38,19 @@ namespace NeedForCars.Web.Controllers
             return View(viewModel);
         }
 
+        public IActionResult Details(string id)
+        {
+            var userCar = userCarsService.GetById(id);
+
+            if(!userCar.IsPublic)
+            {
+                return this.Forbid();
+            }
+
+            var viewModel = Mapper.Map<CarDetailsViewModel>(userCar);
+
+            return this.View(viewModel);
+        }
 
         public IActionResult Search()
         {
@@ -80,8 +94,6 @@ namespace NeedForCars.Web.Controllers
             if (model.AlternativeFuel != null) userCars = userCars.Where(x => x.AlternativeFuel == model.AlternativeFuel);
 
             if (model.DriveWheel != null) userCars = userCars.Where(x => x.Car.DriveWheel == model.DriveWheel);
-
-            userCars = OrderUserCars(userCars, model);
 
             return userCars;
         }

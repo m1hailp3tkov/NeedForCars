@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace NeedForCars.Web.Controllers
 {
-    public class UserCarsController : BaseController
+    public class UserCarsController : UserController
     {
         private readonly UserManager<NeedForCarsUser> userManager;
         private readonly ICarsService carsService;
@@ -52,7 +52,14 @@ namespace NeedForCars.Web.Controllers
 
         public IActionResult Details(string id)
         {
+            var userId = userManager.GetUserId(this.User);
+
             var userCar = this.userCarsService.GetById(id);
+
+            if(!userCar.IsPublic && userCar.OwnerId != userId)
+            {
+                return this.Unauthorized();
+            }
 
             if (userCar == null)
             {

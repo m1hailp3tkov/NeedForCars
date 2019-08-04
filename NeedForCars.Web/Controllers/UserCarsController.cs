@@ -64,34 +64,6 @@ namespace NeedForCars.Web.Controllers
             return this.View(viewModel);
         }
 
-        public JsonResult FetchModels(int id)
-        {
-            var models = modelsService.GetAllForMake(id)
-                .To<ModelDTO>()
-                .OrderBy(x => x.Name);
-
-            return Json(models);
-        }
-
-        public JsonResult FetchGenerations(int id)
-        {
-            var generations = generationsService.GetAllForModel(id)
-                .To<GenerationDTO>()
-                .OrderBy(x => x.Name);
-
-            return Json(generations);
-        }
-
-        public JsonResult FetchCars(int id)
-        {
-            var cars = carsService.GetAllForGeneration(id)
-                .To<CarDTO>()
-                .OrderBy(x => x.EngineMaxHP)
-                .ThenBy(x => x.DisplayText);
-
-            return Json(cars);
-        }
-
         public IActionResult Create()
         {
             var viewModel = new CreateUserCarModel();

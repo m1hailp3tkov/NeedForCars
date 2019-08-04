@@ -1,6 +1,7 @@
 ﻿using NeedForCars.Models.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace NeedForCars.Web.ViewModels.Cars
 
         public int? PriceTo { get; set; }
 
-        public Currency Currency { get; set; }
+        public Currency? Currency { get; set; }
 
         public int? YearOfProductionFrom { get; set; }
 
@@ -52,6 +53,7 @@ namespace NeedForCars.Web.ViewModels.Cars
         Latest = 1,
         Price = 2,
         Mileage = 3,
+        [Description("Production Date")]
         ProductionDate = 4
     }
 

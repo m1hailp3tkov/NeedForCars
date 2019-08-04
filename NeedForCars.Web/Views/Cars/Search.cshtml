@@ -1,4 +1,5 @@
 ﻿@model NeedForCars.Web.ViewModels.Cars.SearchViewModel
+@using NeedForCars.Web.ViewModels.Cars
 
 <h4>SearchViewModel</h4>
 <hr />
@@ -8,24 +9,103 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="MakeId" class="control-label"></label>
-                <input asp-for="MakeId" class="form-control" />
+                <select asp-for="MakeId" class="form-control">
+                    <option value="">Any</option>
+                </select>
                 <span asp-validation-for="MakeId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ModelId" class="control-label"></label>
-                <input asp-for="ModelId" class="form-control" />
+                <select asp-for="ModelId" class="form-control">
+                    <option value="">Any</option>
+                </select>
                 <span asp-validation-for="ModelId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="GenerationId" class="control-label"></label>
-                <input asp-for="GenerationId" class="form-control" />
+                <select asp-for="GenerationId" class="form-control">
+                    <option value="">Any</option>
+                </select>
                 <span asp-validation-for="GenerationId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CarId" class="control-label"></label>
-                <input asp-for="CarId" class="form-control" />
+                <select asp-for="CarId" class="form-control">
+                    <option value="">Any</option>
+                </select>
                 <span asp-validation-for="CarId" class="text-danger"></span>
             </div>
+
+            <script src="~/lib/jquery//dist//jquery.js"></script>
+            <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+            <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+            <script type="text/javascript">
+                var makeUrl = '@Url.Action("FetchMakes", "Api")';
+                var modelUrl = '@Url.Action("FetchModels", "Api")';
+                var generationUrl = '@Url.Action("FetchGenerations", "Api")';
+                var carUrl = '@Url.Action("FetchCars", "Api")';
+
+                var makes = $('#MakeId');
+                var models = $('#ModelId');
+                var generations = $('#GenerationId');
+                var cars = $('#CarId')
+
+                $.getJSON(makeUrl, function (data) {
+					if (!data) {
+						return;
+					}
+                    $.each(data, function (index, item) {
+                        makes.append($('<option></option>').val(item.id).text(item.name));
+					});
+				});
+
+			    makes.change(function() {
+                    models.empty();
+                    models.append($('<option></option>').val('').text('Any'));
+                    generations.empty();
+                    generations.append($('<option></option>').val('').text('Any'));
+                    cars.empty();
+                    cars.append($('<option></option>').val('').text('Any'));
+
+				    $.getJSON(modelUrl, { id: $(this).val() },function(data) {
+					    if (!data) {
+						    return;
+					    }
+					    $.each(data, function(index, item) {
+						    models.append($('<option></option>').val(item.id).text(item.name));
+					    });
+				    });
+			    })
+			    models.change(function() {
+                    generations.empty();
+                    generations.append($('<option></option>').val('').text('Any'));
+                    cars.empty();
+                    cars.append($('<option></option>').val('').text('Any'));
+				    $.getJSON(generationUrl, { id: $(this).val() },function(data) {
+					    if (!data) {
+						    return;
+                        }
+					    $.each(data, function(index, item) {
+						    generations.append($('<option></option>').val(item.id).text(item.name));
+					    });
+				    });
+                })
+                generations.change(function () {
+                    cars.empty();
+                    cars.append($('<option></option>').val('').text('Any'));
+                    $.getJSON(carUrl, { id: $(this).val() }, function (data) {
+					    if (!data) {
+						    return;
+                        }
+                        $.each(data, function (index, item) {
+                            cars.append($('<option></option>').val(item.id).text(item.displayText));
+					    });
+				    });
+                })
+
+            </script>
+
             <div class="form-group">
                 <label asp-for="MileageFrom" class="control-label"></label>
                 <input asp-for="MileageFrom" class="form-control" />
@@ -93,8 +173,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="OrderingType" class="control-label"></label>
-                <input asp-for="OrderingType" class="form-control" />
+                <select asp-for="OrderingType" asp-items="@Html.GetEnumSelectList<OrderingType>()" class="form-control"></select>
                 <span asp-validation-for="OrderingType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ordering" class="control-label"></label>
+                <select asp-for="Ordering" asp-items="@Html.GetEnumSelectList<Ordering>()" class="form-control"></select>
+                <span asp-validation-for="Ordering" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

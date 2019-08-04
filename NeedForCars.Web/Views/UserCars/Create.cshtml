@@ -40,9 +40,9 @@
             <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
             <script type="text/javascript">
-			    var modelUrl = '@Url.Action("FetchModels")';
-                var generationUrl = '@Url.Action("FetchGenerations")';
-                var carUrl = '@Url.Action("FetchCars")';
+                var modelUrl = '@Url.Action("FetchModels", "Api")';
+                var generationUrl = '@Url.Action("FetchGenerations", "Api")';
+                var carUrl = '@Url.Action("FetchCars", "Api")';
 
                 var models = $('#SelectedModel');
                 var generations = $('#SelectedGeneration');

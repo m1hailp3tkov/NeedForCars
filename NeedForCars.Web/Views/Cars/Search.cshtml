@@ -1,0 +1,109 @@
+﻿@model NeedForCars.Web.ViewModels.Cars.SearchViewModel
+
+<h4>SearchViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Search">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MakeId" class="control-label"></label>
+                <input asp-for="MakeId" class="form-control" />
+                <span asp-validation-for="MakeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModelId" class="control-label"></label>
+                <input asp-for="ModelId" class="form-control" />
+                <span asp-validation-for="ModelId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GenerationId" class="control-label"></label>
+                <input asp-for="GenerationId" class="form-control" />
+                <span asp-validation-for="GenerationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarId" class="control-label"></label>
+                <input asp-for="CarId" class="form-control" />
+                <span asp-validation-for="CarId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MileageFrom" class="control-label"></label>
+                <input asp-for="MileageFrom" class="form-control" />
+                <span asp-validation-for="MileageFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MileageTo" class="control-label"></label>
+                <input asp-for="MileageTo" class="form-control" />
+                <span asp-validation-for="MileageTo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PriceFrom" class="control-label"></label>
+                <input asp-for="PriceFrom" class="form-control" />
+                <span asp-validation-for="PriceFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PriceTo" class="control-label"></label>
+                <input asp-for="PriceTo" class="form-control" />
+                <span asp-validation-for="PriceTo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Currency" class="control-label"></label>
+                <input asp-for="Currency" class="form-control" />
+                <span asp-validation-for="Currency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YearOfProductionFrom" class="control-label"></label>
+                <input asp-for="YearOfProductionFrom" class="form-control" />
+                <span asp-validation-for="YearOfProductionFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YearOfProductionTo" class="control-label"></label>
+                <input asp-for="YearOfProductionTo" class="form-control" />
+                <span asp-validation-for="YearOfProductionTo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FuelType" class="control-label"></label>
+                <input asp-for="FuelType" class="form-control" />
+                <span asp-validation-for="FuelType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinHP" class="control-label"></label>
+                <input asp-for="MinHP" class="form-control" />
+                <span asp-validation-for="MinHP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaxHP" class="control-label"></label>
+                <input asp-for="MaxHP" class="form-control" />
+                <span asp-validation-for="MaxHP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Transmission" class="control-label"></label>
+                <input asp-for="Transmission" class="form-control" />
+                <span asp-validation-for="Transmission" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AlternativeFuel" class="control-label"></label>
+                <input asp-for="AlternativeFuel" class="form-control" />
+                <span asp-validation-for="AlternativeFuel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DriveWheel" class="control-label"></label>
+                <input asp-for="DriveWheel" class="form-control" />
+                <span asp-validation-for="DriveWheel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderingType" class="control-label"></label>
+                <input asp-for="OrderingType" class="form-control" />
+                <span asp-validation-for="OrderingType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

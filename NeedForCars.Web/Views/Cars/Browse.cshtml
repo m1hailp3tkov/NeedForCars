@@ -1,0 +1,17 @@
+﻿@model X.PagedList.IPagedList<DisplayUserCarModel>
+@using X.PagedList.Mvc.Core
+
+@foreach (var item in Model)
+{
+    <img src="@item.ImageUrl" height="100" />
+}
+<br />
+
+
+@for (int i = 1; i <= Model.PageCount; i++)
+{
+    var routeData = new Dictionary<string, string>();
+    routeData.Add("page", i.ToString());
+
+    <a asp-all-route-data="routeData">@i</a>
+}

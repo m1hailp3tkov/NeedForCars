@@ -67,11 +67,12 @@ namespace NeedForCars.Web.ViewModels.UserCars
 
         // Modified Cars
         // Performance
-        public int? CustomEngineId { get; set; }
 
         public FuelConsumption ModifiedFuelConsumption { get; set; }
 
         public Acceleration ModifiedAcceleration { get; set; }
+
+        public int? CustomMaxHP { get; set; }
 
         public string PerformanceModificationsDescription { get; set; }
 

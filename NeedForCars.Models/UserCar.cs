@@ -8,6 +8,11 @@ namespace NeedForCars.Models
 {
     public class UserCar : IIdentifiable<string>
     {
+        public UserCar()
+        {
+            this.CreatedOn = DateTime.UtcNow;
+        }
+
         public string Id { get; set; }
 
         [Required]
@@ -49,16 +54,18 @@ namespace NeedForCars.Models
 
         // Modified Cars
         // Performance
-        public int? CustomEngineId { get; set; }
-        public Engine CustomEngine { get; set; }
 
         public FuelConsumption ModifiedFuelConsumption { get; set; }
 
         public Acceleration ModifiedAcceleration { get; set; }
 
+        public int? CustomMaxHP { get; set; }
+
         public string PerformanceModificationsDescription { get; set; }
 
         // Visual
         public string VisualModificationsDescription { get; set; }
+
+        public DateTime CreatedOn { get; set; }
     }
 }

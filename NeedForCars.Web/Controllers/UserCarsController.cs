@@ -12,6 +12,7 @@ using NeedForCars.Services.Mapping;
 using NeedForCars.Web.ViewModels.UserCars;
 using NeedForCars.Web.ViewModels.UserCars.DTOs;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 
 namespace NeedForCars.Web.Controllers
 {
@@ -93,50 +94,11 @@ namespace NeedForCars.Web.Controllers
 
         public IActionResult Create()
         {
-            //TODO Extract method?
             var viewModel = new CreateUserCarModel();
-            var makes = makesService.GetAll().To<MakeDTO>();
-            viewModel.MakeList = new SelectList(makes, nameof(MakeDTO.Id), nameof(MakeDTO.Name));
 
-            
-            if(viewModel.SelectedMake.HasValue)
-            {
-                IEnumerable<ModelDTO> models = this.modelsService
-                    .GetAllForMake(viewModel.SelectedMake.Value)
-                    .To<ModelDTO>();
+            var allMakes = this.makesService.GetAll().To<MakeDTO>();
 
-                viewModel.ModelList = new SelectList(models, nameof(ModelDTO.Id), nameof(ModelDTO.Name));
-            }
-            else
-            {
-                viewModel.ModelList = new SelectList(Enumerable.Empty<ModelDTO>());
-            }
-
-            if (viewModel.SelectedModel.HasValue)
-            {
-                IEnumerable<GenerationDTO> generations = this.generationsService
-                    .GetAllForModel(viewModel.SelectedModel.Value)
-                    .To<GenerationDTO>();
-
-                viewModel.GenerationList = new SelectList(generations, nameof(GenerationDTO.Id), nameof(GenerationDTO.Name));
-            }
-            else
-            {
-                viewModel.GenerationList = new SelectList(Enumerable.Empty<GenerationDTO>());
-            }
-
-            if (viewModel.SelectedGeneration.HasValue)
-            {
-                IEnumerable<CarDTO> cars = this.carsService
-                    .GetAllForGeneration(viewModel.SelectedGeneration.Value)
-                    .To<CarDTO>();
-
-                viewModel.CarList = new SelectList(cars, nameof(CarDTO.Id), nameof(CarDTO.DisplayText));
-            }
-            else
-            {
-                viewModel.CarList = new SelectList(Enumerable.Empty<CarDTO>());
-            }
+            viewModel.MakeList = new SelectList(allMakes, nameof(MakeDTO.Id), nameof(MakeDTO.Name));
 
             return this.View(viewModel);
         }
@@ -146,15 +108,10 @@ namespace NeedForCars.Web.Controllers
         {
             createUserCarModel.OwnerId = userManager.GetUserId(this.User);
 
-            //TODO: check for null
             var car = this.carsService.GetById(createUserCarModel.SelectedCar.Value);
-            if (car == null)
-            {
-                return this.BadRequest();
-            }
-
             var validDateTime = DateTime.TryParse($"{createUserCarModel.ProductionDateYear}/{createUserCarModel.ProductionDateMonth}/01", out DateTime dateTime);
-            if(!validDateTime)
+
+            if (car == null || !validDateTime)
             {
                 return this.BadRequest();
             }
@@ -165,16 +122,36 @@ namespace NeedForCars.Web.Controllers
                     GlobalConstants.IMAGE_REQUIRED);
             }
 
-            ValidatePhotos(createUserCarModel);
+            ValidatePhotos(createUserCarModel.Photos, nameof(CreateUserCarModel.Photos));
             ValidateProductionDate(createUserCarModel, car);
 
             if (!this.ModelState.IsValid)
             {
+                var makes = this.makesService
+                    .GetAll()
+                    .To<MakeDTO>();
+                var models = this.modelsService
+                    .GetAllForMake(createUserCarModel.SelectedMake.Value)
+                    .To<ModelDTO>();
+                var generations = this.generationsService
+                    .GetAllForModel(createUserCarModel.SelectedModel.Value)
+                    .To<GenerationDTO>();
+                var cars = this.carsService
+                    .GetAllForGeneration(createUserCarModel.SelectedGeneration.Value)
+                    .To<CarDTO>();
+
+                createUserCarModel.MakeList = new SelectList(makes, nameof(MakeDTO.Id), nameof(MakeDTO.Name));
+                createUserCarModel.ModelList = new SelectList(models, nameof(ModelDTO.Id), nameof(ModelDTO.Name));
+                createUserCarModel.GenerationList = new SelectList(generations, nameof(GenerationDTO.Id), nameof(GenerationDTO.Name));
+                createUserCarModel.CarList = new SelectList(cars, nameof(CarDTO.Id), nameof(CarDTO.DisplayText));
+
                 return this.View(createUserCarModel);
             }
 
 
             var userCar = Mapper.Map<UserCar>(createUserCarModel);
+            userCar.CarId = car.Id;
+
             await this.userCarsService.AddAsync(userCar);
 
             await imagesService.UploadImagesAsync(createUserCarModel.Photos.ToList(),
@@ -198,38 +175,30 @@ namespace NeedForCars.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditUserCarModel editUserCarModel)
         {
+            //TODO: usercar edit
             var userId = userManager.GetUserId(this.User);
             var userCar = this.userCarsService.GetById(editUserCarModel.Id);
-            //TODO: check for null
-            var car = this.carsService.GetById(editUserCarModel.SelectedCar.Value);
-            var validDateTime = DateTime.TryParse($"{editUserCarModel.ProductionDateYear}/{editUserCarModel.ProductionDateMonth}/01", out DateTime dateTime);
+
+            if (userCar == null)
+            {
+                return this.BadRequest();
+            }
 
             if (userCar.OwnerId != userId)
             {
                 return this.Unauthorized();
             }
 
-            if (!validDateTime)
-            {
-                return this.BadRequest();
-            }
-
-            ValidatePhotos(editUserCarModel);
-
-            ValidateProductionDate(editUserCarModel, car);
+            ValidatePhotos(editUserCarModel.Photos, nameof(EditUserCarModel.Photos));
 
             if (!this.ModelState.IsValid)
             {
                 return this.View(editUserCarModel);
             }
 
-            if (car == null || userCar == null)
-            {
-                return this.BadRequest();
-            }
-
             userCar = Mapper.Map(editUserCarModel, userCar);
             userCar.OwnerId = userId;
+
             await userCarsService.UpdateAsync(userCar);
 
             if (editUserCarModel.Photos != null)
@@ -269,12 +238,12 @@ namespace NeedForCars.Web.Controllers
             return this.RedirectToAction(nameof(All));
         }
 
-        private void ValidatePhotos(CreateUserCarModel model)
+        private void ValidatePhotos(IEnumerable<IFormFile> photos, string errorModelKey)
         {
-            if (model.Photos != null
-                && !imagesService.IsValidImageCollection(model.Photos))
+            if (photos != null
+                && !imagesService.IsValidImageCollection(photos))
             {
-                this.ModelState.AddModelError(nameof(model.Photos),
+                this.ModelState.AddModelError(errorModelKey,
                     GlobalConstants.IMAGE_COLLECTION_INVALID);
             }
         }

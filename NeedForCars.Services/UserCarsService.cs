@@ -68,5 +68,14 @@ namespace NeedForCars.Services
 
             await this.context.SaveChangesAsync();
         }
+
+        public IQueryable<UserCar> GetAllPublic()
+        {
+            var userCars = this.context
+                .UserCars
+                .Where(x => x.IsPublic);
+
+            return userCars;
+        }
     }
 }

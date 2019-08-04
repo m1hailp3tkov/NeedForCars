@@ -1,6 +1,6 @@
 ﻿@model EditUserCarModel
 
-<h4>EditUserCarModel</h4>
+<h4>Edit</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -12,22 +12,11 @@
                 <input asp-for="Photos" class="form-control" accept=".jpg,.png" multiple />
                 <span asp-validation-for="Photos" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <label asp-for="Color" class="control-label"></label>
                 <input asp-for="Color" class="form-control" />
                 <span asp-validation-for="Color" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductionDateYear" class="control-label"></label>
-                <input asp-for="ProductionDateYear" class="form-control" />
-                <span asp-validation-for="ProductionDateYear" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductionDateMonth" class="control-label"></label>
-                <input asp-for="ProductionDateMonth" class="form-control" />
-                <span asp-validation-for="ProductionDateMonth" class="text-danger"></span>
-            </div>
+            </div>  
             <div class="form-group">
                 <label asp-for="Mileage" class="control-label"></label>
                 <input asp-for="Mileage" class="form-control" />
@@ -107,9 +96,9 @@
                 <span asp-validation-for="Currency" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CustomEngineId" class="control-label"></label>
-                <input asp-for="CustomEngineId" class="form-control" />
-                <span asp-validation-for="CustomEngineId" class="text-danger"></span>
+                <label asp-for="CustomMaxHP" class="control-label"></label>
+                <input asp-for="CustomMaxHP" class="form-control" />
+                <span asp-validation-for="CustomMaxHP" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PerformanceModificationsDescription" class="control-label"></label>

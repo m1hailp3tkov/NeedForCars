@@ -22,7 +22,7 @@ namespace NeedForCars.Web.ViewModels.UserCars
 
         public Currency? Currency { get; set; }
 
-        public int? CustomEngineId { get; set; }
+        public int? CustomMaxHP { get; set; }
 
         public string ImageUrl { get => $"/images/usercars/{this.Id}/0.png"; }
     }

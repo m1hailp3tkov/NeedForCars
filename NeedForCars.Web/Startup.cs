@@ -71,8 +71,7 @@ namespace NeedForCars.Web
             services.AddTransient<ICarsService, CarsService>();
             services.AddTransient<IUserCarsService, UserCarsService>();
 
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -102,15 +101,6 @@ namespace NeedForCars.Web
 
             app.UseMvc(routes =>
             {
-                //admin/makes/index - all makes
-                //admin/makes/create - create new make
-                //admin/makes/{makeName}/Edit - edit make
-
-                //admin/{makeName}/models - all models
-                //admin/{makeName}/createModel - create model
-                //admin/{makeName}/{modelName/Id}/Edit
-
-                //etc..
                 routes.MapRoute(
                     name: "areaRoute",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

@@ -40,7 +40,7 @@ namespace NeedForCars.Web.ViewModels.UserCars
 
         public Currency? Currency { get; set; }
 
-        public int? CustomEngineId { get; set; }
+        public int? CustomMaxHP { get; set; }
 
         public FuelConsumption ModifiedFuelConsumption { get; set; }
 

@@ -10,7 +10,6 @@ namespace NeedForCars.Models
         public Engine()
         {
             this.Cars = new HashSet<Car>();
-            this.ModifiedCars = new HashSet<UserCar>();
         }
 
         public int Id { get; set; }
@@ -29,7 +28,6 @@ namespace NeedForCars.Models
         public string Creator { get; set; }
 
         public virtual ICollection<Car> Cars { get; set; }
-        public virtual ICollection<UserCar> ModifiedCars { get; set; }
 
         //Nullables
         public string CreatorInfoUrl { get; set; }

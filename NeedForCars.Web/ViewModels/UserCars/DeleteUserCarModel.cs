@@ -2,6 +2,5 @@
 {
     public class DeleteUserCarModel : DisplayUserCarModel
     {
-        public string Id { get; set; }
     }
 }

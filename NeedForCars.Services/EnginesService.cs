@@ -42,7 +42,6 @@ namespace NeedForCars.Services
         {
             return this.context.Engines
                 .Include(x => x.Cars)
-                .Include(x => x.ModifiedCars)
                 .FirstOrDefault(x => x.Id == id);
         }
 
@@ -65,8 +64,6 @@ namespace NeedForCars.Services
                 .Count(x => x.EngineId == engine.Id);
 
             userCars = this.context.UserCars
-                .Count(x => x.CustomEngineId == engine.Id)
-                + this.context.UserCars
                 .Count(x => x.Car.EngineId == engine.Id);
         }
     }

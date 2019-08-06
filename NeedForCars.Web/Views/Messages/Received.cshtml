@@ -1,0 +1,20 @@
+﻿@model IPagedList<ViewMessageModel>
+
+@foreach(var message in Model)
+{
+<h4>From: @message.Sender.UserName</h4>
+<h4>@message.Content</h4>
+}
+
+@for (int i = 1; i <= Model.PageCount; i++)
+{
+    var routeData = this.Context.Request.Query
+        .ToDictionary(x => x.Key, x => x.Value.ToString());
+
+    if(!routeData.TryAdd("page", i.ToString()))
+    {
+        routeData["page"] = i.ToString();
+    }
+
+<a asp-all-route-data="routeData">@i</a>
+}

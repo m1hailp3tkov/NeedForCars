@@ -50,7 +50,6 @@ namespace NeedForCars.Web.Controllers
 
             foreach (var model in models)
             {
-                //TODO: Make this random for good looks
                 var generation = generationsService.GetAllForModel(model.Id)
                     .FirstOrDefault();
 

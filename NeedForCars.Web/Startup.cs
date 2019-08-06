@@ -70,6 +70,7 @@ namespace NeedForCars.Web
             services.AddTransient<IEnginesService, EnginesService>();
             services.AddTransient<ICarsService, CarsService>();
             services.AddTransient<IUserCarsService, UserCarsService>();
+            services.AddTransient<IMessagesService, MessagesService>();
 
             services.AddMvc();
         }

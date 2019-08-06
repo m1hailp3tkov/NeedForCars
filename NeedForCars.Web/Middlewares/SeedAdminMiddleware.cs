@@ -36,11 +36,6 @@ namespace NeedForCars.Web.Middlewares
             {
                 await roleManager.CreateAsync(new IdentityRole(ROLE_ADMIN));
             }
-
-            if (!await roleManager.RoleExistsAsync(ROLE_ADMIN))
-            {
-                await roleManager.CreateAsync(new IdentityRole(ROLE_ADMIN));
-            }
         }
 
         private static async Task SeedUserInRoles(UserManager<NeedForCarsUser> userManager)

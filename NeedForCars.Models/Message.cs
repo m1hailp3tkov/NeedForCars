@@ -24,9 +24,7 @@ namespace NeedForCars.Models
         public string ReceiverId { get; set; }
         public NeedForCarsUser Receiver { get; set; }
 
-        //TODO Message content string length server validation
         [Required]
-        [MaxLength(1000, ErrorMessage = "Message too long.")]
         public string Content { get; set; }
 
         public DateTime SentOn { get; set; }

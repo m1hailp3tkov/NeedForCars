@@ -70,6 +70,14 @@
         public const string USERCAR_PRICE_INVALID = "Car price must be between {0} and {1}";
         public const string USERCAR_PHOTOS_REQUIRED = "You must add photos of your car.";
 
+        //----Messages
+        //--------Controller
+        public const string MESSAGE_RECEIVER_INVALID = "User with that username does not exist.";
+        //--------ViewModels
+        public const string MESSAGE_CONTENT_REQUIRED = "Your message must have content";
+        public const string MESSAGE_CONTENT_TOO_LONG = "Message cannot be longer than {0} characters.";
+        public const string MESSAGE_RECEIVER_REQUIRED = "Your message must have a receiver.";
+
 
         // Regular Expressions
         public const string EMAIL_REGEX = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"

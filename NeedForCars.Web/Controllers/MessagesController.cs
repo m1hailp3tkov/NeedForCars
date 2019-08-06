@@ -14,7 +14,7 @@ using X.PagedList;
 
 namespace NeedForCars.Web.Controllers
 {
-    public class MessagesController : Controller
+    public class MessagesController : UserController
     {
         private readonly IMessagesService messagesService;
         private readonly UserManager<NeedForCarsUser> userManager;

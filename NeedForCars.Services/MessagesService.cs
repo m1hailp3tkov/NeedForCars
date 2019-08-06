@@ -73,7 +73,7 @@ namespace NeedForCars.Services
             await this.context.SaveChangesAsync();
         }
 
-        public async Task SendMessage(string senderId, string receiverId, string content)
+        public async Task SendMessageAsync(string senderId, string receiverId, string content)
         {
             var message = new Message
             {

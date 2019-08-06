@@ -14,7 +14,7 @@ namespace NeedForCars.Services.Contracts
 
         IQueryable<Message> GetAllUnreadForUser(string userId);
 
-        Task SendMessage(string senderId, string receiverId, string content);
+        Task SendMessageAsync(string senderId, string receiverId, string content);
 
         Task MarkAsRead(string messageId);
 

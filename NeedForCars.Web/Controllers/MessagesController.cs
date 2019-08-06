@@ -95,7 +95,7 @@ namespace NeedForCars.Web.Controllers
                 return this.View(sendMessageModel);
             }
 
-            await messagesService.SendMessage(senderId, receiver.Id, sendMessageModel.Content);
+            await messagesService.SendMessageAsync(senderId, receiver.Id, sendMessageModel.Content);
 
             return this.RedirectToAction(nameof(Sent));
         }

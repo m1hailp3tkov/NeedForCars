@@ -60,8 +60,17 @@ namespace NeedForCars.Services
         {
             if (formImage == null) return false;
 
-            return formImage.ContentType == "image/png" ||
-                    formImage.ContentType == "image/jpeg";
+            var fileExtension = Path.GetExtension(formImage.FileName);
+
+            if ((formImage.ContentType == "image/png" || formImage.ContentType == "image/jpeg")
+                && (fileExtension == ".jpg" || fileExtension == ".png" || fileExtension == ".jpeg"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool IsValidImageCollection(IEnumerable<IFormFile> formImages)

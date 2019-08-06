@@ -13,7 +13,7 @@ namespace NeedForCars.Services
         private readonly IModelsService modelsService;
         private readonly NeedForCarsDbContext context;
 
-        public GenerationsService(IModelsService modelsService, NeedForCarsDbContext context)
+        public GenerationsService(NeedForCarsDbContext context, IModelsService modelsService)
         {
             this.modelsService = modelsService;
             this.context = context;

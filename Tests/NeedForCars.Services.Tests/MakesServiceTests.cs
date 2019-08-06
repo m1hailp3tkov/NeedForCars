@@ -28,7 +28,7 @@ namespace NeedForCars.Services.Tests
         public async Task AddAsyncShouldCreateMake()
         {
             var options = new DbContextOptionsBuilder<NeedForCarsDbContext>()
-                .UseInMemoryDatabase("CreateMakeDb")
+                .UseInMemoryDatabase("createMakeDb")
                 .Options;
 
             var context = new NeedForCarsDbContext(options);
@@ -36,6 +36,7 @@ namespace NeedForCars.Services.Tests
             var makesService = new MakesService(context);
 
             await makesService.AddAsync(make1);
+            await context.SaveChangesAsync();
 
             var makesCount = await context.Makes.CountAsync();
 
@@ -204,7 +205,7 @@ namespace NeedForCars.Services.Tests
         public async Task UpdateAsyncCorrectlyUpdatesEntity()
         {
             var options = new DbContextOptionsBuilder<NeedForCarsDbContext>()
-                .UseInMemoryDatabase("CreateMakeDb")
+                .UseInMemoryDatabase("UpdateMakeDb")
                 .Options;
 
             var context = new NeedForCarsDbContext(options);

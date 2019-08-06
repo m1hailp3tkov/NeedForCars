@@ -11,12 +11,10 @@ namespace NeedForCars.Services
     public class UserCarsService : IUserCarsService
     {
         private readonly NeedForCarsDbContext context;
-        private readonly UserManager<NeedForCarsUser> userManager;
 
-        public UserCarsService(NeedForCarsDbContext context, UserManager<NeedForCarsUser> userManager)
+        public UserCarsService(NeedForCarsDbContext context)
         {
             this.context = context;
-            this.userManager = userManager;
         }
 
         public async Task AddAsync(UserCar userCar)
@@ -60,18 +58,6 @@ namespace NeedForCars.Services
             if (userCar == null) return;
 
             this.context.Remove(userCar);
-            await this.context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAllForUser(string userId)
-        {
-            var userCars = this.context
-                .UserCars
-                .Where(x => x.OwnerId == userId);
-
-            this.context.UserCars
-                .RemoveRange(userCars);
-
             await this.context.SaveChangesAsync();
         }
 

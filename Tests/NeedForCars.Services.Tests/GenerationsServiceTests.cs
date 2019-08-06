@@ -4,7 +4,6 @@ using NeedForCars.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using NeedForCars.Services.Contracts;
 
 namespace NeedForCars.Services.Tests
 {

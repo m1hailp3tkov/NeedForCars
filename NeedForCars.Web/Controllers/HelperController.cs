@@ -9,14 +9,14 @@ using NeedForCars.Web.ViewModels.UserCars.DTOs;
 
 namespace NeedForCars.Web.Controllers
 {
-    public class ApiController : Controller
+    public class HelperController : Controller
     {
         private readonly IMakesService makesService;
         private readonly IModelsService modelsService;
         private readonly IGenerationsService generationsService;
         private readonly ICarsService carsService;
 
-        public ApiController(IMakesService makesService, IModelsService modelsService, IGenerationsService generationsService, ICarsService carsService)
+        public HelperController(IMakesService makesService, IModelsService modelsService, IGenerationsService generationsService, ICarsService carsService)
         {
             this.makesService = makesService;
             this.modelsService = modelsService;

@@ -1,0 +1,22 @@
+﻿@model UserInfoModel
+@using X.PagedList.Mvc.Core
+
+@foreach (var item in Model.DisplayUserCars)
+{
+    <img src="@item.ImageUrl" height="100" />
+}
+<br />
+
+
+@for (int i = 1; i <= Model.DisplayUserCars.PageCount; i++)
+{
+    var routeData = this.Context.Request.Query
+        .ToDictionary(x => x.Key, x => x.Value.ToString());
+
+    if(!routeData.TryAdd("page", i.ToString()))
+    {
+        routeData["page"] = i.ToString();
+    }
+
+    <a asp-all-route-data="routeData">@i</a>
+}

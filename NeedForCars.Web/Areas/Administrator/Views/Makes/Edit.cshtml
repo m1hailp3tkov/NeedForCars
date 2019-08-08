@@ -1,38 +1,36 @@
 ﻿@model EditMakeModel
 
-<h4>Edit Make</h4>
+<h3>Edit a make</h3>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <h5>Current logo:</h5>
+                    <img width="100" height="100" src="@Model.ImagePath" />
+                </div>
+                <div class="form-group col-sm-8">
+                    <label asp-for="NewLogo" class="control-label"></label>
+                    <input asp-for="NewLogo" class="form-control" accept=".jpg,.png"/>
+                    <span asp-validation-for="NewLogo" class="text-danger"></span>
+                </div>
+            </div>
+           
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                Current logo:
-                <img width="100" height="100" src="@Model.ImagePath" />
-            </div>
-            <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-
             <div class="form-group">
-                <label asp-for="NewLogo" class="control-label"></label>
-                <input asp-for="NewLogo" class="form-control" accept=".jpg,.png" />
-                <span asp-validation-for="NewLogo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary" />
+                <input type="submit" value="Edit" class="btn btn-dark" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>

@@ -1,43 +1,31 @@
 ﻿@model NeedForCars.Web.Areas.Administrator.ViewModels.Makes.DeleteMakeModel
 
-<h3>Are you sure you want to delete this?</h3>
+<h4 class="text-danger">Confirm Delete</h4>
 <div>
-    <h4>DeleteMakeModel</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImagePath)
-        </dd>
-    </dl>
-    This will delete:<br />
-    @Model.UserCarsCount users' cars<br />
-    @Model.CarsCount cars from the database<br />
-    @Model.GenerationsCount generations from the database<br />
-    @Model.ModelsCount models from the database
-    
+    <h5>Are you sure you want to delete the make @Model.Name ?</h5>
+    <h6>Doing so will also delete:</h6>
+
+    <table class="table-borderless col-sm-6">
+        <tr>
+            <td><span class="badge badge-danger badge-pill">@Model.UserCarsCount</span></td>
+            <td class="col-sm-4"><b>Users' cars</b></td>
+        </tr>
+        <tr>
+            <td><span class="badge badge-danger badge-pill">@Model.CarsCount</span></td>
+            <td class="col-sm-4"><b>Cars from the Database</b></td>
+        </tr>
+        <tr>
+            <td><span class="badge badge-danger badge-pill">@Model.GenerationsCount</span></td>
+            <td class="col-sm-4"><b>Generations from the Database</b></td>
+        </tr>
+        <tr>
+            <td><span class="badge badge-danger badge-pill">@Model.ModelsCount</span></td>
+            <td class="col-sm-4"><b>Models from the Database</b></td>
+        </tr>
+    </table>
+
+    <hr />
     <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger col-sm-2" />
     </form>
-</div>

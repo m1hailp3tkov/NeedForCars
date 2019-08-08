@@ -13,6 +13,7 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Makes
         public string Name { get; set; }
 
         [StringLength(50, ErrorMessage = GlobalConstants.MAKE_DESCRIPTION_TOO_LONG)]
+        [Display(Name = "Slogan")]
         public string Description { get; set; }
 
         [Required(ErrorMessage = GlobalConstants.MAKE_LOGO_REQUIRED)]

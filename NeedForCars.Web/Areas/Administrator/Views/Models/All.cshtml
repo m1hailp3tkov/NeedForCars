@@ -1,25 +1,34 @@
 ﻿@model IEnumerable<DisplayModelModel>
+@{
+    ViewData["Title"] = $"All Models for {ViewBag.MakeName}";
+}
 
-<h1>Models for @ViewBag.MakeName</h1>
-
-<table class="col-md-8">
-    <td><h3>Name:</h3></td>
-    <td><h3>Description:</h3></td>
-    @foreach (var _model in Model)
-    {
-        <tr>
-            <td>
-                <div class="col-md-4">
-                    <a asp-controller="Generations" asp-action="All" asp-route-id="@_model.Id">
-                        <h4>@_model.Name</h4>
-                    </a>
-                </div>
-            </td>
-            <td>
-                <div class="col-md-4">
-                    @_model.Description
-                </div>
-            </td>
-        </tr>
-    }
+<a asp-action="create" asp-route-id="@ViewBag.MakeId" class="btn btn-dark">Add Model</a>
+<hr />
+<h5>@ViewData["Title"]</h5>
+<hr />
+<table class="table-borderless col-sm-12">
+    <tbody>
+        @foreach (var _model in Model)
+        {
+            <tr style="height:52px;">
+                <td style="width:150px">
+                    <h5>
+                        @_model.Name
+                    </h5>
+                </td>
+                <td>
+                    @(_model.Description != null && _model.Description.Length > 70 ? _model.Description.Substring(0, 70) + "..." : _model.Description)
+                </td>
+                <td align="right" width="50">
+                    <a asp-controller="Generations" asp-action="All" asp-route-id="@_model.Id" class="btn btn-dark">Generations</a>
+                </td>
+                <td align="right" width="200">
+                    <a asp-action="Edit" asp-route-id="@_model.Id" class="btn btn-dark">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@_model.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+

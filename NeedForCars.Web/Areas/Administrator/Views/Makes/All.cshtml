@@ -6,6 +6,7 @@
 <a asp-action="create" class="btn btn-dark">Add Make</a>
 <hr />
 <h5>@ViewData["Title"]</h5>
+<hr />
 <table class="table-borderless col-sm-12">
     @foreach (var make in Model)
     {
@@ -21,10 +22,10 @@
             <td>
                 <h6>@make.Description</h6>
             </td>
-            <td>
+            <td align="right" width="50">
                 <a asp-controller="Models" asp-action="All" asp-route-id="@make.Id" class="btn btn-dark">Models</a>
             </td>
-            <td>
+            <td align="right" width="200">
                 <a asp-action="Edit" asp-route-id="@make.Id" class="btn btn-dark">Edit</a>
                 <a asp-action="Delete" asp-route-id="@make.Id" class="btn btn-danger">Delete</a>
             </td>

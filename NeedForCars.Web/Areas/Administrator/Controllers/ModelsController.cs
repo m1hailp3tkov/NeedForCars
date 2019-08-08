@@ -33,8 +33,10 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             var viewModel = make.Models
                 .AsQueryable()
-                .To<DisplayModelModel>();
+                .To<DisplayModelModel>()
+                .OrderBy(x => x.Name);
 
+            this.ViewBag.MakeId = make.Id;
             this.ViewBag.MakeName = make.Name;
 
             return this.View(viewModel);
@@ -86,6 +88,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
 
             var viewModel = Mapper.Map<EditModelModel>(model);
+            this.ViewBag.MakeName = model.Make.Name;
 
             return this.View(viewModel);
         }

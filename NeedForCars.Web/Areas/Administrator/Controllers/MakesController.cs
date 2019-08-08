@@ -31,7 +31,8 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         {
             var allMakes = makesService.GetAll();
 
-            var makes = allMakes.To<DisplayMakeModel>();
+            var makes = allMakes.To<DisplayMakeModel>()
+                .OrderBy(x => x.Name);
 
             return this.View(makes);
         }

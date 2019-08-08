@@ -12,6 +12,7 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Makes
         [RegularExpression(GlobalConstants.MAKE_NAME_REGEX, ErrorMessage = GlobalConstants.MAKE_NAME_INVALID)]
         public string Name { get; set; }
 
+        [StringLength(50, ErrorMessage = GlobalConstants.MAKE_DESCRIPTION_TOO_LONG)]
         public string Description { get; set; }
 
         [Required(ErrorMessage = GlobalConstants.MAKE_LOGO_REQUIRED)]

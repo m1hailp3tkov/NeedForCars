@@ -52,6 +52,7 @@
         //--------ViewModels
         public const string MAKE_NAME_INVALID = "Make name can only contain Latin characters, spaces, dots and dashes";
         public const string MAKE_LOGO_REQUIRED = "You must add a logo image";
+        public const string MAKE_DESCRIPTION_TOO_LONG = "Description must not be more than {1} characters long.";
 
 
         //----Models

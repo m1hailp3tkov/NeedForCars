@@ -3,33 +3,62 @@
 @inject SignInManager<NeedForCarsUser> SignInManager
 @inject UserManager<NeedForCarsUser> UserManager
 @inject RoleManager<IdentityRole> RoleManager
+@inject IMessagesService messagesService
+
+@{
+    var userId = UserManager.GetUserId(this.User);
+    var hasUnread = this.messagesService.HasUnreadMessages(userId);
+}
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    @if(User.IsInRole("Admin"))
+    @if (SignInManager.IsSignedIn(User))
     {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Administrator" asp-controller="Home" asp-action="Index" title="Administration Panel">Administration Panel</a>
-    </li>
-    }
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-white" asp-area="Administrator" asp-controller="Makes" asp-action="All" title="Administration Panel">
+                    <i class="fas fa-tools fa-lg"></i>
+                </a>
+            </li>
+        }
 
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><b>@User.Identity.Name</b></a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+        <li class="nav-item">
+            @if (hasUnread)
+            {<a class="nav-link text-danger" asp-area="" asp-controller="Messages" asp-action="Unread" title="You have unread message(s)">
+                    <i class="far fa-envelope-open fa-lg text-danger"></i>
+                </a>
+            }
+            else
+            {
+                <a class="nav-link text-white" asp-area="" asp-controller="Messages" asp-action="Unread" title="Messages">
+                    <i class="far fa-envelope fa-lg"></i>
+                </a>
+            }
+        </li>
+        <li class="nav-item">
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="nav-link text-success" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><b>@User.Identity.Name</b></a>
+            }
+            else
+            {
+                <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><b>@User.Identity.Name</b></a>
+            }
+
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
 </ul>

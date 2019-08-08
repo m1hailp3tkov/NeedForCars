@@ -42,12 +42,12 @@ namespace NeedForCars.Web.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [RegularExpression("[a-zA-Zа-яА-Я]{2,}")]
+            [RegularExpression("[a-zA-Zа-яА-Я]{2,}", ErrorMessage = GlobalConstants.REGISTER_NAME_INVALID)]
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
             [Required]
-            [RegularExpression("[a-zA-Zа-яА-Я]{2,}|[a-zA-Zа-яА-Я]{1}.")]
+            [RegularExpression("[a-zA-Zа-яА-Я]{2,}|[a-zA-Zа-яА-Я]{1}.", ErrorMessage = GlobalConstants.REGISTER_NAME_INVALID)]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
 

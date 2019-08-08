@@ -13,6 +13,8 @@
         // Error Messages
         // Global
         public const string REQUIRED_NAME = "You must enter a name.";
+        //----Register
+        public const string REGISTER_NAME_INVALID = "Only Latin, Cyrillic and dots are allowed.";
         //----Images
         public const string IMAGE_COLLECTION_INVALID = "One or more of the images selected are not in valid format.";
         public const string IMAGE_INVALID = "Image is not in valid format";

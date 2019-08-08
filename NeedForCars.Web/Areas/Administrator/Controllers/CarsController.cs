@@ -36,14 +36,14 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 return this.BadRequest();
             }
 
-            this.ViewBag.Make = generation.Model.Make.Name;
-            this.ViewBag.Model = generation.Model.Name;
-            this.ViewBag.Generation = generation.Name;
-            this.ViewBag.GenerationId = generation.Id;
+            SetUpViewBag(generation);
 
             var viewModel = generation.Cars
                 .AsQueryable()
-                .To<DisplayCarModel>();
+                .To<DisplayCarModel>()
+                .OrderBy(x => x.BeginningOfProductionYear)
+                .ThenBy(x => x.Engine.MaxHP)
+                .ThenBy(x => x.Engine.Name);
 
             return View(viewModel);
         }
@@ -55,6 +55,8 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             {
                 return this.BadRequest();
             }
+
+            SetUpViewBag(generation);
 
             return this.View();
         }
@@ -82,24 +84,13 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             if (!this.ModelState.IsValid)
             {
+                SetUpViewBag(generation);
                 return this.View();
             }
 
             await carsService.AddAsync(car);
 
             return this.RedirectToAction(nameof(All), new { id });
-        }
-
-        public IActionResult Details(int id)
-        {
-            var car = carsService.GetById(id);
-            if (car == null)
-            {
-                return this.BadRequest();
-            }
-
-            var viewModel = Mapper.Map<CarDetailsModel>(car);
-            return this.View(viewModel);
         }
 
         public IActionResult Edit(int id)
@@ -112,11 +103,15 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             var viewModel = Mapper.Map<EditCarModel>(car);
 
+            SetUpViewBag(car.Generation);
+
+            this.ViewBag.Engine = $"{car.Engine.Name} ({car.Engine.MaxHP} HP)";
+
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditCarModel editCarModel)
+        public async Task<IActionResult> Edit(EditCarModel editCarModel, int id)
         {
             var car = carsService.GetById(editCarModel.Id);
             var engine = enginesService.GetById(editCarModel.EngineId);
@@ -148,12 +143,14 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             if (!this.ModelState.IsValid)
             {
+                SetUpViewBag(generation);
+                this.ViewBag.Engine = $"{car.Engine.Name} ({car.Engine.MaxHP} HP)";
                 return this.View();
             }
 
             await carsService.UpdateAsync(car);
 
-            return this.RedirectToAction(nameof(Details), new { car.Id });
+            return this.RedirectToAction(nameof(All), new { car.Id });
         }
 
         public IActionResult Delete(int id)
@@ -169,6 +166,9 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             this.carsService.GetRelatedEntitiesCount(car, out int userCarsCount);
             viewModel.UserCarsCount = userCarsCount;
 
+            SetUpViewBag(car.Generation);
+            this.ViewBag.Engine = $"{car.Engine.Name} ({car.Engine.MaxHP} HP)";
+
             return this.View(viewModel);
         }
 
@@ -179,7 +179,15 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             await this.carsService.DeleteAsync(car);
 
-            return this.RedirectToAction(nameof(All), new { car.Id });
+            return this.RedirectToAction(nameof(All), new { Id = car.GenerationId });
+        }
+
+        private void SetUpViewBag(Generation generation)
+        {
+            this.ViewBag.Make = generation.Model.Make.Name;
+            this.ViewBag.Model = generation.Model.Name;
+            this.ViewBag.Generation = generation.Name;
+            this.ViewBag.GenerationId = generation.Id;
         }
 
         private void ValidateTireInfo(TireInfo tireInfo)

@@ -1,12 +1,11 @@
 ﻿@model CreateGenerationModel
 
-<h4>Create Generation for @ViewBag.Make @ViewBag.Model</h4>
+<h4>Add Generation for @ViewBag.Make @ViewBag.Model</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-5">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             <div class="form-group">
                 <label asp-for="FormImages" class="control-label"></label>
                 <input asp-for="FormImages" class="form-control" accept=".jpg,.png" multiple />
@@ -18,31 +17,33 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="BodyType" class="control-label"></label>
-                <select asp-for="BodyType" asp-items="Html.GetEnumSelectList<BodyType>()" class="form-control">
-                    <option selected="selected" value="">--</option>
-                </select>
-                <span asp-validation-for="BodyType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Seats" class="control-label"></label>
-                <input asp-for="Seats" class="form-control" />
-                <span asp-validation-for="Seats" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label asp-for="BodyType" class="control-label"></label>
+            <select asp-for="BodyType" asp-items="Html.GetEnumSelectList<BodyType>()" class="form-control">
+                <option selected="selected" value="">--</option>
+            </select>
+            <span asp-validation-for="BodyType" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-1">
+            <label asp-for="Seats" class="control-label"></label>
+            <input asp-for="Seats" class="form-control" />
+            <span asp-validation-for="Seats" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-8">
+            <label asp-for="Description" class="control-label"></label>
+            <textarea asp-for="Description" class="form-control" rows="10"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-2">
+            <input type="submit" value="Add" class="btn btn-dark" />
+        </div>
+    </div>
+</form>
 

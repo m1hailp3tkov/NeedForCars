@@ -37,6 +37,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
                 .AsQueryable()
                 .To<DisplayGenerationModel>();
 
+            this.ViewBag.ModelId = model.Id;
             this.ViewBag.Make = model.Make.Name;
             this.ViewBag.Model = model.Name;
 
@@ -103,8 +104,8 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             var viewModel = Mapper.Map<EditGenerationModel>(generation);
 
-            this.ViewBag.Make = generation.Model.Make.Name;
-            this.ViewBag.Model = generation.Model.Name;
+            SetUpViewBag(generation);
+
             return this.View(viewModel);
         }
 
@@ -130,6 +131,8 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             }
             if (!ModelState.IsValid)
             {
+                SetUpViewBag(generation);
+
                 return this.View(editGenerationModel);
             }
 
@@ -177,6 +180,13 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
             await this.generationsService.DeleteAsync(generation);
 
             return this.RedirectToAction(nameof(All), new { id = generation.ModelId });
+        }
+
+        private void SetUpViewBag(Generation generation)
+        {
+            this.ViewBag.Make = generation.Model.Make.Name;
+            this.ViewBag.Model = generation.Model.Name;
+            this.ViewBag.Generation = generation.Name;
         }
     }
 }

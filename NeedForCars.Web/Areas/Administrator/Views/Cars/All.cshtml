@@ -1,35 +1,40 @@
 ﻿@model IEnumerable<DisplayCarModel>
 
-<p>
-    <a asp-controller="Cars" asp-action="Create" asp-route-id="@ViewBag.GenerationId">Create New</a>
-</p>
-<h4>@ViewBag.Make @ViewBag.Model @ViewBag.Generation</h4>
-<table class="table">
+@{
+    ViewData["Title"] = $"All Modifications for {ViewBag.Make} {ViewBag.Model} {ViewBag.Generation}";
+}
+
+<a asp-action="create" asp-route-id="@ViewBag.GenerationId" class="btn btn-dark">Add Modification</a>
+<hr />
+<div class="col-sm-6"><h5>@ViewData["Title"]</h5></div>
+<table class="table col-sm-12">
     <thead>
         <tr>
             <th>
-                ~
+                Modification
             </th>
             <th>
-                Production years
+                Production Years
             </th>
-            <th></th>
+            <th>
+            </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var car in Model)
         {
-            <tr>
-                <td>
-                    @item.Engine.Name (@item.Engine.MaxHP HP) @item.Name
+            <tr style="height:52px;">
+                <td style="width:450px">
+                    <text>
+                        @car.Engine.Name (@car.Engine.MaxHP HP) @car.Name
+                    </text>
                 </td>
                 <td>
-                    @item.BeginningOfProductionYear - @item.EndOfProductionYear
+                    @car.BeginningOfProductionYear - @car.BeginningOfProductionYear
                 </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                <td align="right" width="200">
+                    <a asp-action="Edit" asp-route-id="@car.Id" class="btn btn-dark">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }

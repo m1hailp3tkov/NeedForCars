@@ -5,9 +5,22 @@
 
 <a asp-action="create" asp-route-id="@ViewBag.MakeId" class="btn btn-dark">Add Model</a>
 <hr />
-<h5>@ViewData["Title"]</h5>
-<hr />
-<table class="table-borderless col-sm-12">
+<div class="col-sm-6"><h5>@ViewData["Title"]</h5></div>
+<table class="table col-sm-12">
+    <thead>
+        <tr>
+            <th>
+                Model
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
     <tbody>
         @foreach (var _model in Model)
         {

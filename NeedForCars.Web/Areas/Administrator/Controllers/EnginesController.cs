@@ -29,22 +29,12 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
         {
             var model = enginesService.All()
                 .To<DisplayEngineModel>()
+                .OrderBy(x => x.Name)
+                .GroupBy(x => x.Creator)
+                .OrderBy(x => x.Key)
                 .ToList();
 
             return View(model);
-        }
-
-        public IActionResult Details(int id)
-        {
-            var engine = enginesService.GetById(id);
-            if (engine == null)
-            {
-                return this.BadRequest();
-            }
-
-            var viewModel = Mapper.Map<EngineDetailsModel>(engine);
-
-            return this.View(viewModel);
         }
 
         public IActionResult Create()
@@ -92,7 +82,7 @@ namespace NeedForCars.Web.Areas.Administrator.Controllers
 
             await this.enginesService.UpdateAsync(engine);
 
-            return this.RedirectToAction(nameof(Details), new { id = engine.Id });
+            return this.RedirectToAction(nameof(All), new { id = engine.Id });
         }
 
         public IActionResult Delete(int id)

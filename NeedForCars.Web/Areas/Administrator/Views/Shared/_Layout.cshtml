@@ -1,6 +1,14 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Administration Panel</h2>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-7">
+            <text style="font-size:xx-large; font-weight:500">Administration Panel</text>
+        </div>
+        <a asp-area="Administrator" asp-controller="Makes" asp-action="All" class="btn btn-dark col-md-1 align-self-md-center text-white">Cars</a>
+        <div class="col-md-1"></div>
+        <a asp-area="Administrator" asp-controller="Engines" asp-action="All" class="btn btn-dark col-md-1 align-self-md-center text-white">Engines</a>
+    </div>
 <hr />
 @RenderBody()

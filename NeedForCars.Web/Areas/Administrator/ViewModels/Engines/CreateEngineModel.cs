@@ -50,6 +50,7 @@ namespace NeedForCars.Web.Areas.Administrator.ViewModels.Engines
         public Aspiration? Aspiration { get; set; }
 
         [Range(1, 28400)]
+        [DisplayName("Displacement (cm^3)")]
         public int? Displacement { get; set; }
 
         [Range(1, 18, ErrorMessage = GlobalConstants.ENGINE_NUMBEROFCYLINDERS_INVALID)]

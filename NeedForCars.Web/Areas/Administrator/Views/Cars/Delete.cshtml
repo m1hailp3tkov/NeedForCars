@@ -1,44 +1,20 @@
 ﻿@model DeleteCarModel
-@inject ICarsService carsService
 
-<h3>Are you sure you want to delete Car?</h3>
+<h4 class="text-danger">Confirm Delete</h4>
 <div>
-    <h4>CarDetailsModel</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BeginningOfProductionYear)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BeginningOfProductionYear)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndOfProductionYear)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndOfProductionYear)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-    </dl>
+    <h5>Are you sure you want to delete the car @ViewBag.Make @ViewBag.Model @ViewBag.Generation @ViewBag.Engine ?</h5>
+    <h6>Doing so will also delete:</h6>
 
-    <b>This will result in:</b><br/>
-    @Model.UserCarsCount Users' Cars <br />
-    being deleted.
+    <table class="table-borderless col-sm-6">
+        <tr>
+            <td><span class="badge badge-danger badge-pill">@Model.UserCarsCount</span></td>
+            <td class="col-sm-4"><b>Users' cars</b></td>
+        </tr>
+    </table>
 
-    
+    <hr />
     <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger col-sm-2" />
     </form>
 </div>

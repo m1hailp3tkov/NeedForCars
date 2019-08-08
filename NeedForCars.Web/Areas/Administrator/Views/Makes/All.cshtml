@@ -5,30 +5,46 @@
 
 <a asp-action="create" class="btn btn-dark">Add Make</a>
 <hr />
-<h5>@ViewData["Title"]</h5>
-<hr />
-<table class="table-borderless col-sm-12">
-    @foreach (var make in Model)
-    {
+<div class="col-sm-6"><h5>@ViewData["Title"]</h5></div>
+<table class="table col-sm-12">
+    <thead>
         <tr>
-            <td class="align-content-end">
-                <img src="@make.ImagePath" height="50"/>
-            </td>
-            <td>
-                <h6>
-                    @make.Name
-                </h6>
-            </td>
-            <td>
-                <h6>@make.Description</h6>
-            </td>
-            <td align="right" width="50">
-                <a asp-controller="Models" asp-action="All" asp-route-id="@make.Id" class="btn btn-dark">Models</a>
-            </td>
-            <td align="right" width="200">
-                <a asp-action="Edit" asp-route-id="@make.Id" class="btn btn-dark">Edit</a>
-                <a asp-action="Delete" asp-route-id="@make.Id" class="btn btn-danger">Delete</a>
-            </td>
+            <th>
+                Logo
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Slogan
+            </th>
+            <th></th>
+            <th></th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var make in Model)
+        {
+            <tr>
+                <td class="align-content-end">
+                    <img src="@make.ImagePath" height="50" />
+                </td>
+                <td>
+                    <h6>
+                        @make.Name
+                    </h6>
+                </td>
+                <td>
+                    <h6>@make.Description</h6>
+                </td>
+                <td align="right" width="50">
+                    <a asp-controller="Models" asp-action="All" asp-route-id="@make.Id" class="btn btn-dark">Models</a>
+                </td>
+                <td align="right" width="200">
+                    <a asp-action="Edit" asp-route-id="@make.Id" class="btn btn-dark">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@make.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

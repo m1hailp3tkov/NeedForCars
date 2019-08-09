@@ -80,6 +80,7 @@
         public const string MESSAGE_CONTENT_REQUIRED = "Your message must have content";
         public const string MESSAGE_CONTENT_TOO_LONG = "Message cannot be longer than {1} characters.";
         public const string MESSAGE_RECEIVER_REQUIRED = "Your message must have a receiver.";
+        public const string MESSAGE_RECEIVER_SAME_AS_SENDER = "You cannot send a message to yourself.";
 
 
         // Regular Expressions

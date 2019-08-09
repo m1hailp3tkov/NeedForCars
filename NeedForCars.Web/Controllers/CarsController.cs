@@ -38,20 +38,6 @@ namespace NeedForCars.Web.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Details(string id)
-        {
-            var userCar = userCarsService.GetById(id);
-
-            if(!userCar.IsPublic)
-            {
-                return this.Forbid();
-            }
-
-            var viewModel = Mapper.Map<CarDetailsViewModel>(userCar);
-
-            return this.View(viewModel);
-        }
-
         public IActionResult Search()
         {
             return this.View();

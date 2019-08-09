@@ -44,9 +44,9 @@ namespace NeedForCars.Web.Controllers
         [Authorize]
         public IActionResult All(int? page)
         {
-            var userId = userManager.GetUserId(this.User);
+            var userName = this.User.Identity.Name;
             var userCars = this.userCarsService
-                .GetAllForUser(userId);
+                .GetAllForUser(userName, includePrivate:true);
 
             var pageNumber = (page ?? 1);
 
@@ -62,7 +62,7 @@ namespace NeedForCars.Web.Controllers
 
             var userCar = this.userCarsService.GetById(id);
 
-            if((!userCar.IsPublic || userCar.OwnerId != userId) && !this.User.IsInRole("Admin"))
+            if(!userCar.IsPublic && userCar.OwnerId != userId && !User.IsInRole("Admin"))
             {
                 return this.Unauthorized();
             }

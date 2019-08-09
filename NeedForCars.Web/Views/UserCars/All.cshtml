@@ -14,8 +14,6 @@
 }
 else
 {
-
-
     <table class="table-hover table">
         <tbody>
             @foreach (var item in Model)
@@ -56,7 +54,16 @@ else
                     </td>
                     <td align="right" width="240">
                         <text style="font-size:x-large;">@price</text>
-                        <br /><br /><br /><br /><br />
+                        <br />
+                        @if (!item.IsPublic)
+                        {
+                            <h5 class="text-black-50">Private</h5>
+                        }
+                        else
+                        {
+                            <br />
+                        }
+                        <br /><br /><br /><br />
                         <a asp-controller="Data" asp-action="Details" asp-route-id="@item.CarId" class="align-bottom">
                             <text style="font-size:small">
                                 See this car in the database

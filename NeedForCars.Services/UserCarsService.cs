@@ -36,12 +36,15 @@ namespace NeedForCars.Services
                 .FirstOrDefault(x => x.Id == id);
         }
 
-        public IQueryable<UserCar> GetAllForUser(string userId)
+        public IQueryable<UserCar> GetAllForUser(string userName, bool includePrivate)
         {
-            var userCars = this.context
-                .UserCars
-                .Where(x => x.OwnerId == userId)
-                .AsQueryable();
+            var userCars = this.context.UserCars
+                .Where(x => x.Owner.UserName == userName);
+
+            if (!includePrivate)
+            {
+                userCars = userCars.Where(x => x.IsPublic);
+            }
 
             return userCars;
         }

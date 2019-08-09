@@ -4,10 +4,17 @@
     var car = carsService.GetById(Model.CarId);
     var carName = $"{car.Generation.Model.Make.Name} {car.Generation.Model.Name} {car.Generation.Name} {car.Name}";
     ViewData["Title"] = $"{Model.OwnerUserName}'s {carName}";
-    var messageDictionary = new Dictionary<string, string>() { { "userName", Model.OwnerUserName } };
+    var profileDictionary = new Dictionary<string, string>() { { "userName", Model.OwnerUserName } };
+    var messageDictionary = new Dictionary<string, string>() { { "receiver", Model.OwnerUserName } };
     var fuel = car.Engine.FuelType + (Model.AlternativeFuel != null ? $" / {Model.AlternativeFuel}" : "");
 }
-<h3>@ViewData["Title"]</h3>
+<div class="row">
+    <h3 class="col-md-10">@ViewData["Title"]</h3>
+    @if(User.Identity.Name == Model.OwnerUserName || User.IsInRole("Admin"))
+    {
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn-danger btn col-md-2">Delete</a>
+    }
+</div>
 <hr />
 <div class="row">
     <div id="carouselExampleControls" class="carousel slide col-md-4" data-ride="carousel">
@@ -37,8 +44,12 @@
                 <tr>
                     <td width="150"><h6>Owner</h6></td>
                     <td>
+                        <a asp-controller="Profile" asp-action="Index" asp-all-route-data="profileDictionary">
+                            <text>@Model.OwnerUserName</text>
+                        </a>
+                        |
                         <a asp-controller="Messages" asp-action="SendMessage" asp-all-route-data="messageDictionary">
-                            <h6>@Model.OwnerUserName</h6>
+                            <text class="text-info">Send them a message</text>
                         </a>
                     </td>
                 </tr>

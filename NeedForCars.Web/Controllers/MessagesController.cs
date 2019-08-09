@@ -83,10 +83,17 @@ namespace NeedForCars.Web.Controllers
         public async Task<IActionResult> SendMessage(SendMessageModel sendMessageModel)
         {
             var senderId = this.userManager.GetUserId(this.User);
+            var senderUserName = this.User.Identity.Name;
 
             if(string.IsNullOrEmpty(sendMessageModel.Receiver) || string.IsNullOrWhiteSpace(sendMessageModel.Receiver))
             {
                 this.ModelState.AddModelError(nameof(sendMessageModel.Receiver), GlobalConstants.MESSAGE_RECEIVER_REQUIRED);
+                return this.View(sendMessageModel);
+            }
+
+            if(sendMessageModel.Receiver == senderUserName)
+            {
+                this.ModelState.AddModelError(nameof(sendMessageModel.Receiver), GlobalConstants.MESSAGE_RECEIVER_SAME_AS_SENDER);
                 return this.View(sendMessageModel);
             }
 

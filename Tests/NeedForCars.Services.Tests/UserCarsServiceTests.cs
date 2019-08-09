@@ -283,7 +283,8 @@ namespace NeedForCars.Services.Tests
                 Color = "color",
                 ProductionDateYear = 2000,
                 ProductionDateMonth = 1,
-                Mileage = 0
+                Mileage = 0,
+                IsPublic = true
             };
 
             var userCar2 = new UserCar
@@ -294,14 +295,15 @@ namespace NeedForCars.Services.Tests
                 Color = "color",
                 ProductionDateYear = 2002,
                 ProductionDateMonth = 1,
-                Mileage = 0
+                Mileage = 0,
+                IsPublic = false
             };
 
             await context.UserCars.AddAsync(userCar1);
             await context.UserCars.AddAsync(userCar2);
             await context.SaveChangesAsync();
 
-            var result = await userCarsService.GetAllForUser(user.Id).CountAsync();
+            var result = await userCarsService.GetAllForUser(user.UserName, true).CountAsync();
 
             Assert.Equal(2, result);
         }

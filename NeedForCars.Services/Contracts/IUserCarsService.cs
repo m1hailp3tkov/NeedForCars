@@ -12,7 +12,7 @@ namespace NeedForCars.Services.Contracts
 
         Task UpdateAsync(UserCar userCar);
 
-        IQueryable<UserCar> GetAllForUser(string userId);
+        IQueryable<UserCar> GetAllForUser(string userName, bool includePrivate);
 
         Task DeleteAsync(UserCar userCar);
 

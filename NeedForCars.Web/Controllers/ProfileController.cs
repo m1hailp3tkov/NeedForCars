@@ -37,8 +37,9 @@ namespace NeedForCars.Web.Controllers
 
             int pageNumber = (page ?? 1);
 
-            userInfoModel.DisplayUserCars = userCarsService.GetAllPublic()
-                .Where(x => x.OwnerId == user.Id)
+            var includePrivate = this.User.IsInRole("Admin");
+
+            userInfoModel.DisplayUserCars = userCarsService.GetAllForUser(user.UserName, includePrivate)
                 .To<DisplayUserCarModel>()
                 .ToPagedList(pageNumber, 10);
 

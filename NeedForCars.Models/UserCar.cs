@@ -24,7 +24,6 @@ namespace NeedForCars.Models
         public Car Car { get; set; }
 
         [Required]
-        //TODO Model validation for color
         public string Color { get; set; }
 
         [Required]

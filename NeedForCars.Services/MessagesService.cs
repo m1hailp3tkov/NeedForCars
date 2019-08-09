@@ -20,6 +20,8 @@ namespace NeedForCars.Services
         public Message GetById(string id)
         {
             var message = this.context.Messages
+                .Include(x => x.Receiver)
+                .Include(x => x.Sender)
                 .FirstOrDefault(x => x.Id == id);
 
             return message;
@@ -29,7 +31,8 @@ namespace NeedForCars.Services
         {
             var messages = this.context.Messages
                 .Where(x => x.ReceiverId == userId)
-                .Include(x => x.Sender);
+                .Include(x => x.Sender)
+                .Include(x => x.Receiver);
 
             return messages;
         }
@@ -38,6 +41,7 @@ namespace NeedForCars.Services
         {
             var messages = this.context.Messages
                 .Where(x => x.SenderId == userId)
+                .Include(x => x.Sender)
                 .Include(x => x.Receiver);
 
             return messages;
@@ -46,6 +50,7 @@ namespace NeedForCars.Services
         public IQueryable<Message> GetAllUnreadForUser(string userId)
         {
             var messages = this.context.Messages
+                .Include(x => x.Receiver)
                 .Include(x => x.Sender)
                 .Where(x => x.ReceiverId == userId)
                 .Where(x => !x.Read);

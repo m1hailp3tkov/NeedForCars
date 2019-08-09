@@ -1,0 +1,27 @@
+﻿@inject IMessagesService messagesService
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Messages</h2>
+<div class="row">
+    <div class="col-md-2">
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+                <a class="nav-link btn-outline-danger" asp-action="SendMessage"><b>Send a Message</b></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn-outline-dark" asp-action="Unread">Unread</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn-outline-dark" asp-action="Sent">Sent</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn-outline-dark" asp-action="Received">Received</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-10">
+        @RenderBody()
+    </div>
+</div>

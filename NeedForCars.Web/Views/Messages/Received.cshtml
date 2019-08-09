@@ -1,20 +1,47 @@
 ﻿@model IPagedList<ViewMessageModel>
-
-@foreach(var message in Model)
-{
-<h4>From: @message.Sender.UserName</h4>
-<h4>@message.Content</h4>
+@{
+    Layout = "/Views/Messages/_Layout.cshtml";
+    ViewData["Title"] = "Received";
 }
 
-@for (int i = 1; i <= Model.PageCount; i++)
-{
-    var routeData = this.Context.Request.Query
-        .ToDictionary(x => x.Key, x => x.Value.ToString());
+<h4>@ViewData["Title"]</h4>
+<table class="table-hover table">
+    <thead>
+        <tr>
+            <th>
+                From:
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var message in Model)
+        {
+            <tr>
+                <td width="150">
+                    <a asp-controller="Profile" asp-action="Index" asp-all-route-data="@(new Dictionary<string, string>() { { "userName", message.Sender.UserName } })">
+                        @message.Sender.UserName
+                    </a>
+                </td>
+                <td>
+                    <a asp-action="ViewMessage" asp-route-id="@message.Id">
+                        @(message.Content.Length > 70 ? message.Content.Substring(0, 70) + "..." : message.Content)
+                    </a>
+                </td>
+                <td align="right">
+                    @if (message.SentOn.Date == DateTime.UtcNow.Date)
+                    {
+                        <text>@message.SentOn.ToShortTimeString()</text>
+                    }
+                    else
+                    {
+                        <text>@message.SentOn.ToShortDateString()</text>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-    if(!routeData.TryAdd("page", i.ToString()))
-    {
-        routeData["page"] = i.ToString();
-    }
-
-<a asp-all-route-data="routeData">@i</a>
-}
+<partial name="_PagesPartial" />

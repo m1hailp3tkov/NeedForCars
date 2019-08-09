@@ -13,10 +13,11 @@ using NeedForCars.Web.ViewModels.UserCars;
 using NeedForCars.Web.ViewModels.UserCars.DTOs;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NeedForCars.Web.Controllers
 {
-    public class UserCarsController : UserController
+    public class UserCarsController : Controller
     {
         private readonly UserManager<NeedForCarsUser> userManager;
         private readonly ICarsService carsService;
@@ -39,6 +40,7 @@ namespace NeedForCars.Web.Controllers
             this.generationsService = generationsService;
         }
 
+        [Authorize]
         public IActionResult All()
         {
             var userId = userManager.GetUserId(this.User);
@@ -56,7 +58,7 @@ namespace NeedForCars.Web.Controllers
 
             var userCar = this.userCarsService.GetById(id);
 
-            if(!userCar.IsPublic && userCar.OwnerId != userId)
+            if((!userCar.IsPublic || userCar.OwnerId != userId) && !this.User.IsInRole("Admin"))
             {
                 return this.Unauthorized();
             }
@@ -71,6 +73,7 @@ namespace NeedForCars.Web.Controllers
             return this.View(viewModel);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             var viewModel = new CreateUserCarModel();
@@ -82,6 +85,7 @@ namespace NeedForCars.Web.Controllers
             return this.View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserCarModel createUserCarModel)
         {
@@ -139,6 +143,7 @@ namespace NeedForCars.Web.Controllers
             return this.RedirectToAction(nameof(All));
         }
 
+        [Authorize]
         public IActionResult Edit(string id)
         {
             var userCar = userCarsService.GetById(id);
@@ -151,21 +156,16 @@ namespace NeedForCars.Web.Controllers
             return this.View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Edit(EditUserCarModel editUserCarModel)
         {
-            //TODO: usercar edit
             var userId = userManager.GetUserId(this.User);
-            var userCar = this.userCarsService.GetById(editUserCarModel.Id);
 
+            var userCar = this.userCarsService.GetById(editUserCarModel.Id);
             if (userCar == null)
             {
                 return this.BadRequest();
-            }
-
-            if (userCar.OwnerId != userId)
-            {
-                return this.Unauthorized();
             }
 
             ValidatePhotos(editUserCarModel.Photos, nameof(EditUserCarModel.Photos));
@@ -193,9 +193,17 @@ namespace NeedForCars.Web.Controllers
             return this.RedirectToAction(nameof(All));
         }
 
+        [Authorize]
         public IActionResult Delete(string id)
         {
+            var userId = userManager.GetUserId(this.User);
             var userCar = userCarsService.GetById(id);
+
+            if ((!userCar.IsPublic || userCar.OwnerId != userId) && !this.User.IsInRole("Admin"))
+            {
+                return this.Unauthorized();
+            }
+
             if (userCar == null)
             {
                 return this.BadRequest();
@@ -205,10 +213,23 @@ namespace NeedForCars.Web.Controllers
             return this.View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Delete(DeleteUserCarModel deleteUserCarModel)
         {
             var userCar = this.userCarsService.GetById(deleteUserCarModel.Id);
+            var userId = userManager.GetUserId(this.User);
+
+            if ((!userCar.IsPublic || userCar.OwnerId != userId) && !this.User.IsInRole("Admin"))
+            {
+                return this.Unauthorized();
+            }
+
+            if (userCar == null)
+            {
+                return this.BadRequest();
+            }
+
             var path = string.Format(GlobalConstants.USERCAR_PHOTO_PATH_TEMPLATE, deleteUserCarModel.Id, "0");
 
             this.imagesService.TryDeleteImagesFromDirectory(path);

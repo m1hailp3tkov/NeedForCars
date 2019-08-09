@@ -1,25 +1,27 @@
 ﻿@model NeedForCars.Web.ViewModels.Messages.SendMessageModel
-
-<h4>SendMessageModel</h4>
+@{
+    ViewData["Title"] = "Send a Message";
+}
+<h4>@ViewData["Title"]</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="SendMessage">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Receiver" class="control-label"></label>
-                <input asp-for="Receiver" class="form-control" />
-                <span asp-validation-for="Receiver" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Content" class="control-label"></label>
-                <input asp-for="Content" class="form-control" />
-                <span asp-validation-for="Content" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<form asp-action="SendMessage">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">To:</label>
+            <input asp-for="Receiver" class="form-control" />
+            <span asp-validation-for="Receiver" class="text-danger"></span>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="form-group col-md-8">
+            <label asp-for="Content" class="control-label"></label>
+            <textarea asp-for="Content" class="form-control" rows="20"></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Send" class="btn btn-primary" />
+    </div>
+</form>
 

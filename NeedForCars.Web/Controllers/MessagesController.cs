@@ -83,6 +83,13 @@ namespace NeedForCars.Web.Controllers
         public async Task<IActionResult> SendMessage(SendMessageModel sendMessageModel)
         {
             var senderId = this.userManager.GetUserId(this.User);
+
+            if(string.IsNullOrEmpty(sendMessageModel.Receiver) || string.IsNullOrWhiteSpace(sendMessageModel.Receiver))
+            {
+                this.ModelState.AddModelError(nameof(sendMessageModel.Receiver), GlobalConstants.MESSAGE_RECEIVER_REQUIRED);
+                return this.View(sendMessageModel);
+            }
+
             var receiver = await this.userManager.FindByNameAsync(sendMessageModel.Receiver);
 
             if (receiver == null)
@@ -110,14 +117,17 @@ namespace NeedForCars.Web.Controllers
                 return this.BadRequest();
             }
 
-            if (userId != message.ReceiverId)
+            if (userId != message.ReceiverId && userId != message.SenderId)
             {
                 return this.Forbid();
             }
 
             var viewModel = Mapper.Map<ViewMessageModel>(message);
 
-            messagesService.MarkAsRead(id);
+            if(!message.Read)
+            {
+                messagesService.MarkAsRead(id);
+            }
 
             return this.View(viewModel);
         }

@@ -1,0 +1,12 @@
+﻿@for (int i = 1; i <= Model.PageCount; i++)
+{
+    var routeData = this.Context.Request.Query
+        .ToDictionary(x => x.Key, x => x.Value.ToString());
+
+    if (!routeData.TryAdd("page", i.ToString()))
+    {
+        routeData["page"] = i.ToString();
+    }
+
+    <a asp-all-route-data="routeData">@i</a>
+}

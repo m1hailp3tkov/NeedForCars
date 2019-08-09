@@ -65,7 +65,7 @@ namespace NeedForCars.Web.Controllers
 
         private IQueryable<UserCar> GetUserCarsFiltered(SearchViewModel model)
         {
-            var userCars = this.userCarsService.GetAllPublic();
+            var userCars = this.userCarsService.GetAllForSale();
 
             if (model.MakeId != null) userCars = userCars.Where(x => x.Car.Generation.Model.MakeId == model.MakeId);
 
@@ -80,6 +80,7 @@ namespace NeedForCars.Web.Controllers
 
             if (model.PriceFrom != null) userCars = userCars.Where(x => x.Price >= model.PriceFrom);
             if (model.PriceTo != null) userCars = userCars.Where(x => x.Price <= model.PriceTo);
+            if (model.Currency != null) userCars = userCars.Where(x => x.Currency == model.Currency);
 
             if (model.YearOfProductionFrom != null) userCars = userCars.Where(x => x.ProductionDateYear >= model.YearOfProductionFrom);
             if (model.YearOfProductionTo != null) userCars = userCars.Where(x => x.ProductionDateYear <= model.YearOfProductionTo);
@@ -123,7 +124,7 @@ namespace NeedForCars.Web.Controllers
                         userCars = userCars.OrderByDescending(x => x.Price);
                     break;
 
-                case Ordering.ProductionDate:
+                case Ordering.Production:
                     if (model.OrderingType == OrderingType.Ascending)
                         userCars = userCars.OrderBy(x => new DateTime(x.ProductionDateYear, x.ProductionDateMonth, 1));
                     else

@@ -69,5 +69,13 @@ namespace NeedForCars.Services
 
             return userCars;
         }
+
+        public IQueryable<UserCar> GetAllForSale()
+        {
+            var userCars = this.context.UserCars
+                .Where(x => x.ForSale);
+
+            return userCars;
+        }
     }
 }

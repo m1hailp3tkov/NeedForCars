@@ -21,7 +21,7 @@ namespace NeedForCars.Web.ViewModels.UserCars
 
         public Acceleration ModifiedAcceleration { get; set; }
 
-        public AlternativeFuel AlternativeFuel { get; set; }
+        public AlternativeFuel? AlternativeFuel { get; set; }
 
         public bool IsPublic { get; set; }
 

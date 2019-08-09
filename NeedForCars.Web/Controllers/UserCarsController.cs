@@ -14,6 +14,7 @@ using NeedForCars.Web.ViewModels.UserCars.DTOs;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using X.PagedList;
 
 namespace NeedForCars.Web.Controllers
 {
@@ -41,13 +42,16 @@ namespace NeedForCars.Web.Controllers
         }
 
         [Authorize]
-        public IActionResult All()
+        public IActionResult All(int? page)
         {
             var userId = userManager.GetUserId(this.User);
             var userCars = this.userCarsService
                 .GetAllForUser(userId);
 
-            var viewModel = userCars.To<DisplayUserCarModel>();
+            var pageNumber = (page ?? 1);
+
+            var viewModel = userCars.To<DisplayUserCarModel>()
+                .ToPagedList(pageNumber, 10);
 
             return this.View(viewModel);
         }
@@ -69,6 +73,8 @@ namespace NeedForCars.Web.Controllers
             }
 
             var viewModel = Mapper.Map<DetailsUserCarModel>(userCar);
+
+            viewModel.ImageUrls = imagesService.GetImageUrls(GlobalConstants.USERCAR_PHOTO_PATH_TEMPLATE, userCar.Id);
 
             return this.View(viewModel);
         }
@@ -199,7 +205,7 @@ namespace NeedForCars.Web.Controllers
             var userId = userManager.GetUserId(this.User);
             var userCar = userCarsService.GetById(id);
 
-            if ((!userCar.IsPublic || userCar.OwnerId != userId) && !this.User.IsInRole("Admin"))
+            if (userCar.OwnerId != userId && !this.User.IsInRole("Admin"))
             {
                 return this.Unauthorized();
             }
@@ -220,7 +226,7 @@ namespace NeedForCars.Web.Controllers
             var userCar = this.userCarsService.GetById(deleteUserCarModel.Id);
             var userId = userManager.GetUserId(this.User);
 
-            if ((!userCar.IsPublic || userCar.OwnerId != userId) && !this.User.IsInRole("Admin"))
+            if (userCar.OwnerId != userId && !this.User.IsInRole("Admin"))
             {
                 return this.Unauthorized();
             }

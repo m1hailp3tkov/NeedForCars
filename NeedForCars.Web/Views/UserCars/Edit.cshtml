@@ -1,123 +1,162 @@
 ﻿@model EditUserCarModel
+@{
+    ViewData["Title"] = "Edit your car";
+}
 
-<h4>Edit</h4>
+<h4>@ViewData["Title"]</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form asp-action="Edit" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label asp-for="Photos" class="control-label"></label>
 
-            <div class="form-group">
-                <label asp-for="Photos" class="control-label"></label>
-                <input asp-for="Photos" class="form-control" accept=".jpg,.png" multiple />
-                <span asp-validation-for="Photos" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Color" class="control-label"></label>
-                <input asp-for="Color" class="form-control" />
-                <span asp-validation-for="Color" class="text-danger"></span>
-            </div>  
-            <div class="form-group">
-                <label asp-for="Mileage" class="control-label"></label>
-                <input asp-for="Mileage" class="form-control" />
-                <span asp-validation-for="Mileage" class="text-danger"></span>
-            </div>
+            <input asp-for="Photos" class="form-control" accept=".jpg,.png" multiple />
+            <text style="font-size:small" class="text-warning">*Adding new photos will delete existing ones. Please add all photos at once.</text>
+            <span asp-validation-for="Photos" class="text-danger"></span>
+        </div>
 
-            <label class="control-label"><b>Mod Fuel Consumption</b></label><br />
-            <div class="form-group row">
-                <label asp-for="ModifiedFuelConsumption.Urban" class="control-label col-sm-4"></label>
-                <label asp-for="ModifiedFuelConsumption.ExtraUrban" class="control-label col-sm-4"></label>
-                <label asp-for="ModifiedFuelConsumption.Combined" class="control-label col-sm-4"></label>
-            </div>
-            <div class="form-group row">
-                <input asp-for="ModifiedFuelConsumption.Urban" class="form-control col-sm-4" />
-                <span asp-validation-for="ModifiedFuelConsumption.Urban" class="text-danger"></span>
-                <input asp-for="ModifiedFuelConsumption.ExtraUrban" class="form-control col-sm-4" />
-                <span asp-validation-for="ModifiedFuelConsumption.ExtraUrban" class="text-danger"></span>
-                <input asp-for="ModifiedFuelConsumption.Combined" class="form-control col-sm-4" />
-                <span asp-validation-for="ModifiedFuelConsumption.Combined" class="text-danger"></span>
-            </div>
-
-            <label class="control-label"><b>Mod Accel</b></label><br />
-            <div class="form-group row">
-                <label asp-for="ModifiedAcceleration._0_100" class="control-label col-sm-4"></label>
-                <label asp-for="ModifiedAcceleration._0_200" class="control-label col-sm-4"></label>
-                <label asp-for="ModifiedAcceleration._0_300" class="control-label col-sm-4"></label>
-            </div>
-            <div class="form-group row">
-                <input asp-for="ModifiedAcceleration._0_100" class="form-control col-sm-4" />
-                <span asp-validation-for="ModifiedAcceleration._0_100" class="text-danger"></span>
-                <input asp-for="ModifiedAcceleration._0_200" class="form-control col-sm-4" />
-                <span asp-validation-for="ModifiedAcceleration._0_200" class="text-danger"></span>
-                <input asp-for="ModifiedAcceleration._0_300" class="form-control col-sm-4" />
-                <span asp-validation-for="ModifiedAcceleration._0_300" class="text-danger"></span>
-            </div>
-
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsPublic" /> @Html.DisplayNameFor(model => model.IsPublic)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="ForSale" /> @Html.DisplayNameFor(model => model.ForSale)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsPerformanceModified" /> @Html.DisplayNameFor(model => model.IsPerformanceModified)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsVisuallyModified" /> @Html.DisplayNameFor(model => model.IsVisuallyModified)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AlternativeFuel" class="control-label"></label>
-                <select asp-for="AlternativeFuel" asp-items="Html.GetEnumSelectList<AlternativeFuel>()" class="form-control">
-                    <option selected="selected" value="">--</option>
-                </select>
-                <span asp-validation-for="AlternativeFuel" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Currency" class="control-label"></label>
-                <select asp-for="Currency" asp-items="Html.GetEnumSelectList<Currency>()" class="form-control"></select>
-                <span asp-validation-for="Currency" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CustomMaxHP" class="control-label"></label>
-                <input asp-for="CustomMaxHP" class="form-control" />
-                <span asp-validation-for="CustomMaxHP" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PerformanceModificationsDescription" class="control-label"></label>
-                <input asp-for="PerformanceModificationsDescription" class="form-control" />
-                <span asp-validation-for="PerformanceModificationsDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="VisualModificationsDescription" class="control-label"></label>
-                <input asp-for="VisualModificationsDescription" class="form-control" />
-                <span asp-validation-for="VisualModificationsDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        <div class="form-group col-md-3">
+            <label asp-for="Color" class="control-label"></label>
+            <input asp-for="Color" class="form-control" list="colors" />
+            <datalist id="colors">
+                <option>Black</option>
+                <option>Gray</option>
+                <option>White</option>
+                <option>Red</option>
+                <option>Yellow</option>
+                <option>Green</option>
+                <option>Blue</option>
+                <option>Purple</option>
+            </datalist>
+            <span asp-validation-for="Color" class="text-danger"></span>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <label class="col-md-2">Mileage</label>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-2">
+            <input asp-for="Mileage" class="form-control" />
+            <span asp-validation-for="Mileage" class="text-danger"></span>
+        </div>
+        <div class="form-check form-check-inline col-md-2">
+            <input class="form-check-input" asp-for="IsPublic" type="checkbox" id="publicCheckBox" value="true" onclick="functionPublicCheckBox()">
+            <label class="form-check-label">Public</label>
+            <div class="col-auto"></div>
+            <input class="form-check-input" asp-for="ForSale" type="checkbox" id="forSaleCheckBox" value="true" onclick="functionForSaleCheckBox()">
+            <label class="form-check-label">For Sale</label>
+        </div>
+        <div class="form-group">
+            <input asp-for="Price" class="form-control col-md-12" id="price"/>
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <select asp-for="Currency" asp-items="Html.GetEnumSelectList<Currency>()" class="form-control col-12" id="currency"></select>
+            <span asp-validation-for="Currency" class="text-danger"></span>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label asp-for="Description" class="control-label"></label>
+            <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <hr />
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <h6 class="col-md-6">Performance Data</h6>
+    <text class="text-info col-md-6" style="font-size:small">*If your car is stock, you can leave one or more of the fields empty.</text>
+    <br />
+    <br />
+    <div class="row">
+        <label class="form-group col-md-6"><b>Fuel Consumption (l/100 km)</b></label>
+        <label class="form-group col-md-6"><b>Acceleration (s)</b></label>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-2">
+            <label asp-for="ModifiedFuelConsumption.Urban" class="control-label"></label>
+            <input asp-for="ModifiedFuelConsumption.Urban" class="form-control" />
+            <span asp-validation-for="ModifiedFuelConsumption.Urban" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-2">
+            <label asp-for="ModifiedFuelConsumption.ExtraUrban" class="control-label"></label>
+            <input asp-for="ModifiedFuelConsumption.ExtraUrban" class="form-control" />
+            <span asp-validation-for="ModifiedFuelConsumption.ExtraUrban" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-2">
+            <label asp-for="ModifiedFuelConsumption.Combined" class="control-label"></label>
+            <input asp-for="ModifiedFuelConsumption.Combined" class="form-control" />
+            <span asp-validation-for="ModifiedFuelConsumption.Combined" class="text-danger"></span>
+        </div>
 
+        <div class="form-group col-md-2">
+            <label asp-for="ModifiedAcceleration._0_100" class="control-label"></label>
+            <input asp-for="ModifiedAcceleration._0_100" class="form-control" />
+            <span asp-validation-for="ModifiedAcceleration._0_100" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-2">
+            <label asp-for="ModifiedAcceleration._0_200" class="control-label"></label>
+            <input asp-for="ModifiedAcceleration._0_200" class="form-control" />
+            <span asp-validation-for="ModifiedAcceleration._0_200" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-2">
+            <label asp-for="ModifiedAcceleration._0_300" class="control-label"></label>
+            <input asp-for="ModifiedAcceleration._0_300" class="form-control" />
+            <span asp-validation-for="ModifiedAcceleration._0_300" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-sm-3">
+            <label asp-for="AlternativeFuel" class="control-label">Alternative Fuel</label>
+            <select asp-for="AlternativeFuel" asp-items="Html.GetEnumSelectList<AlternativeFuel>()" class="form-control">
+                <option selected="selected" value="">--</option>
+            </select>
+            <span asp-validation-for="AlternativeFuel" class="text-danger"></span>
+        </div>
+        <div class="form-group col-sm-3">
+            <label asp-for="CustomMaxHP" class="control-label">Max HP</label>
+            <input asp-for="CustomMaxHP" class="form-control" />
+            <span asp-validation-for="CustomMaxHP" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="text-white">.</label>
+            <input type="submit" value="Edit Car" class="btn btn-dark col-md-12" />
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+
+    var cbxPublic = document.getElementById("publicCheckBox");
+    var cbxForSale = document.getElementById("forSaleCheckBox");
+    var priceField = document.getElementById("price");
+    var currencySelector = document.getElementById("currency");
+
+    function functionPublicCheckBox() {
+        if (cbxPublic.checked == true) {
+            cbxForSale.disabled = false;
+        } else {
+            cbxForSale.checked = false;
+            cbxForSale.disabled = true;
+
+            priceField.disabled = true;
+            priceField.value = "";
+
+            currencySelector.disabled = true;
+        }
+    };
+
+    function functionForSaleCheckBox() {
+        if (cbxForSale.checked == true) {
+            priceField.disabled = false;
+            currencySelector.disabled = false;
+        } else {
+            priceField.disabled = true;
+            priceField.value = "";
+            currencySelector.disabled = true;
+        }
+    };
+</script>

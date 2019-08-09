@@ -17,5 +17,7 @@ namespace NeedForCars.Services.Contracts
         Task DeleteAsync(UserCar userCar);
 
         IQueryable<UserCar> GetAllPublic();
+
+        IQueryable<UserCar> GetAllForSale();
     }
 }

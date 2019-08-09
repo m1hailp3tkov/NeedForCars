@@ -24,6 +24,8 @@ namespace NeedForCars.Web.ViewModels.UserCars
 
         public int? CustomMaxHP { get; set; }
 
+        public string Description { get; set; }
+
         public string ImageUrl { get => $"/images/usercars/{this.Id}/0.png"; }
     }
 }

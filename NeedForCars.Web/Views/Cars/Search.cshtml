@@ -1,46 +1,214 @@
 ﻿@model NeedForCars.Web.ViewModels.Cars.SearchViewModel
 @using NeedForCars.Web.ViewModels.Cars
 
-<h4>SearchViewModel</h4>
+<div class="col-md-3">
+    <h2>Search for Cars</h2>
+</div>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Search">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="MakeId" class="control-label"></label>
-                <select asp-for="MakeId" class="form-control">
-                    <option value="">Any</option>
-                </select>
-                <span asp-validation-for="MakeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModelId" class="control-label"></label>
-                <select asp-for="ModelId" class="form-control">
-                    <option value="">Any</option>
-                </select>
-                <span asp-validation-for="ModelId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GenerationId" class="control-label"></label>
-                <select asp-for="GenerationId" class="form-control">
-                    <option value="">Any</option>
-                </select>
-                <span asp-validation-for="GenerationId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CarId" class="control-label"></label>
-                <select asp-for="CarId" class="form-control">
-                    <option value="">Any</option>
-                </select>
-                <span asp-validation-for="CarId" class="text-danger"></span>
-            </div>
 
-            <script src="~/lib/jquery//dist//jquery.js"></script>
-            <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-            <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<form asp-action="Search">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-md-3">
+            <label asp-for="MakeId" class="control-label">Make</label>
+            <select asp-for="MakeId" class="form-control">
+                <option value="">[Any]</option>
+            </select>
+            <span asp-validation-for="MakeId" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="ModelId" class="control-label">Model</label>
+            <select asp-for="ModelId" class="form-control">
+                <option value="">[Any]</option>
+            </select>
+            <span asp-validation-for="ModelId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label asp-for="GenerationId" class="control-label">Generation</label>
+            <select asp-for="GenerationId" class="form-control">
+                <option value="">[Any]</option>
+            </select>
+            <span asp-validation-for="GenerationId" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="CarId" class="control-label">Modification</label>
+            <select asp-for="CarId" class="form-control">
+                <option value="">[Any]</option>
+            </select>
+            <span asp-validation-for="CarId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-3">
+            <label asp-for="FuelType" class="control-label">Fuel Type</label>
+            <select asp-for="FuelType" asp-items="@Html.GetEnumSelectList<FuelType>()" class="form-control">
+                <option value="">[Any]</option>
+            </select>
+            <span asp-validation-for="FuelType" class="text-danger"></span>
+        </div>
+        <div class="form-group col-sm-3">
+            <label asp-for="AlternativeFuel" class="control-label"> Alternative Fuel</label>
+            <select asp-for="AlternativeFuel" asp-items="@Html.GetEnumSelectList<AlternativeFuel>()" class="form-control">
+                <option value="">[Any]</option>
+            </select>
+            <span asp-validation-for="AlternativeFuel" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label asp-for="Transmission" class="control-label"></label>
+            <select asp-for="Transmission" asp-items="Html.GetEnumSelectList<Transmission>()" class="form-control">
+                <option value="">[Any]</option>
+            </select>
+            <span asp-validation-for="Transmission" class="text-danger"></span>
+        </div>
 
-            <script type="text/javascript">
+        <div class="form-group col-md-3">
+            <label asp-for="DriveWheel" class="control-label">Drive Wheel</label>
+            <select asp-for="DriveWheel" class="form-control">
+                <option value="">[Any]</option>
+                <option value="1">Front Wheel Drive</option>
+                <option value="2">Rear Wheel Drive</option>
+                <option value="3">4 Wheel Drive</option>
+                <option value="4">All Wheel Drive</option>
+            </select>
+            <span asp-validation-for="DriveWheel" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <label>Mileage</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-group col-sm-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">From</span>
+            </div>
+            <input asp-for="MileageFrom" class="form-control" />
+            <div class="input-group-append">
+                <span class="input-group-text">km</span>
+            </div>
+            <span asp-validation-for="MileageFrom" class="text-danger"></span>
+        </div>
+        <div class="input-group col-sm-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">To</span>
+            </div>
+            <input asp-for="MileageTo" class="form-control" />
+            <div class="input-group-append">
+                <span class="input-group-text">km</span>
+            </div>
+            <span asp-validation-for="MileageTo" class="text-danger"></span>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-1">
+            <label>Price</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-group col-sm-2">
+            <select asp-for="Currency" class="form-control">
+                <option value="">[Currency]</option>
+                <option value="1">lv. (LEV)</option>
+                <option value="2">€ (EUR)</option>
+                <option value="3">$ (USD)</option>
+            </select>
+            <span asp-validation-for="Currency" class="text-danger"></span>
+        </div>
+        <div class="input-group col-sm-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">From</span>
+            </div>
+            <input asp-for="PriceFrom" class="form-control" />
+            <span asp-validation-for="PriceFrom" class="text-danger"></span>
+        </div>
+        <div class="input-group col-sm-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">To</span>
+            </div>
+            <input asp-for="PriceTo" class="form-control" />
+            <span asp-validation-for="PriceTo" class="text-danger"></span>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-3">
+            <label>Year of Production</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-group col-sm-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">From</span>
+            </div>
+            <input asp-for="YearOfProductionFrom" class="form-control" />
+            <span asp-validation-for="YearOfProductionFrom" class="text-danger"></span>
+        </div>
+        <div class="input-group col-sm-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">To</span>
+            </div>
+            <input asp-for="YearOfProductionTo" class="form-control" />
+            <span asp-validation-for="YearOfProductionTo" class="text-danger"></span>
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-sm-3">
+            <label>Power</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-group col-sm-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">From</span>
+            </div>
+            <input asp-for="MinHP" class="form-control" />
+            <span asp-validation-for="MinHP" class="text-danger"></span>
+            <div class="input-group-append">
+                <span class="input-group-text">HP</span>
+            </div>
+        </div>
+        <div class="input-group col-sm-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">To</span>
+            </div>
+            <input asp-for="MaxHP" class="form-control" />
+            <span asp-validation-for="MaxHP" class="text-danger"></span>
+            <div class="input-group-append">
+                <span class="input-group-text">HP</span>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="form-group col-md-2">
+            <select asp-for="Ordering" asp-items="@Html.GetEnumSelectList<Ordering>()" class="form-control"></select>
+            <span asp-validation-for="Ordering" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-2">
+            <select asp-for="OrderingType" asp-items="@Html.GetEnumSelectList<OrderingType>()" class="form-control"></select>
+            <span asp-validation-for="OrderingType" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-2">
+            <input type="submit" value="Search" class="btn btn-dark col-md-12" />
+        </div>
+    </div>
+</form>
+
+<script src="~/lib/jquery//dist//jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<script type="text/javascript">
                 var makeUrl = '@Url.Action("FetchMakes", "Helper")';
                 var modelUrl = '@Url.Action("FetchModels", "Helper")';
                 var generationUrl = '@Url.Action("FetchGenerations", "Helper")';
@@ -62,11 +230,11 @@
 
 			    makes.change(function() {
                     models.empty();
-                    models.append($('<option></option>').val('').text('Any'));
+                    models.append($('<option></option>').val('').text('[Any]'));
                     generations.empty();
-                    generations.append($('<option></option>').val('').text('Any'));
+                    generations.append($('<option></option>').val('').text('[Any]'));
                     cars.empty();
-                    cars.append($('<option></option>').val('').text('Any'));
+                    cars.append($('<option></option>').val('').text('[Any]'));
 
 				    $.getJSON(modelUrl, { id: $(this).val() },function(data) {
 					    if (!data) {
@@ -79,9 +247,9 @@
 			    })
 			    models.change(function() {
                     generations.empty();
-                    generations.append($('<option></option>').val('').text('Any'));
+                    generations.append($('<option></option>').val('').text('[Any]'));
                     cars.empty();
-                    cars.append($('<option></option>').val('').text('Any'));
+                    cars.append($('<option></option>').val('').text('[Any]'));
 				    $.getJSON(generationUrl, { id: $(this).val() },function(data) {
 					    if (!data) {
 						    return;
@@ -93,7 +261,7 @@
                 })
                 generations.change(function () {
                     cars.empty();
-                    cars.append($('<option></option>').val('').text('Any'));
+                    cars.append($('<option></option>').val('').text('[Any]'));
                     $.getJSON(carUrl, { id: $(this).val() }, function (data) {
 					    if (!data) {
 						    return;
@@ -104,91 +272,4 @@
 				    });
                 })
 
-            </script>
-
-            <div class="form-group">
-                <label asp-for="MileageFrom" class="control-label"></label>
-                <input asp-for="MileageFrom" class="form-control" />
-                <span asp-validation-for="MileageFrom" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MileageTo" class="control-label"></label>
-                <input asp-for="MileageTo" class="form-control" />
-                <span asp-validation-for="MileageTo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PriceFrom" class="control-label"></label>
-                <input asp-for="PriceFrom" class="form-control" />
-                <span asp-validation-for="PriceFrom" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PriceTo" class="control-label"></label>
-                <input asp-for="PriceTo" class="form-control" />
-                <span asp-validation-for="PriceTo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Currency" class="control-label"></label>
-                <input asp-for="Currency" class="form-control" />
-                <span asp-validation-for="Currency" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="YearOfProductionFrom" class="control-label"></label>
-                <input asp-for="YearOfProductionFrom" class="form-control" />
-                <span asp-validation-for="YearOfProductionFrom" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="YearOfProductionTo" class="control-label"></label>
-                <input asp-for="YearOfProductionTo" class="form-control" />
-                <span asp-validation-for="YearOfProductionTo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FuelType" class="control-label"></label>
-                <input asp-for="FuelType" class="form-control" />
-                <span asp-validation-for="FuelType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MinHP" class="control-label"></label>
-                <input asp-for="MinHP" class="form-control" />
-                <span asp-validation-for="MinHP" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaxHP" class="control-label"></label>
-                <input asp-for="MaxHP" class="form-control" />
-                <span asp-validation-for="MaxHP" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Transmission" class="control-label"></label>
-                <input asp-for="Transmission" class="form-control" />
-                <span asp-validation-for="Transmission" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AlternativeFuel" class="control-label"></label>
-                <input asp-for="AlternativeFuel" class="form-control" />
-                <span asp-validation-for="AlternativeFuel" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DriveWheel" class="control-label"></label>
-                <input asp-for="DriveWheel" class="form-control" />
-                <span asp-validation-for="DriveWheel" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrderingType" class="control-label"></label>
-                <select asp-for="OrderingType" asp-items="@Html.GetEnumSelectList<OrderingType>()" class="form-control"></select>
-                <span asp-validation-for="OrderingType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ordering" class="control-label"></label>
-                <select asp-for="Ordering" asp-items="@Html.GetEnumSelectList<Ordering>()" class="form-control"></select>
-                <span asp-validation-for="Ordering" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+</script>

@@ -53,8 +53,7 @@ namespace NeedForCars.Web.ViewModels.Cars
         Latest = 1,
         Price = 2,
         Mileage = 3,
-        [Description("Production Date")]
-        ProductionDate = 4
+        Production = 4
     }
 
     public enum OrderingType

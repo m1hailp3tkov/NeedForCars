@@ -14,6 +14,7 @@ namespace NeedForCars.Web.ViewModels.UserCars
         public string Id { get; set; }
 
         public string OwnerId { get; set; }
+        public string OwnerUserName { get; set; }
 
         public int CarId { get; set; }
 
@@ -27,10 +28,6 @@ namespace NeedForCars.Web.ViewModels.UserCars
         public bool IsPublic { get; set; }
 
         public bool ForSale { get; set; }
-
-        public bool IsPerformanceModified { get; set; }
-
-        public bool IsVisuallyModified { get; set; }
 
         public string Description { get; set; }
 
@@ -46,8 +43,6 @@ namespace NeedForCars.Web.ViewModels.UserCars
 
         public Acceleration ModifiedAcceleration { get; set; }
 
-        public string PerformanceModificationsDescription { get; set; }
-
-        public string VisualModificationsDescription { get; set; }
+        public IEnumerable<string> ImageUrls { get; set; }
     }
 }

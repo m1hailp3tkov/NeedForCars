@@ -1,8 +1,76 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IPagedList<DisplayUserCarModel>
+@inject ICarsService carsService
+@{
+    ViewData["Title"] = $"NeedForCars";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<hr />
+<h1 class="text-warning">Welcome to NeedForCars !</h1>
+<h5>Here are the latest cars our users have added</h5>
+<hr />
+@if (Model.Count() == 0)
+{
+    <h3 class="text-black-50 col-md-6">Sadly, our users havent added any cars yet.</h3>
+}
+else
+{
+    <table class="table-hover table">
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var car = carsService.GetById(item.CarId);
+                var carName = $"{car.Generation.Model.Make.Name} {car.Generation.Model.Name} {car.Generation.Name}";
+                var carEngine = $"{car.Engine.Name} ({(item.CustomMaxHP == null ? car.Engine.MaxHP : item.CustomMaxHP)} HP) {car.Name}";
+                string currency = "";
+                switch (item.Currency)
+                {
+                    case Currency.Lev:
+                        currency = "lv."; break;
+                    case Currency.Dollar:
+                        currency = "$"; break;
+                    case Currency.Euro:
+                        currency = "€"; break;
+                }
+                var price = item.ForSale ? $"{currency} {item.Price}" : "Not for sale";
+
+                <tr>
+                    <td align="left" width="200">
+                        <a asp-controller="UserCars" asp-action="Details" asp-route-id="@item.Id">
+                            <img src="@item.ImageUrl" class="rounded d-block" height="200" />
+                        </a>
+                    </td>
+                    <td align="left">
+                        <div class="col-sm-12">
+                            <a asp-controller="UserCars" asp-action="Details" asp-route-id="@item.Id" class="text-danger">
+                                <text style="font-size:xx-large; font-weight:300;">@carName</text>
+                            </a>
+                            <br />
+                            <text style="font-size:medium; font-weight:500">@carEngine</text><br />
+                            <text style="font-size:small">
+                                @(item.Description != null && item.Description.Length > 300 ? item.Description.Substring(0, 300) + "..." : item.Description)
+                            </text>
+                            <br />
+                        </div>
+                    </td>
+                    <td align="right" width="240">
+                        <text style="font-size:x-large;">@price</text>
+                        <br /><br /><br /><br /><br />
+                        <a asp-controller="Data" asp-action="Details" asp-route-id="@item.CarId" class="align-bottom">
+                            <text style="font-size:small">
+                                See this car in the database
+                            </text>
+                        </a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="UserCars" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger col-sm-4">Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <hr />
+    <div class="float-right">
+        <partial name="_PagesPartial" />
+    </div>
+}

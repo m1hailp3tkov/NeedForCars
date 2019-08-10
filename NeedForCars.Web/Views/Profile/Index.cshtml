@@ -1,9 +1,9 @@
 ﻿@model UserInfoModel
 @inject ICarsService carsService
 @{
-    ViewData["Title"] = $"{Model.UserName}'s Profile";
+    ViewData["Title"] = $"{Model.UserName}'s Cars";
 }
-
+<hr />
 <div class="col-sm-6"><h5>@ViewData["Title"]</h5></div>
 <hr />
 @if (Model.DisplayUserCars.Count() == 0)

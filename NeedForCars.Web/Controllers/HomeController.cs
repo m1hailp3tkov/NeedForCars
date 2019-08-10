@@ -4,15 +4,32 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NeedForCars.Services.Contracts;
+using NeedForCars.Services.Mapping;
 using NeedForCars.Web.ViewModels;
+using NeedForCars.Web.ViewModels.UserCars;
+using X.PagedList;
 
 namespace NeedForCars.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IUserCarsService userCarsService;
+
+        public HomeController(IUserCarsService userCarsService)
         {
-            return View();
+            this.userCarsService = userCarsService;
+        }
+
+        public IActionResult Index(int? page)
+        {
+            int pageNumber = (page ?? 1);
+            var viewModel = userCarsService.GetAllPublic()
+                .OrderByDescending(x => x.CreatedOn)
+                .To<DisplayUserCarModel>()
+                .ToPagedList(pageNumber, 10);
+
+            return View(viewModel);
         }
 
         public IActionResult Privacy()

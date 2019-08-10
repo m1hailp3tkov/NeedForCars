@@ -61,6 +61,11 @@ namespace NeedForCars.Web.Controllers
 
             var viewModel = models.GroupBy(x => x.Name[0]);
 
+            var make = this.makesService.GetById(id);
+
+            this.ViewBag.Make = make.Name;
+            this.ViewBag.MakeId = make.Id.ToString();
+
             return this.View(viewModel);
         }
 
@@ -94,6 +99,12 @@ namespace NeedForCars.Web.Controllers
                 generation.ImageUrl = $"/images/generations/{generation.Id}/0.png";
             }
 
+            generations = generations.OrderByDescending(x => x.ProductionYearBegin).ToList();
+
+            this.ViewBag.Make = model.Make.Name;
+            this.ViewBag.Model = model.Name;
+            this.ViewBag.ModelId = model.Id.ToString();
+
             return this.View(generations);
         }
 
@@ -118,6 +129,12 @@ namespace NeedForCars.Web.Controllers
                 ImageUrls = imageUrls
             };
 
+            viewModel.GenerationId = generation.Id;
+
+            this.ViewBag.Make = generation.Model.Make.Name;
+            this.ViewBag.Model = generation.Model.Name;
+            this.ViewBag.Generation = generation.Name;
+
             return this.View(viewModel);
         }
 
@@ -138,6 +155,11 @@ namespace NeedForCars.Web.Controllers
             };
 
             Mapper.Map(car, viewModel);
+
+            this.ViewBag.Make = car.Generation.Model.Make.Name;
+            this.ViewBag.Model = car.Generation.Model.Name;
+            this.ViewBag.Generation = car.Generation.Name;
+            this.ViewBag.Modification = $"{car.Engine.Name} ({car.Engine.MaxHP} HP) {car.Name}";
 
             return this.View(viewModel);
         }

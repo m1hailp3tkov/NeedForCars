@@ -1,13 +1,35 @@
 ﻿@model IEnumerable<IGrouping<char, DisplayModelWithImageModel>>
+@{
+    ViewData["Title"] = $"Models for {ViewBag.Make}";
+    var routeData = new Dictionary<string, string>() { { "MakeId", ViewBag.MakeId } };
+}
 
+<div class="row">
+    <h4 class="col-md-6">@ViewData["Title"]</h4>
+    <div class="col-md-3"></div>
+    <a asp-controller="Cars" asp-action="Browse" asp-all-route-data="routeData" class="col-md-3 align-content-end btn btn-dark">Look this make up for sale!</a>
+</div>
+
+<hr />
 @foreach (var group in Model)
 {
-    <br />
-    <h3>@group.Key</h3>
+    <h4>@group.Key</h4>
     <hr />
-    foreach (var _model in group)
-    {
-        <h4>@_model.Name</h4>
-        <img src="@_model.ImageUrl" height="100" />
-    }
+    <div class="row">
+        @foreach (var _model in group)
+        {
+            <a asp-action="Generations" asp-route-id="@_model.Id">
+                <div class="col-md-2">
+                    <div class="card" style="width: 10rem;">
+                        <img class="card-img-top" src="@_model.ImageUrl" />
+                        <div class="card-body">
+                            <h5 class="card-title text-dark">
+                                @_model.Name
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
 }

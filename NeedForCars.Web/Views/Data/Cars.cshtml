@@ -1,18 +1,67 @@
 ﻿@model DisplayCarsWithImagesModel
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
-@foreach(var image in Model.ImageUrls)
-{
-    <img src="@image" height="100" />
+@{
+    ViewData["Title"] = $"Modifications for {ViewBag.Make} {ViewBag.Model} {ViewBag.Generation}";
+    var routeData = new Dictionary<string, string>() { { "GenerationId", Model.GenerationId.ToString() } };
 }
+
+<div class="row">
+    <h4 class="col-md-6">@ViewData["Title"]</h4>
+    <div class="col-md-3"></div>
+    <a asp-controller="Cars" asp-action="Browse" asp-all-route-data="routeData" class="col-md-3 align-content-end btn btn-dark">Look this generation up for sale!</a>
+</div>
 
 <hr />
-
-@foreach(var car in Model.Cars)
-{
-    <a href="">@car.EngineName (@car.EngineMaxHP) @car.Name</a>
-    <br />
-}
+<div class="row">
+    @foreach (var image in Model.ImageUrls.Take(6))
+    {
+        <div class="col-md-2">
+            <img src="@image" height="100" />
+        </div>
+    }
+</div>
+<hr />
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>~</th>
+            <th>Production</th>
+            <th>Transmission</th>
+            <th>Drive Wheel</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model.Cars)
+        {
+            <tr>
+                <td>
+                    <a class="text-dark" asp-action="Details" asp-route-id="@car.Id">
+                        @car.EngineName (@car.EngineMaxHP HP) @car.Name
+                    </a>
+                </td>
+                <td>
+                    @car.BeginningOfProductionYear - @(car.EndOfProductionYear.HasValue ? car.EndOfProductionYear.ToString() : "present")
+                </td>
+                <td>
+                    @car.Transmission
+                </td>
+                <td>
+                    @switch (car.DriveWheel)
+                    {
+                        case DriveWheel.AllWheelDrive:
+                            <text>AWD</text>
+                            break;
+                        case DriveWheel.FrontWheelDrive:
+                            <text>FWD</text>
+                            break;
+                        case DriveWheel.RearWheelDrive:
+                            <text>RWD</text>
+                            break;
+                        case DriveWheel.FourWheelDrive:
+                            <text>4WD</text>
+                            break;
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

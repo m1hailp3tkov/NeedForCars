@@ -1,107 +1,285 @@
 ﻿@model CarDetailsWithImagesModel
-
-@foreach (var image in Model.ImageUrls)
-{
-    <img src="@image" height="100" />
+@{
+    ViewData["Title"] = $"Details for {ViewBag.Make} {ViewBag.Model} {ViewBag.Generation} {ViewBag.Modification}";
+    var routeData = new Dictionary<string, string>() { { "CarId", Model.Id.ToString() } };
 }
 
-<div>
-    <h4>CarDetailsWithImagesModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.GenerationId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.GenerationId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EngineId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EngineId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Transmission)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Transmission)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DriveWheel)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DriveWheel)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BeginningOfProductionYear)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BeginningOfProductionYear)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BeginningOfProductionMonth)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BeginningOfProductionMonth)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EndOfProductionYear)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EndOfProductionYear)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EndOfProductionMonth)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EndOfProductionMonth)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TopSpeed)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TopSpeed)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.NumberOfGears)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NumberOfGears)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.HasABS)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.HasABS)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.HasESP)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.HasESP)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.HasTCS)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.HasTCS)
-        </dd>
-    </dl>
+<div class="row">
+    <h4 class="col-md-6">@ViewData["Title"]</h4>
+    <div class="col-md-3"></div>
+    <a asp-controller="Cars" asp-action="Browse" asp-all-route-data="routeData" class="col-md-3 align-content-end btn btn-dark">Look this car up for sale!</a>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+
+<hr />
+<div class="row">
+    @foreach (var image in Model.ImageUrls.Take(6))
+    {
+        <div class="col-md-2">
+            <img src="@image" height="100" />
+        </div>
+    }
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>General Information</h4>
+        <table class="table-hover table table-sm">
+            <tbody>
+                <tr>
+                    <td><b>Make</b></td>
+                    <td>@ViewBag.Make</td>
+                </tr>
+                <tr>
+                    <td><b>Model</b></td>
+                    <td>@ViewBag.Model</td>
+                </tr>
+                <tr>
+                    <td><b>Generation</b></td>
+                    <td>@ViewBag.Generation</td>
+                </tr>
+                <tr>
+                    <td><b>Modification</b></td>
+                    <td>@ViewBag.Modification</td>
+                </tr>
+                <tr>
+                    <td><b>Beginning of Production</b></td>
+                    <td>@(new DateTime(Model.BeginningOfProductionYear, Model.BeginningOfProductionMonth, 1).ToString("MMMM yyyy"))</td>
+                </tr>
+                <tr>
+                    <td><b>End of Production</b></td>
+                    <td>
+                        @if (Model.EndOfProductionYear.HasValue)
+                        {
+                            <text> @(new DateTime(Model.EndOfProductionYear.Value, Model.EndOfProductionMonth.Value, 1).ToString("MMMM yyyy"))</text>
+                        }
+                        else
+                        {
+                            <text>Still being produced</text>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Body Type</b></td>
+                    <td>@Model.Generation.BodyType</td>
+                </tr>
+                <tr>
+                    <td><b>Seats</b></td>
+                    <td>@Model.Generation.Seats</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h4>Performance</h4>
+        <table class="table-hover table table-sm">
+            <tbody>
+                @if (Model.FuelConsumption.Urban.HasValue)
+                {
+                    <tr>
+                        <td><b>Fuel Consumption - Urban</b></td>
+                        <td>@Model.FuelConsumption.Urban l/100 km</td>
+                    </tr>
+                }
+                @if (Model.FuelConsumption.Combined.HasValue)
+                {
+                    <tr>
+                        <td><b>Fuel Consumption - Combined</b></td>
+                        <td>@Model.FuelConsumption.Combined l/100 km</td>
+                    </tr>
+                }
+                @if (Model.FuelConsumption.ExtraUrban.HasValue)
+                {
+                    <tr>
+                        <td><b>Fuel Consumption - Extra Urban</b></td>
+                        <td>@Model.FuelConsumption.ExtraUrban l/100 km</td>
+                    </tr>
+                }
+                <tr>
+                    <td><b>Fuel Type</b></td>
+                    <td>@Model.Engine.FuelType</td>
+                </tr>
+                @if (Model.Engine.AlternativeFuel.HasValue)
+                {
+                    <tr>
+                        <td><b>Alternative Fuel</b></td>
+                        <td>@Model.Engine.AlternativeFuel</td>
+                    </tr>
+                }
+                @if (Model.Acceleration._0_100.HasValue)
+                {
+                    <tr>
+                        <td><b>Acceleration 0-100 km/h</b></td>
+                        <td>@Model.Acceleration._0_100 sec</td>
+                    </tr>
+                }
+                @if (Model.Acceleration._0_200.HasValue)
+                {
+                    <tr>
+                        <td><b>Acceleration 0-200 km/h</b></td>
+                        <td>@Model.Acceleration._0_200 sec</td>
+                    </tr>
+                }
+                @if (Model.Acceleration._0_300.HasValue)
+                {
+                    <tr>
+                        <td><b>Acceleration 0-300 km/h</b></td>
+                        <td>@Model.Acceleration._0_300 sec</td>
+                    </tr>
+                }
+                @if (Model.TopSpeed.HasValue)
+                {
+                    <tr>
+                        <td><b>Top Speed</b></td>
+                        <td>@Model.TopSpeed km/h</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <h4>Engine</h4>
+        <table class="table-hover table table-sm">
+            <tbody>
+                <tr>
+                    <td><b>Power</b></td>
+                    <td>@Model.Engine.MaxHP HP @(Model.Engine.MaxHPAtRpm.HasValue ? $"@ {Model.Engine.MaxHPAtRpm} RPM" : "")</td>
+                </tr>
+                @if (Model.Engine.MaxTorque.HasValue)
+                {
+                    <tr>
+                        <td><b>Torque</b></td>
+                        <td>@Model.Engine.MaxTorque Nm @@ @Model.Engine.MaxTorqueAtRpm RPM</td>
+                    </tr>
+                }
+                @if (Model.Engine.Displacement.HasValue)
+                {
+                    <tr>
+                        <td><b>Displacement</b></td>
+                        <td>@Model.Engine.Displacement cm^3</td>
+                    </tr>
+                }
+                @if (Model.Engine.NumberOfCylinders.HasValue)
+                {
+                    <tr>
+                        <td><b>Number of Cylinders</b></td>
+                        <td>@Model.Engine.NumberOfCylinders</td>
+                    </tr>
+                }
+                @if (Model.Engine.EngineConfiguration.HasValue)
+                {
+                    <tr>
+                        <td><b>Configuration</b></td>
+                        <td>@Model.Engine.EngineConfiguration</td>
+                    </tr>
+                }
+                @if (Model.Engine.Aspiration.HasValue)
+                {
+                    <tr>
+                        <td><b>Aspiration</b></td>
+                        <td>
+                            @if (Model.Engine.Aspiration == Aspiration.NaturallyAspirated)
+                            {
+                                <text>Naturally Aspirated</text>
+                            }
+                            else
+                            {
+                                @Model.Engine.Aspiration
+                            }
+                        </td>
+                    </tr>
+                }
+                @if (Model.Engine.CylinderBore.HasValue)
+                {
+                    <tr>
+                        <td><b>Cylinder Bore</b></td>
+                        <td>@Model.Engine.CylinderBore mm</td>
+                    </tr>
+                }
+                @if (Model.Engine.PistonStroke.HasValue)
+                {
+                    <tr>
+                        <td><b>Piston Stroke</b></td>
+                        <td>@Model.Engine.PistonStroke mm</td>
+                    </tr>
+                }
+                @if (Model.Engine.ValvesPerCylinder.HasValue)
+                {
+                    <tr>
+                        <td><b>Valves Per Cylinder</b></td>
+                        <td>@Model.Engine.ValvesPerCylinder</td>
+                    </tr>
+                }
+                @if (Model.Engine.ValvetrainType.HasValue)
+                {
+                    <tr>
+                        <td><b>Valvetrain</b></td>
+                        <td>@Model.Engine.ValvetrainType</td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h4>Drivetrain</h4>
+        <table class="table-hover table table-sm">
+            <tbody>
+                <tr>
+                    <td><b>Drive Wheel</b></td>
+                    <td>
+                        @switch (Model.DriveWheel)
+                        {
+                            case DriveWheel.AllWheelDrive:
+                                <text>All Wheel Drive</text>
+                                break;
+                            case DriveWheel.FrontWheelDrive:
+                                <text>Front Wheel Drive</text>
+                                break;
+                            case DriveWheel.RearWheelDrive:
+                                <text>Rear Wheel Drive</text>
+                                break;
+                            case DriveWheel.FourWheelDrive:
+                                <text>4 Wheel Drive</text>
+                                break;
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Transmission</b></td>
+                    <td>@Model.Transmission</td>
+                </tr>
+                @if (Model.NumberOfGears.HasValue)
+                {
+                    <tr>
+                        <td><b>Number of Gears</b></td>
+                        <td>@Model.NumberOfGears</td>
+                    </tr>
+                }
+                @if (Model.TireInfo.AspectRatio != 0 && Model.TireInfo.TireWidth != 0 && Model.TireInfo.WheelDiameter != 0)
+                {
+                    <tr>
+                        <td><b>Tire Size</b></td>
+                        <td>@Model.TireInfo.TireWidth / @Model.TireInfo.AspectRatio / R<text>@Model.TireInfo.WheelDiameter</text></td>
+                    </tr>
+                }
+                <tr>
+                    <td><b>ABS</b></td>
+                    <td>@(@Model.HasABS ? "Yes" : "No")</td>
+                </tr>
+                <tr>
+                    <td><b>Electronic Stability</b></td>
+                    <td>@(@Model.HasESP ? "Yes" : "No")</td>
+                </tr>
+                <tr>
+                    <td><b>Traction Control</b></td>
+                    <td>@(@Model.HasTCS ? "Yes" : "No")</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -145,6 +145,10 @@
         <table class="table-hover table table-sm">
             <tbody>
                 <tr>
+                    <td><b>Creator</b></td>
+                    <td><a href="@Model.Engine.CreatorInfoUrl" target="_blank">@Model.Engine.Creator</a></td>
+                </tr>
+                <tr>
                     <td><b>Power</b></td>
                     <td>@Model.Engine.MaxHP HP @(Model.Engine.MaxHPAtRpm.HasValue ? $"@ {Model.Engine.MaxHPAtRpm} RPM" : "")</td>
                 </tr>
